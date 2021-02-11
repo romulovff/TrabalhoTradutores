@@ -5,7 +5,16 @@
 
   int line = 1;
   int word_position = 1;
+
+  void error(char *word) {
+    printf("\nERROR!!\n");
+    printf("Word %s at line %d column %d\n\n", word, line, word_position);
+  }
 %}
+
+newline   [;]?"\n"
+space     " "
+tab       "\t"
 
 letter    [a-zA-Z]
 digit     [0-9]
@@ -22,6 +31,9 @@ sub       [-]
 mult      [*]
 div       [/]
 
+stfunc    [{]
+endfunc   [}]
+
 negate    [!]
 or        [|][|]
 and       [&][&]
@@ -34,22 +46,80 @@ equals    [=][=]
 diff      [!][=]
 assign    [=]
 
+inexp     {id}
+
+addfunc   "add("{elem}" in "{id}")"
+
 params    {type}" "{id}+
 
 if        "if"
 else      "else"
-func      {id}+"("{params}?")"
+funcdec   {type}" "{id}+"("{params}?")"
+funccal   {id}"("{id}?")"
 
 %%
 
-{add}     {printf("You just typed a plus sign\n");}
+{tab}     {
+            word_position += 4;
+          }
+{space}   {
+            word_position += 1;
+          }
+{newline} {
+            line += 1;
+            word_position = 1;
+          }
+{funcdec} {
+            printf("You just typed a function declaration on line: %d, column: %d\n", line, word_position);
+            word_position += yyleng;
+          }
+{funccal} {
+            printf("You just called a function on line: %d, column: %d\n", line, word_position);
+            word_position += yyleng;
+          }
+{stfunc}  {
+            printf("You just started a function on line: %d, column: %d\n", line, word_position);
+            word_position += yyleng;
+          }
+{addfunc} {
+            printf("You just added to a set at line: %d, column: %d\n", line, word_position);
+            word_position += yyleng;
+          }
+{endfunc} {
+            printf("You just ended a function at line: %d, column: %d\n", line, word_position);
+            word_position += yyleng;
+          }
+{assign}  {
+            printf("You are assigning a value at line: %d, column: %d\n", line, word_position);
+            word_position += yyleng;
+          }
+{add}     {printf("You are adding values\n");}
 {if}      {printf("You just typed a if\n");}
 {else}    {printf("You just typed an else\n");}
 {digit}   {printf("You just typed a digit\n");}
-{func}    {printf("You just typed a function declaration\n");}
-{params}  {printf("You just typed a parameter\n");}
+{params}  {
+            printf("You just typed a parameter at line: %d, column: %d\n", line, word_position);
+            word_position += yyleng;
+          }
 {and}     {printf("You just typed an and operator\n");}
 {diff}    {printf("You just typed a != operator\n");}
 {set}     {printf("You just typed a set");}
+{id}      {
+            printf("You just typed an id at line: %d, column: %d\n", line, word_position);
+            word_position += yyleng;
+          }
+.         {
+            error(yytext);
+            word_position += strlen(yytext);
+          }
 
 %%
+
+int main() {
+  FILE *file;
+
+  yyin = fopen("test.txt", "r");
+  yylex();
+
+  return 0;
+}
