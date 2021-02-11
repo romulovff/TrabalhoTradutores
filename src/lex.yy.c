@@ -520,13 +520,8 @@ char *yytext;
 
   int line = 1;
   int word_position = 1;
-
-  void error(char *word) {
-    printf("\nERROR!!\n");
-    printf("Word %s at line %d column %d\n\n", word, line, word_position);
-  }
-#line 528 "lex.yy.c"
-#line 529 "lex.yy.c"
+#line 523 "lex.yy.c"
+#line 524 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -743,10 +738,10 @@ YY_DECL
 		}
 
 	{
-#line 60 "newc.l"
+#line 55 "newc.l"
 
 
-#line 749 "lex.yy.c"
+#line 744 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -805,14 +800,14 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 62 "newc.l"
+#line 57 "newc.l"
 {
             word_position += 4;
           }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 65 "newc.l"
+#line 60 "newc.l"
 {
             word_position += 1;
           }
@@ -820,7 +815,7 @@ YY_RULE_SETUP
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 68 "newc.l"
+#line 63 "newc.l"
 {
             line += 1;
             word_position = 1;
@@ -828,7 +823,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 72 "newc.l"
+#line 67 "newc.l"
 {
             printf("You just typed a function declaration on line: %d, column: %d\n", line, word_position);
             word_position += yyleng;
@@ -836,7 +831,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 76 "newc.l"
+#line 71 "newc.l"
 {
             printf("You just called a function on line: %d, column: %d\n", line, word_position);
             word_position += yyleng;
@@ -844,7 +839,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 80 "newc.l"
+#line 75 "newc.l"
 {
             printf("You just started a function on line: %d, column: %d\n", line, word_position);
             word_position += yyleng;
@@ -852,7 +847,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 84 "newc.l"
+#line 79 "newc.l"
 {
             printf("You just added to a set at line: %d, column: %d\n", line, word_position);
             word_position += yyleng;
@@ -860,7 +855,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 88 "newc.l"
+#line 83 "newc.l"
 {
             printf("You just ended a function at line: %d, column: %d\n", line, word_position);
             word_position += yyleng;
@@ -868,7 +863,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 92 "newc.l"
+#line 87 "newc.l"
 {
             printf("You are assigning a value at line: %d, column: %d\n", line, word_position);
             word_position += yyleng;
@@ -876,27 +871,27 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 96 "newc.l"
+#line 91 "newc.l"
 {printf("You are adding values\n");}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 97 "newc.l"
+#line 92 "newc.l"
 {printf("You just typed a if\n");}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 98 "newc.l"
+#line 93 "newc.l"
 {printf("You just typed an else\n");}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 99 "newc.l"
+#line 94 "newc.l"
 {printf("You just typed a digit\n");}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 100 "newc.l"
+#line 95 "newc.l"
 {
             printf("You just typed a parameter at line: %d, column: %d\n", line, word_position);
             word_position += yyleng;
@@ -904,22 +899,22 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 104 "newc.l"
+#line 99 "newc.l"
 {printf("You just typed an and operator\n");}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 105 "newc.l"
+#line 100 "newc.l"
 {printf("You just typed a != operator\n");}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 106 "newc.l"
+#line 101 "newc.l"
 {printf("You just typed a set");}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 107 "newc.l"
+#line 102 "newc.l"
 {
             printf("You just typed an id at line: %d, column: %d\n", line, word_position);
             word_position += yyleng;
@@ -927,18 +922,19 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 111 "newc.l"
+#line 106 "newc.l"
 {
-            error(yytext);
+            printf("\nERROR!!\n");
+            printf("Word %s at line %d column %d\n\n", yytext, line, word_position);
             word_position += strlen(yytext);
           }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 116 "newc.l"
+#line 112 "newc.l"
 ECHO;
 	YY_BREAK
-#line 941 "lex.yy.c"
+#line 937 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1943,7 +1939,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 116 "newc.l"
+#line 112 "newc.l"
 
 
 int main() {

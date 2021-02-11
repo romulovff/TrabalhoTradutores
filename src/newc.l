@@ -5,11 +5,6 @@
 
   int line = 1;
   int word_position = 1;
-
-  void error(char *word) {
-    printf("\nERROR!!\n");
-    printf("Word %s at line %d column %d\n\n", word, line, word_position);
-  }
 %}
 
 newline   [;]?"\n"
@@ -60,7 +55,7 @@ funccal   {id}"("{id}?")"
 %%
 
 {tab}     {
-            word_position += 4;
+            word_position += 2;
           }
 {space}   {
             word_position += 1;
@@ -109,7 +104,8 @@ funccal   {id}"("{id}?")"
             word_position += yyleng;
           }
 .         {
-            error(yytext);
+            printf("\nERROR!!\n");
+            printf("Word %s at line %d column %d\n\n", yytext, line, word_position);
             word_position += strlen(yytext);
           }
 
