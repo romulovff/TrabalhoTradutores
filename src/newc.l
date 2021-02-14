@@ -7,7 +7,7 @@
   int word_position = 1;
 %}
 
-newline   [;]?"\n"
+newline   "\n"
 space     " "
 tab       "\t"
 
@@ -16,10 +16,13 @@ digit     [0-9]
 empty     "EMPTY"
 id        {letter}+({letter}|{digit}|_|-)*
 integer   {digit}+
-decimal   {digit}+"."{digit}+
+decimal   {digit}*[.]{digit}+
 elem      {integer}|{decimal}
 set       "{"({elem}","?)*"}"
+char      '{letter}'
+string    \"(\\.|[^"\\])*\"
 type      "int"|"float"|"set"|"elem"
+comment   "/*"((\*+[^/*])|([^*]))*\**"*/"
 
 add       [+]
 sub       [-]
@@ -28,31 +31,62 @@ div       [/]
 
 stfunc    [{]
 endfunc   [}]
+parenl    [(]
+parenr    [)]
+semic     [;]
 
 negate    [!]
-or        [|][|]
-and       [&][&]
+or        "||"
+and       "&&"
 
 smaller   [<]
-smaleq    [<][=]
 greater   [>]
-greateq   [>][=]
-equals    [=][=]
-diff      [!][=]
 assign    [=]
-
-inexp     {id}
-
-addfunc   "add("{elem}" in "{id}")"
-
-params    {type}" "{id}+
+smalleq    "<="
+greateq   ">="
+equals    "=="
+diff      "!="
 
 if        "if"
 else      "else"
-funcdec   {type}" "{id}+"("{params}?")"
-funccal   {id}"("{id}?")"
+for       "for"
+return    "return"
+
+read      "read"
+write     "write"
+writeln   "writeln"
 
 %%
+
+{semic}   {
+            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{add}     {
+            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{sub}     {
+            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{mult}    {
+            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{div}     {
+            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{negate}  {
+            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
 
 {tab}     {
             word_position += 2;
@@ -67,77 +101,142 @@ funccal   {id}"("{id}?")"
             word_position = 1;
           }
 
-{funcdec} {
-            printf("You just typed a function declaration '%s' on line: %d, column: %d\n", yytext, line, word_position);
-            word_position += yyleng;
-          }
-
-{funccal} {
-            printf("You just called a function '%s' on line: %d, column: %d\n", yytext, line, word_position);
+{type}    {
+            printf("Type: '%s' on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {stfunc}  {
-            printf("You just started a function '%s' on line: %d, column: %d\n", yytext, line, word_position);
-            word_position += yyleng;
-          }
-
-{addfunc} {
-            printf("You just added to a set '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("'%s' on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {endfunc} {
-            printf("You just ended a function '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
-{assign}  {
-            printf("You are assigning a value '%s' at line: %d, column: %d\n", yytext, line, word_position);
+{parenl}  {
+            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{parenr}  {
+            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {empty}   {
-            printf("You are using a constant '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Constant: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
-{add}     {printf("You are adding values\n");}
-
-{if}      {printf("You just typed a if\n");}
-
-{else}    {printf("You just typed an else\n");}
-
-{digit}   {printf("You just typed a digit\n");}
-
-{params}  {
-            printf("You just typed a parameter '%s' at line: %d, column: %d\n", yytext, line, word_position);
+{assign}  {
+            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
-{and}     {printf("You just typed an and operator\n");}
+{comment} {
+            word_position += yyleng;
+          }
 
-{diff}    {printf("You just typed a != operator\n");}
+{and}     {
+            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
 
-{set}     {printf("You just typed a set");}
+{or}      {
+            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{smaller} {
+            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{greater} {
+            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{smalleq} {
+            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{greateq} {
+            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{equals}  {
+            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{diff}    {
+            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{if}      {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{else}    {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{for}     {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{return}  {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{decimal} {
+            printf("Decimal: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{integer}  {
+            printf("Integer: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
 
 {id}      {
-            printf("You just typed an id '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Id: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{char}    {
+            printf("Char: '%s' on line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{string}  {
+            printf("String: '%s' on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 .         {
             printf("\nERROR!!\n");
-            printf("Word %s at line %d column %d\n\n", yytext, line, word_position);
+            printf("%s at line %d column %d\n\n", yytext, line, word_position);
             word_position += strlen(yytext);
           }
 
 %%
 
-int main() {
+int main(int argc, char *argv[]) {
   FILE *file;
 
-  yyin = fopen("test.txt", "r");
+  yyin = fopen(argv[1], "r");
   yylex();
 
   return 0;
