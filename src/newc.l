@@ -285,7 +285,7 @@ forall    "forall"
 
 .         {
             printf("\nERROR!!\n");
-            printf("%s at line %d column %d\n\n", yytext, line, word_position);
+            printf("%s at line: %d, column: %d\n\n", yytext, line, word_position);
             word_position += strlen(yytext);
           }
 
