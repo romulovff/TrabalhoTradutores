@@ -13,4 +13,5 @@ compilefile:
 test:
 	./newc ../tests/test1.txt
 	./newc ../tests/test2.txt
+	./newc ../tests/test3.txt
 

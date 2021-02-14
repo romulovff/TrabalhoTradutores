@@ -56,6 +56,13 @@ read      "read"
 write     "write"
 writeln   "writeln"
 
+inkey     "in"
+istype    "is_"{type}
+addset    "add"
+rmset     "remove"
+exists    "exists"
+forall    "forall"
+
 %%
 
 {semic}   {
@@ -196,6 +203,51 @@ writeln   "writeln"
           }
 
 {return}  {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{read}    {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{write}   {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{writeln} {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{inkey}   {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{istype}  {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{addset}  {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{rmset}   {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{exists}  {
+            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{forall}  {
             printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
