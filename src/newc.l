@@ -274,12 +274,12 @@ forall    "forall"
           }
 
 {char}    {
-            printf("Char: '%s' on line: %d, column: %d\n", yytext, line, word_position);
+            printf("Char: %s on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {string}  {
-            printf("String: '%s' on line: %d, column: %d\n", yytext, line, word_position);
+            printf("String: %s on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
