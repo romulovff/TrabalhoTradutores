@@ -148,107 +148,107 @@ forall    "forall"
           }
 
 {and}     {
-            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("OP [AND]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {or}      {
-            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("OP [OR]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {smaller} {
-            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("OP [SMALLER THAN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {greater} {
-            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("OP [GREATER THAN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {smalleq} {
-            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("OP [SMALLER THAN OR EQUAL]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {greateq} {
-            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("OP [GREATER THAN OR EQUAL]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {equals}  {
-            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("OP [EQUALS]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {diff}    {
-            printf("OP: '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("OP [IS DIFFERENT]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {if}      {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [IF]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {else}    {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [ELSE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {for}     {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [FOR]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {return}  {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [RETURN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {read}    {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [READ]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {write}   {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [WRITE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {writeln} {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [WRITELN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {inkey}   {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [IN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {istype}  {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [IS_TYPE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {addset}  {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [ADD]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {rmset}   {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [REMOVE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {exists}  {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [EXISTS]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
 {forall}  {
-            printf("Keyword '%s' at line: %d, column: %d\n", yytext, line, word_position);
+            printf("Keyword [FORALL]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
