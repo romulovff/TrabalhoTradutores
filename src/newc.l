@@ -234,10 +234,14 @@ writeln   "writeln"
 %%
 
 int main(int argc, char *argv[]) {
+  printf("\n\n#### TESTE DO ARQUIVO %s ####\n\n", argv[1]);
+
   FILE *file;
 
   yyin = fopen(argv[1], "r");
   yylex();
+
+  printf("\n\n#### FIM DO ARQUIVO %s ####\n\n", argv[1]);
 
   return 0;
 }

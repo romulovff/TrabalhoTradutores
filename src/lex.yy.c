@@ -927,8 +927,8 @@ case 17:
 YY_RULE_SETUP
 #line 139 "newc.l"
 {
-              word_position += yyleng;
-            }
+            word_position += yyleng;
+          }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
@@ -2090,10 +2090,14 @@ void yyfree (void * ptr )
 
 
 int main(int argc, char *argv[]) {
+  printf("\n\n#### TESTE DO ARQUIVO %s ####\n\n", argv[1]);
+
   FILE *file;
 
   yyin = fopen(argv[1], "r");
   yylex();
+
+  printf("\n\n#### FIM DO ARQUIVO %s ####\n\n", argv[1]);
 
   return 0;
 }
