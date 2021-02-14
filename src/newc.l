@@ -22,7 +22,7 @@ set       "{"({elem}","?)*"}"
 char      '{letter}'
 string    \"(\\.|[^"\\])*\"
 type      "int"|"float"|"set"|"elem"
-comment   "/*"((\*+[^/*])|([^*]))*\**"*/"
+comment   "//".*
 
 add       [+]
 sub       [-]
@@ -34,6 +34,7 @@ endfunc   [}]
 parenl    [(]
 parenr    [)]
 semic     [;]
+comma     [,]
 
 negate    [!]
 or        "||"
@@ -66,6 +67,11 @@ forall    "forall"
 %%
 
 {semic}   {
+            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{comma}   {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
