@@ -1,0 +1,41 @@
+program -> declarations_list
+declarations_list -> declaration declarations_list | declaration
+var_declaration -> type id; 
+declaration -> var_declaration | function_declaration
+parameters_list -> parameter, parameters_list | $\varepsilon$
+parameter -> type id
+function_declaration -> type id ( parameters_list ) { statement_list }
+statement_list -> statement statement_list | $\varepsilon$
+statement -> ret_st | var_declaration | io_ops | basic_ops | assign_value
+assign_value -> var = expression | var = set_op
+basic_ops -> if_op | for_op | forall_op
+if_op -> if (log_op) { statement_list } |
+         if (log_op) { statement_list } else { statement_list }
+for_op -> for (log_op) { statement_list }
+forall_op -> forall (in_set) { statement_list }
+terminal -> var | number | set | $\varepsilon$
+expression -> terminal | math_op | log_op | set_op
+set_op -> add (expression) | remove (expression) | exists (expression)
+log_op -> in_set | is_type | number log_operand number | log_op log_op
+in_set -> expression in expression
+diff_is_type -> is_int | is_float | is_set
+is_type -> diff_is_type expression
+log_operand -> < | > | <= | >= | == | !=
+math_op -> number operands number
+operands -> + | - | * | /
+io_ops -> read | write | writeln
+read -> var = read()
+write -> write (expression)
+writeln -> write (expression) newline
+ret_st -> return expression; | return ;
+var -> id
+
+
+type -> int | float | set | elem
+id -> letter(letter|digit|_|-)*
+integer -> {digit}+
+decimal -> {digit}*.{digit}+
+number -> ({integer}|{decimal})
+letter -> a | ... | z | A | ... | Z
+digit -> 0 | ... | 9
+newline -> \n

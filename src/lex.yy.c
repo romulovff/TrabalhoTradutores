@@ -1166,7 +1166,7 @@ case 43:
 YY_RULE_SETUP
 #line 276 "newc.l"
 {
-            printf("Char: '%s' on line: %d, column: %d\n", yytext, line, word_position);
+            printf("Char: %s on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 	YY_BREAK
@@ -1175,7 +1175,7 @@ case 44:
 YY_RULE_SETUP
 #line 281 "newc.l"
 {
-            printf("String: '%s' on line: %d, column: %d\n", yytext, line, word_position);
+            printf("String: %s on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 	YY_BREAK
@@ -1184,7 +1184,7 @@ YY_RULE_SETUP
 #line 286 "newc.l"
 {
             printf("\nERROR!!\n");
-            printf("%s at line %d column %d\n\n", yytext, line, word_position);
+            printf("%s at line: %d, column: %d\n\n", yytext, line, word_position);
             word_position += strlen(yytext);
           }
 	YY_BREAK
