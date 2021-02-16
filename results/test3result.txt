@@ -1,0 +1,124 @@
+
+
+#### INICIANDO TESTE ####
+
+Type: 'int' on line: 1, column: 1
+Id: 'main' at line: 1, column: 5
+'(' at line: 1, column: 9
+')' at line: 1, column: 10
+'{' on line: 1, column: 12
+Type: 'set' on line: 2, column: 5
+Id: 's' at line: 2, column: 9
+';' at line: 2, column: 10
+Id: 's' at line: 3, column: 5
+'=' at line: 3, column: 7
+Constant: 'EMPTY' at line: 3, column: 9
+';' at line: 3, column: 14
+Keyword [ADD]: 'add' at line: 5, column: 5
+'(' at line: 5, column: 8
+Integer: '1' at line: 5, column: 9
+Keyword [IN]: 'in' at line: 5, column: 11
+Id: 's' at line: 5, column: 14
+')' at line: 5, column: 15
+';' at line: 5, column: 16
+Keyword [ADD]: 'add' at line: 6, column: 5
+'(' at line: 6, column: 8
+Integer: '2' at line: 6, column: 9
+Keyword [IN]: 'in' at line: 6, column: 11
+Id: 's' at line: 6, column: 14
+')' at line: 6, column: 15
+';' at line: 6, column: 16
+Keyword [ADD]: 'add' at line: 7, column: 5
+'(' at line: 7, column: 8
+Integer: '5' at line: 7, column: 9
+Keyword [IN]: 'in' at line: 7, column: 11
+Id: 's' at line: 7, column: 14
+')' at line: 7, column: 15
+';' at line: 7, column: 16
+Keyword [ADD]: 'add' at line: 8, column: 5
+'(' at line: 8, column: 8
+Integer: '8' at line: 8, column: 9
+Keyword [IN]: 'in' at line: 8, column: 11
+Id: 's' at line: 8, column: 14
+')' at line: 8, column: 15
+';' at line: 8, column: 16
+Type: 'set' on line: 10, column: 5
+Id: 'possibleSums' at line: 10, column: 9
+';' at line: 10, column: 21
+Id: 'possibleSums' at line: 11, column: 5
+'=' at line: 11, column: 18
+Constant: 'EMPTY' at line: 11, column: 20
+';' at line: 11, column: 25
+Type: 'int' on line: 12, column: 5
+Id: 'x' at line: 12, column: 9
+';' at line: 12, column: 10
+Keyword [FORALL]: 'forall' at line: 14, column: 5
+'(' at line: 14, column: 12
+Id: 'x' at line: 14, column: 13
+Keyword [IN]: 'in' at line: 14, column: 15
+Id: 's' at line: 14, column: 18
+')' at line: 14, column: 19
+'{' on line: 14, column: 21
+Type: 'set' on line: 15, column: 9
+Id: 'sumsWithX' at line: 15, column: 13
+';' at line: 15, column: 22
+Id: 'sumsWithX' at line: 16, column: 9
+'=' at line: 16, column: 19
+Constant: 'EMPTY' at line: 16, column: 21
+';' at line: 16, column: 26
+Type: 'int' on line: 17, column: 9
+Id: 'val' at line: 17, column: 13
+';' at line: 17, column: 16
+Keyword [FORALL]: 'forall' at line: 18, column: 9
+'(' at line: 18, column: 16
+Id: 'val' at line: 18, column: 17
+Keyword [IN]: 'in' at line: 18, column: 21
+Id: 'possibleSums' at line: 18, column: 24
+')' at line: 18, column: 36
+Keyword [ADD]: 'add' at line: 18, column: 38
+'(' at line: 18, column: 41
+'(' at line: 18, column: 42
+Id: 'x' at line: 18, column: 43
+'+' at line: 18, column: 45
+Id: 'val' at line: 18, column: 47
+')' at line: 18, column: 50
+Keyword [IN]: 'in' at line: 18, column: 52
+Id: 'sumsWithX' at line: 18, column: 55
+')' at line: 18, column: 64
+';' at line: 18, column: 65
+Keyword [FORALL]: 'forall' at line: 19, column: 9
+'(' at line: 19, column: 16
+Id: 'val' at line: 19, column: 17
+Keyword [IN]: 'in' at line: 19, column: 21
+Id: 'sumsWithX' at line: 19, column: 24
+')' at line: 19, column: 33
+Keyword [ADD]: 'add' at line: 19, column: 35
+'(' at line: 19, column: 39
+Id: 'val' at line: 19, column: 40
+Keyword [IN]: 'in' at line: 19, column: 44
+Id: 'possibleSums' at line: 19, column: 47
+')' at line: 19, column: 59
+';' at line: 19, column: 60
+Keyword [IF]: 'if' at line: 20, column: 9
+'(' at line: 20, column: 12
+Integer: '13' at line: 20, column: 13
+Keyword [IN]: 'in' at line: 20, column: 16
+Id: 'possibleSums' at line: 20, column: 19
+')' at line: 20, column: 31
+Keyword [WRITELN]: 'writeln' at line: 20, column: 33
+'(' at line: 20, column: 40
+Char: 'y' on line: 20, column: 41
+')' at line: 20, column: 44
+';' at line: 20, column: 45
+Keyword [ELSE]: 'else' at line: 20, column: 47
+Keyword [WRITELN]: 'writeln' at line: 20, column: 52
+'(' at line: 20, column: 59
+Char: 'n' on line: 20, column: 60
+')' at line: 20, column: 63
+';' at line: 20, column: 64
+'}' at line: 21, column: 5
+'}' at line: 22, column: 1
+
+
+#### FIM DO ARQUIVO ####
+
