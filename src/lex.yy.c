@@ -550,8 +550,10 @@ char *yytext;
 
   int line = 1;
   int word_position = 1;
-#line 553 "lex.yy.c"
+
 #line 554 "lex.yy.c"
+#define YY_NO_INPUT 1
+#line 556 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -611,8 +613,6 @@ extern int yywrap ( void );
 #endif
 
 #ifndef YY_NO_UNPUT
-    
-    static void yyunput ( int c, char *buf_ptr  );
     
 #endif
 
@@ -768,7 +768,7 @@ YY_DECL
 		}
 
 	{
-#line 67 "newc.l"
+#line 71 "newc.l"
 
 
 #line 774 "lex.yy.c"
@@ -830,7 +830,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 69 "newc.l"
+#line 73 "newc.l"
 {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -838,7 +838,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 74 "newc.l"
+#line 78 "newc.l"
 {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -846,7 +846,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 79 "newc.l"
+#line 83 "newc.l"
 {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -854,7 +854,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 84 "newc.l"
+#line 88 "newc.l"
 {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -862,7 +862,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 89 "newc.l"
+#line 93 "newc.l"
 {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -870,7 +870,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 94 "newc.l"
+#line 98 "newc.l"
 {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -878,7 +878,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 99 "newc.l"
+#line 103 "newc.l"
 {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -886,14 +886,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 104 "newc.l"
+#line 108 "newc.l"
 {
             word_position += 2;
           }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 108 "newc.l"
+#line 112 "newc.l"
 {
             word_position += 1;
           }
@@ -901,7 +901,7 @@ YY_RULE_SETUP
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 112 "newc.l"
+#line 116 "newc.l"
 {
             line += 1;
             word_position = 1;
@@ -909,7 +909,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 117 "newc.l"
+#line 121 "newc.l"
 {
             printf("Type: '%s' on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -917,7 +917,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 122 "newc.l"
+#line 126 "newc.l"
 {
             printf("'%s' on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -925,7 +925,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 127 "newc.l"
+#line 131 "newc.l"
 {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -933,7 +933,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 132 "newc.l"
+#line 136 "newc.l"
 {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -941,7 +941,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 137 "newc.l"
+#line 141 "newc.l"
 {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -949,7 +949,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 142 "newc.l"
+#line 146 "newc.l"
 {
             printf("Constant: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -957,7 +957,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 147 "newc.l"
+#line 151 "newc.l"
 {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -965,14 +965,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 152 "newc.l"
+#line 156 "newc.l"
 {
             word_position += yyleng;
           }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 156 "newc.l"
+#line 160 "newc.l"
 {
             printf("OP [AND]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -980,7 +980,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 161 "newc.l"
+#line 165 "newc.l"
 {
             printf("OP [OR]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -988,7 +988,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 166 "newc.l"
+#line 170 "newc.l"
 {
             printf("OP [SMALLER THAN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -996,7 +996,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 171 "newc.l"
+#line 175 "newc.l"
 {
             printf("OP [GREATER THAN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1004,7 +1004,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 176 "newc.l"
+#line 180 "newc.l"
 {
             printf("OP [SMALLER THAN OR EQUAL]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1012,7 +1012,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 181 "newc.l"
+#line 185 "newc.l"
 {
             printf("OP [GREATER THAN OR EQUAL]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1020,7 +1020,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 186 "newc.l"
+#line 190 "newc.l"
 {
             printf("OP [EQUALS]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1028,7 +1028,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 191 "newc.l"
+#line 195 "newc.l"
 {
             printf("OP [IS DIFFERENT]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1036,7 +1036,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 196 "newc.l"
+#line 200 "newc.l"
 {
             printf("Keyword [IF]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1044,7 +1044,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 201 "newc.l"
+#line 205 "newc.l"
 {
             printf("Keyword [ELSE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1052,7 +1052,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 206 "newc.l"
+#line 210 "newc.l"
 {
             printf("Keyword [FOR]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1060,7 +1060,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 211 "newc.l"
+#line 215 "newc.l"
 {
             printf("Keyword [RETURN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1068,7 +1068,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 216 "newc.l"
+#line 220 "newc.l"
 {
             printf("Keyword [READ]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1076,7 +1076,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 221 "newc.l"
+#line 225 "newc.l"
 {
             printf("Keyword [WRITE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1084,7 +1084,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 226 "newc.l"
+#line 230 "newc.l"
 {
             printf("Keyword [WRITELN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1092,7 +1092,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 231 "newc.l"
+#line 235 "newc.l"
 {
             printf("Keyword [IN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1100,7 +1100,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 236 "newc.l"
+#line 240 "newc.l"
 {
             printf("Keyword [IS_TYPE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1108,7 +1108,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 241 "newc.l"
+#line 245 "newc.l"
 {
             printf("Keyword [ADD]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1116,7 +1116,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 246 "newc.l"
+#line 250 "newc.l"
 {
             printf("Keyword [REMOVE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1124,7 +1124,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 251 "newc.l"
+#line 255 "newc.l"
 {
             printf("Keyword [EXISTS]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1132,7 +1132,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 256 "newc.l"
+#line 260 "newc.l"
 {
             printf("Keyword [FORALL]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1140,7 +1140,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 261 "newc.l"
+#line 265 "newc.l"
 {
             printf("Decimal: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1148,7 +1148,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 266 "newc.l"
+#line 270 "newc.l"
 {
             printf("Integer: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1156,7 +1156,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 271 "newc.l"
+#line 275 "newc.l"
 {
             printf("Id: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1164,7 +1164,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 276 "newc.l"
+#line 280 "newc.l"
 {
             printf("Char: %s on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1173,7 +1173,7 @@ YY_RULE_SETUP
 case 44:
 /* rule 44 can match eol */
 YY_RULE_SETUP
-#line 281 "newc.l"
+#line 285 "newc.l"
 {
             printf("String: %s on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
@@ -1181,7 +1181,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 286 "newc.l"
+#line 290 "newc.l"
 {
             printf("\nERROR!!\n");
             printf("%s at line: %d, column: %d\n\n", yytext, line, word_position);
@@ -1190,7 +1190,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 292 "newc.l"
+#line 296 "newc.l"
 ECHO;
 	YY_BREAK
 #line 1196 "lex.yy.c"
@@ -1528,43 +1528,6 @@ static int yy_get_next_buffer (void)
 }
 
 #ifndef YY_NO_UNPUT
-
-    static void yyunput (int c, char * yy_bp )
-{
-	char *yy_cp;
-    
-    yy_cp = (yy_c_buf_p);
-
-	/* undo effects of setting up yytext */
-	*yy_cp = (yy_hold_char);
-
-	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-		{ /* need to shift things up to make room */
-		/* +2 for EOB chars. */
-		int number_to_move = (yy_n_chars) + 2;
-		char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
-					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
-		char *source =
-				&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
-
-		while ( source > YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
-			*--dest = *--source;
-
-		yy_cp += (int) (dest - source);
-		yy_bp += (int) (dest - source);
-		YY_CURRENT_BUFFER_LVALUE->yy_n_chars =
-			(yy_n_chars) = (int) YY_CURRENT_BUFFER_LVALUE->yy_buf_size;
-
-		if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-			YY_FATAL_ERROR( "flex scanner push-back overflow" );
-		}
-
-	*--yy_cp = (char) c;
-
-	(yytext_ptr) = yy_bp;
-	(yy_hold_char) = *yy_cp;
-	(yy_c_buf_p) = yy_cp;
-}
 
 #endif
 
@@ -2198,16 +2161,18 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 292 "newc.l"
+#line 296 "newc.l"
 
 
 int main(int argc, char *argv[]) {
   printf("\n\n#### INICIANDO TESTE ####\n\n");
 
-  FILE *file;
-
   yyin = fopen(argv[1], "r");
   yylex();
+
+  fclose(yyin);
+
+  yylex_destroy();
 
   printf("\n\n#### FIM DO ARQUIVO ####\n\n");
 

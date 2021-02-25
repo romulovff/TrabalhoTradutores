@@ -8,7 +8,7 @@ runflex:
 	flex newc.l
 
 compilefile:
-	gcc lex.yy.c -o newc -ll
+	gcc lex.yy.c -o newc -ll -g -Wall
 
 test:
 	./newc < ../tests/test1.txt > ../results/test1result.txt

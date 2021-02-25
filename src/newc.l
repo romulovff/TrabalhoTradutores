@@ -5,7 +5,12 @@
 
   int line = 1;
   int word_position = 1;
+
 %}
+
+%option nounput
+%option noinput
+%option noyywrap
 
 newline   "\n"
 space     " "
@@ -294,10 +299,12 @@ forall    "forall"
 int main(int argc, char *argv[]) {
   printf("\n\n#### INICIANDO TESTE ####\n\n");
 
-  FILE *file;
-
   yyin = fopen(argv[1], "r");
   yylex();
+
+  fclose(yyin);
+
+  yylex_destroy();
 
   printf("\n\n#### FIM DO ARQUIVO ####\n\n");
 
