@@ -53,6 +53,8 @@ greateq   ">="
 equals    "=="
 diff      "!="
 
+main      "main"
+
 if        "if"
 else      "else"
 for       "for"
@@ -121,6 +123,11 @@ forall    "forall"
 
 {type}    {
             printf("Type: '%s' on line: %d, column: %d\n", yytext, line, word_position);
+            word_position += yyleng;
+          }
+
+{main}    {
+            printf("Main: '%s' on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
           }
 
