@@ -2,6 +2,7 @@
   #include <stdio.h>
   #include <string.h>
   #include <math.h>
+  #include "newcParser.tab.h"
 
   int line = 1;
   int word_position = 1;
@@ -48,7 +49,7 @@ and       "&&"
 smaller   [<]
 greater   [>]
 assign    [=]
-smalleq    "<="
+smalleq   "<="
 greateq   ">="
 equals    "=="
 diff      "!="
@@ -86,26 +87,36 @@ forall    "forall"
 {add}     {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return ADD;
           }
 
 {sub}     {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return SUB;
           }
 
 {mult}    {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return MULT;
           }
 
 {div}     {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return DIV;
           }
 
 {negate}  {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return NEG;
           }
 
 {tab}     {
@@ -124,11 +135,15 @@ forall    "forall"
 {type}    {
             printf("Type: '%s' on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return TYPE;
           }
 
 {main}    {
             printf("Main: '%s' on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return MAIN;
           }
 
 {stfunc}  {
@@ -154,11 +169,15 @@ forall    "forall"
 {empty}   {
             printf("Constant: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return EMPTY;
           }
 
 {assign}  {
             printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return ASSIGN;
           }
 
 {comment} {
@@ -168,131 +187,183 @@ forall    "forall"
 {and}     {
             printf("OP [AND]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return AND;
           }
 
 {or}      {
             printf("OP [OR]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return OR;
           }
 
 {smaller} {
             printf("OP [SMALLER THAN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return SMALLER;
           }
 
 {greater} {
             printf("OP [GREATER THAN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return GREATER;
           }
 
 {smalleq} {
             printf("OP [SMALLER THAN OR EQUAL]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return SMALLEQ;
           }
 
 {greateq} {
             printf("OP [GREATER THAN OR EQUAL]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return GREATEQ;
           }
 
 {equals}  {
             printf("OP [EQUALS]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return EQUALS;
           }
 
 {diff}    {
             printf("OP [IS DIFFERENT]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return DIFFERENT;
           }
 
 {if}      {
             printf("Keyword [IF]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return IF;
           }
 
 {else}    {
             printf("Keyword [ELSE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return ELSE;
           }
 
 {for}     {
             printf("Keyword [FOR]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return FOR;
           }
 
 {return}  {
             printf("Keyword [RETURN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return RETURN;
           }
 
 {read}    {
             printf("Keyword [READ]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return READ;
           }
 
 {write}   {
             printf("Keyword [WRITE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return WRITE;
           }
 
 {writeln} {
             printf("Keyword [WRITELN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return WRITELN;
           }
 
 {inkey}   {
             printf("Keyword [IN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return IN;
           }
 
 {istype}  {
             printf("Keyword [IS_TYPE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return ISTYPE;
           }
 
 {addset}  {
             printf("Keyword [ADD]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return ADDSET;
           }
 
 {rmset}   {
             printf("Keyword [REMOVE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return REMOVE;
           }
 
 {exists}  {
             printf("Keyword [EXISTS]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return EXISTS;
           }
 
 {forall}  {
             printf("Keyword [FORALL]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return FORALL;
           }
 
 {decimal} {
             printf("Decimal: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.dec = atof(yytext);
+            return DECIMAL;
           }
 
 {integer}  {
             printf("Integer: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.integer = atoi(yytext);
+            return INTEGER;
           }
 
 {id}      {
             printf("Id: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return ID;
           }
 
 {char}    {
             printf("Char: %s on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return CHAR;
           }
 
 {string}  {
             printf("String: %s on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            sscanf(yytext, "%s", yylval.str);
+            return STRING;
           }
 
 .         {
@@ -302,18 +373,3 @@ forall    "forall"
           }
 
 %%
-
-int main(int argc, char *argv[]) {
-  printf("\n\n#### INICIANDO TESTE ####\n\n");
-
-  yyin = fopen(argv[1], "r");
-  yylex();
-
-  fclose(yyin);
-
-  yylex_destroy();
-
-  printf("\n\n#### FIM DO ARQUIVO ####\n\n");
-
-  return 0;
-}
