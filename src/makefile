@@ -24,3 +24,4 @@ test:
 	./parser < ../tests/test1.txt > ../results/test1result.txt
 	./parser < ../tests/test2.txt > ../results/test2result.txt
 	./parser < ../tests/test3.txt > ../results/test3result.txt
+	./parser < ../tests/test6.txt > ../results/test6result.txt
