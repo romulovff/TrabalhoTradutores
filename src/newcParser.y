@@ -38,21 +38,21 @@ extern int yylex_destroy(void);
 %token<str> MAIN
 %token<str> RETURN
 
-%token<str> ADD
-%token<str> SUB
-%token<str> MULT
-%token<str> DIV
+%left ADD
+%left SUB
+%left MULT
+%left DIV
 
-%token<str> OR
-%token<str> AND
-%token<str> NEG
-%token<str> SMALLER
-%token<str> GREATER
-%token<str> SMALLEQ
-%token<str> GREATEQ
-%token<str> EQUALS
-%token<str> DIFFERENT
-%token<str> ASSIGN
+%left OR
+%left AND
+%right NEG
+%left SMALLER
+%left GREATER
+%left SMALLEQ
+%left GREATEQ
+%left EQUALS
+%left DIFFERENT
+%right ASSIGN
 
 %token<str> IF
 %token<str> ELSE
@@ -79,7 +79,7 @@ extern int yylex_destroy(void);
 
 %start prog
 %type<ast> declarations_list declaration var_dec func_dec params_list parameter statement_list statement
-%type<ast> ret_st
+%type<ast> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression log_op func_call
 // %type declarations_list declaration var_dec function_declaration parameters_list parameter statement_list statement
 // %type assign_value basic_ops if_ops for_op forall_op expression terminal set_op log_op in_set
 // %type diff_is_type is_type math_op io_ops read write writeln ret_st
@@ -102,6 +102,7 @@ declaration:
 
 func_dec:
     TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC    {printf("FUNCTION DECLARATION\n");}
+  | TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC    {printf("MAIN DECLARATION\n");}
   ;
 
 params_list:
@@ -121,10 +122,24 @@ statement:
     ret_st          {printf("STATEMENT\n");}
   | var_dec         {}
   | io_ops          {}
+  | basic_ops       {}
+  | assign_value    {}
+  | expression      {}
+  ;
+
+basic_ops:
+    if_ops          {}
+  | FOR PARENL log_op PARENR STFUNC statement_list ENDFUNC       {}
+  | FORALL PARENL in_set PARENR set_op SEMIC                     {}
+  ;
+
+if_ops:
+    IF PARENL log_op PARENR STFUNC statement_list ENDFUNC                                            {}
+  | IF PARENL log_op PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC         {}
   ;
 
 ret_st:
-    RETURN SEMIC          {printf("RETURN STATEMENT\n");}
+    RETURN expression SEMIC          {printf("RETURN STATEMENT\n");}
   ;
 
 var_dec:
@@ -135,6 +150,56 @@ io_ops:
     READ PARENL PARENR        {printf("READ OPERATION\n");}
   | WRITE PARENL ID PARENR    {printf("WRITE OPERATION\n");}
   | WRITELN PARENL ID PARENR  {printf("WRITELN OPERATION\n");}
+  ;
+
+expression:
+    ID                            {}
+  | INTEGER                       {}
+  | DECIMAL                       {}
+  | EMPTY                         {}
+  | math_op                       {}
+  | set_op                        {}
+  | log_op                        {}
+  | func_call                     {}
+  ;
+
+math_op:
+    expression ADD expression         {printf("ADD OPERATION\n");}
+  | expression SUB expression         {printf("SUB OPERATION\n");}
+  | expression DIV expression         {printf("DIV OPERATION\n");}
+  | expression MULT expression        {printf("MULT OPERATION\n");}
+  ;
+
+set_op:
+    ADDSET PARENL in_set PARENR        {}
+  | REMOVE PARENL in_set PARENR        {}
+  | EXISTS PARENL in_set PARENR        {}
+  ;
+
+log_op:
+    in_set                             {}
+  | ISTYPE PARENL expression PARENR    {}
+  | expression SMALLER expression      {}
+  | expression GREATER expression      {}
+  | expression SMALLEQ expression      {}
+  | expression GREATEQ expression      {}
+  | expression EQUALS expression       {}
+  | expression DIFFERENT expression    {}
+  | expression OR expression           {}
+  | expression AND expression          {}
+  | NEG expression                     {}
+  ;
+
+func_call:
+    ID PARENL params_list PARENR SEMIC                        {}
+  ;
+
+in_set:
+    expression IN expression           {}
+  ;
+
+assign_value:
+    ID ASSIGN expression SEMIC     {printf("ASSIGN EXPRESSION\n");}
   ;
 
 

@@ -1,0 +1,122 @@
+I
+S
+I
+T
+C
+
+
+#### INICIANDO TESTE ####
+
+Type: 'set' on line: 1, column: 1
+Id: 'add_int' at line: 1, column: 5
+'(' at line: 1, column: 12
+Type: 'set' on line: 1, column: 13
+Id: 's' at line: 1, column: 17
+PARAMETER
+')' at line: 1, column: 18
+PARAMETER LIST
+'{' on line: 1, column: 20
+Keyword [RETURN]: 'return' at line: 2, column: 5
+Keyword [ADD]: 'add' at line: 2, column: 12
+'(' at line: 2, column: 15
+Integer: '2' at line: 2, column: 16
+Keyword [IN]: 'in' at line: 2, column: 18
+Keyword [ADD]: 'add' at line: 2, column: 21
+'(' at line: 2, column: 24
+Integer: '1' at line: 2, column: 25
+Keyword [IN]: 'in' at line: 2, column: 27
+Id: 's' at line: 2, column: 30
+')' at line: 2, column: 31
+')' at line: 2, column: 32
+';' at line: 2, column: 33
+RETURN STATEMENT
+STATEMENT
+'}' at line: 3, column: 1
+STATEMENT LIST
+FUNCTION DECLARATION
+Type: 'set' on line: 5, column: 1
+Id: 'add_float' at line: 5, column: 5
+'(' at line: 5, column: 14
+Type: 'set' on line: 5, column: 15
+Id: 's' at line: 5, column: 19
+PARAMETER
+')' at line: 5, column: 20
+PARAMETER LIST
+'{' on line: 5, column: 22
+Keyword [RETURN]: 'return' at line: 6, column: 5
+Keyword [ADD]: 'add' at line: 6, column: 12
+'(' at line: 6, column: 15
+Decimal: '5.4' at line: 6, column: 16
+Keyword [IN]: 'in' at line: 6, column: 20
+Keyword [ADD]: 'add' at line: 6, column: 23
+'(' at line: 6, column: 26
+Decimal: '1.5' at line: 6, column: 27
+Keyword [IN]: 'in' at line: 6, column: 31
+Id: 's' at line: 6, column: 34
+')' at line: 6, column: 35
+')' at line: 6, column: 36
+';' at line: 6, column: 37
+RETURN STATEMENT
+STATEMENT
+'}' at line: 7, column: 1
+STATEMENT LIST
+FUNCTION DECLARATION
+Type: 'set' on line: 9, column: 1
+Id: 'add_set' at line: 9, column: 5
+'(' at line: 9, column: 12
+Type: 'set' on line: 9, column: 13
+Id: 's' at line: 9, column: 17
+PARAMETER
+')' at line: 9, column: 18
+PARAMETER LIST
+'{' on line: 9, column: 20
+Type: 'set' on line: 10, column: 5
+Id: 'newset' at line: 10, column: 9
+';' at line: 10, column: 15
+VARIABLE DECLARATION
+Id: 'newset' at line: 11, column: 5
+'=' at line: 11, column: 12
+Constant: 'EMPTY' at line: 11, column: 14
+';' at line: 11, column: 19
+ASSIGN EXPRESSION
+Keyword [RETURN]: 'return' at line: 12, column: 5
+Keyword [ADD]: 'add' at line: 12, column: 12
+'(' at line: 12, column: 15
+Integer: '1' at line: 12, column: 16
+Keyword [IN]: 'in' at line: 12, column: 18
+Id: 's' at line: 12, column: 21
+')' at line: 12, column: 22
+';' at line: 12, column: 23
+RETURN STATEMENT
+STATEMENT
+'}' at line: 13, column: 1
+STATEMENT LIST
+STATEMENT LIST
+STATEMENT LIST
+FUNCTION DECLARATION
+Type: 'int' on line: 15, column: 1
+Main: 'main' on line: 15, column: 5
+'(' at line: 15, column: 9
+')' at line: 15, column: 10
+'{' on line: 15, column: 12
+Type: 'set' on line: 16, column: 5
+Id: 's' at line: 16, column: 9
+';' at line: 16, column: 10
+VARIABLE DECLARATION
+Type: 'set' on line: 17, column: 5
+Id: 't' at line: 17, column: 9
+';' at line: 17, column: 10
+VARIABLE DECLARATION
+Type: 'set' on line: 18, column: 5
+Id: 'o' at line: 18, column: 9
+';' at line: 18, column: 10
+VARIABLE DECLARATION
+'}' at line: 19, column: 1
+STATEMENT LIST
+STATEMENT LIST
+STATEMENT LIST
+MAIN DECLARATION
+
+
+#### FIM DO ARQUIVO ####
+

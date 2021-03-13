@@ -9,15 +9,11 @@ set add_float(set s) {
 set add_set(set s) {
     set newset;
     newset = EMPTY;
-    return add(add_int(newset) in s);
+    return add(1 in s);
 }
 
 int main() {
     set s;
     set t;
     set o;
-
-    s = add_set(t);
-    s = add_float(o);
-    s = add_int(o);
 }

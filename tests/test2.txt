@@ -7,7 +7,7 @@ set copy_set(set s) {
 
 set succ(set n) {
     set next;
-    next = copy_set(n);
+    next = copy_set(int n);
     return add(n in next);
 }
 
