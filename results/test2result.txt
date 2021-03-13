@@ -72,7 +72,89 @@ PARAMETER
 PARAMETER LIST
 ';' at line: 10, column: 27
 Keyword [RETURN]: 'return' at line: 11, column: 5
-syntax error, unexpected RETURN
+ASSIGN EXPRESSION
+Keyword [ADD]: 'add' at line: 11, column: 12
+'(' at line: 11, column: 15
+Id: 'n' at line: 11, column: 16
+Keyword [IN]: 'in' at line: 11, column: 18
+Id: 'next' at line: 11, column: 21
+')' at line: 11, column: 25
+';' at line: 11, column: 26
+'}' at line: 12, column: 1
+RETURN STATEMENT
+STATEMENT
+STATEMENT
+STATEMENT
+FUNCTION DECLARATION
+Type: 'int' on line: 14, column: 1
+Main: 'main' on line: 14, column: 5
+'(' at line: 14, column: 9
+')' at line: 14, column: 10
+'{' on line: 14, column: 12
+Type: 'set' on line: 15, column: 5
+Id: 'zero' at line: 15, column: 9
+';' at line: 15, column: 13
+VARIABLE DECLARATION
+Type: 'set' on line: 15, column: 15
+Id: 'one' at line: 15, column: 19
+';' at line: 15, column: 22
+VARIABLE DECLARATION
+Type: 'set' on line: 15, column: 24
+Id: 'two' at line: 15, column: 28
+';' at line: 15, column: 31
+VARIABLE DECLARATION
+Type: 'set' on line: 15, column: 33
+Id: 'three' at line: 15, column: 37
+';' at line: 15, column: 42
+VARIABLE DECLARATION
+Id: 'zero' at line: 17, column: 5
+'=' at line: 17, column: 10
+Constant: 'EMPTY' at line: 17, column: 12
+';' at line: 17, column: 17
+Id: 'one' at line: 18, column: 5
+ASSIGN EXPRESSION
+'=' at line: 18, column: 9
+Id: 'succ' at line: 18, column: 11
+'(' at line: 18, column: 15
+Type: 'set' on line: 18, column: 16
+Id: 'zero' at line: 18, column: 20
+PARAMETER
+')' at line: 18, column: 24
+PARAMETER LIST
+';' at line: 18, column: 25
+Id: 'two' at line: 19, column: 5
+ASSIGN EXPRESSION
+'=' at line: 19, column: 9
+Id: 'succ' at line: 19, column: 11
+'(' at line: 19, column: 15
+Type: 'set' on line: 19, column: 16
+Id: 'one' at line: 19, column: 20
+PARAMETER
+')' at line: 19, column: 23
+PARAMETER LIST
+';' at line: 19, column: 24
+Id: 'three' at line: 20, column: 5
+ASSIGN EXPRESSION
+'=' at line: 20, column: 11
+Id: 'succ' at line: 20, column: 13
+'(' at line: 20, column: 17
+Type: 'set' on line: 20, column: 18
+Id: 'two' at line: 20, column: 22
+PARAMETER
+')' at line: 20, column: 25
+PARAMETER LIST
+';' at line: 20, column: 26
+'}' at line: 21, column: 1
+ASSIGN EXPRESSION
+STATEMENT
+STATEMENT
+STATEMENT
+STATEMENT
+STATEMENT
+STATEMENT
+STATEMENT
+STATEMENT
+MAIN DECLARATION
 
 
 #### FIM DO ARQUIVO ####

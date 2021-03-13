@@ -128,7 +128,7 @@ statement:
   ;
 
 basic_ops:
-    if_ops          {}
+    if_ops                                                       {}
   | FOR PARENL log_op PARENR STFUNC statement_list ENDFUNC       {}
   | FORALL PARENL in_set PARENR set_op SEMIC                     {}
   | FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC    {}
@@ -206,7 +206,7 @@ in_set:
   ;
 
 assign_value:
-    ID ASSIGN expression SEMIC     {printf("ASSIGN EXPRESSION\n");}
+    ID ASSIGN expression     {printf("ASSIGN EXPRESSION\n");}
   ;
 
 
