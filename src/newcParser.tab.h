@@ -74,7 +74,8 @@
      ADDSET = 290,
      REMOVE = 291,
      EXISTS = 292,
-     FORALL = 293
+     FORALL = 293,
+     SEMIC = 294
    };
 #endif
 /* Tokens.  */
@@ -114,20 +115,23 @@
 #define REMOVE 291
 #define EXISTS 292
 #define FORALL 293
+#define SEMIC 294
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 15 "newcParser.y"
+#line 16 "newcParser.y"
 {
   char* str;
   int integer;
   float dec;
+
+  struct node *ast;
 }
 /* Line 1529 of yacc.c.  */
-#line 131 "newcParser.tab.h"
+#line 135 "newcParser.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

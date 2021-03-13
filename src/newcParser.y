@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include "tree.h"
 
 void yyerror(const char* msg) {
   printf("%s\n", msg);
@@ -16,6 +17,8 @@ extern int yylex_destroy(void);
   char* str;
   int integer;
   float dec;
+
+  struct node *ast;
 }
 
 %token<str> ID
@@ -62,8 +65,11 @@ extern int yylex_destroy(void);
 %token<str> EXISTS
 %token<str> FORALL
 
+%token<str> SEMIC
+
 
 %start prog
+%type<ast> declarations_list declaration var_dec
 // %type declarations_list declaration var_dec function_declaration parameters_list parameter statement_list statement
 // %type assign_value basic_ops if_ops for_op forall_op expression terminal set_op log_op in_set
 // %type diff_is_type is_type math_op io_ops read write writeln ret_st
@@ -71,12 +77,35 @@ extern int yylex_destroy(void);
 %%
 
 prog:
-    INTEGER     {printf("OI\n");};
+    declarations_list     {}
+  ;
+
+declarations_list:
+    declaration declarations_list     {}
+  | declaration       {}
+  ;
+
+declaration:
+    var_dec     {}
+  ;
+
+var_dec:
+    TYPE ID SEMIC   {printf("VARIABLE DECLARATION\n");}
+  ;
 
 
 
 %%
 int main(int argc, char *argv[]) {
+  Node *tree;
+
+  tree = create_node("value", 'I');
+  tree = add_node_left("value", 'S', tree);
+  tree -> left = add_node_left("value", 'I', tree -> left);
+  tree -> left = add_node_middle("value", 'T', tree -> left);
+  tree -> left = add_node_right("value", 'C', tree -> left);
+  print_tree(tree);
+
   printf("\n\n#### INICIANDO TESTE ####\n\n");
 
   FILE *file;
