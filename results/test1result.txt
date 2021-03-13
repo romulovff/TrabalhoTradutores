@@ -29,10 +29,9 @@ Id: 's' at line: 2, column: 30
 ')' at line: 2, column: 31
 ')' at line: 2, column: 32
 ';' at line: 2, column: 33
+'}' at line: 3, column: 1
 RETURN STATEMENT
 STATEMENT
-'}' at line: 3, column: 1
-STATEMENT LIST
 FUNCTION DECLARATION
 Type: 'set' on line: 5, column: 1
 Id: 'add_float' at line: 5, column: 5
@@ -56,10 +55,9 @@ Id: 's' at line: 6, column: 34
 ')' at line: 6, column: 35
 ')' at line: 6, column: 36
 ';' at line: 6, column: 37
+'}' at line: 7, column: 1
 RETURN STATEMENT
 STATEMENT
-'}' at line: 7, column: 1
-STATEMENT LIST
 FUNCTION DECLARATION
 Type: 'set' on line: 9, column: 1
 Id: 'add_set' at line: 9, column: 5
@@ -78,8 +76,8 @@ Id: 'newset' at line: 11, column: 5
 '=' at line: 11, column: 12
 Constant: 'EMPTY' at line: 11, column: 14
 ';' at line: 11, column: 19
-ASSIGN EXPRESSION
 Keyword [RETURN]: 'return' at line: 12, column: 5
+ASSIGN EXPRESSION
 Keyword [ADD]: 'add' at line: 12, column: 12
 '(' at line: 12, column: 15
 Integer: '1' at line: 12, column: 16
@@ -87,12 +85,11 @@ Keyword [IN]: 'in' at line: 12, column: 18
 Id: 's' at line: 12, column: 21
 ')' at line: 12, column: 22
 ';' at line: 12, column: 23
+'}' at line: 13, column: 1
 RETURN STATEMENT
 STATEMENT
-'}' at line: 13, column: 1
-STATEMENT LIST
-STATEMENT LIST
-STATEMENT LIST
+STATEMENT
+STATEMENT
 FUNCTION DECLARATION
 Type: 'int' on line: 15, column: 1
 Main: 'main' on line: 15, column: 5
@@ -112,9 +109,9 @@ Id: 'o' at line: 18, column: 9
 ';' at line: 18, column: 10
 VARIABLE DECLARATION
 '}' at line: 19, column: 1
-STATEMENT LIST
-STATEMENT LIST
-STATEMENT LIST
+STATEMENT
+STATEMENT
+STATEMENT
 MAIN DECLARATION
 
 

@@ -115,11 +115,11 @@ parameter:
   ;
 
 statement_list:
-  | statement statement_list      {printf("STATEMENT LIST\n");}
+  | statement statement_list      {printf("STATEMENT\n");}
   ;
 
 statement:
-    ret_st          {printf("STATEMENT\n");}
+    ret_st          {}
   | var_dec         {}
   | io_ops          {}
   | basic_ops       {}
@@ -131,6 +131,7 @@ basic_ops:
     if_ops          {}
   | FOR PARENL log_op PARENR STFUNC statement_list ENDFUNC       {}
   | FORALL PARENL in_set PARENR set_op SEMIC                     {}
+  | FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC    {}
   ;
 
 if_ops:
@@ -147,9 +148,13 @@ var_dec:
   ;
 
 io_ops:
-    READ PARENL PARENR        {printf("READ OPERATION\n");}
-  | WRITE PARENL ID PARENR    {printf("WRITE OPERATION\n");}
-  | WRITELN PARENL ID PARENR  {printf("WRITELN OPERATION\n");}
+    READ PARENL PARENR SEMIC            {printf("READ OPERATION\n");}
+  | WRITE PARENL ID PARENR SEMIC        {printf("WRITE OPERATION\n");}
+  | WRITE PARENL CHAR PARENR SEMIC      {printf("WRITE OPERATION\n");}
+  | WRITE PARENL STRING PARENR SEMIC    {printf("WRITE OPERATION\n");}
+  | WRITELN PARENL ID PARENR SEMIC      {printf("WRITELN OPERATION\n");}
+  | WRITELN PARENL CHAR PARENR SEMIC    {printf("WRITELN OPERATION\n");}
+  | WRITELN PARENL STRING PARENR SEMIC  {printf("WRITELN OPERATION\n");}
   ;
 
 expression:
@@ -161,6 +166,8 @@ expression:
   | set_op                        {}
   | log_op                        {}
   | func_call                     {}
+  | expression SEMIC              {}
+  | PARENL expression PARENR      {}
   ;
 
 math_op:

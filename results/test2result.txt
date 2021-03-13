@@ -24,8 +24,8 @@ Id: 'ans' at line: 3, column: 5
 '=' at line: 3, column: 9
 Constant: 'EMPTY' at line: 3, column: 11
 ';' at line: 3, column: 16
-ASSIGN EXPRESSION
 Keyword [FORALL]: 'forall' at line: 4, column: 5
+ASSIGN EXPRESSION
 '(' at line: 4, column: 11
 Id: 'x' at line: 4, column: 12
 Keyword [IN]: 'in' at line: 4, column: 14
@@ -41,13 +41,12 @@ Id: 'ans' at line: 4, column: 29
 Keyword [RETURN]: 'return' at line: 5, column: 5
 Id: 'ans' at line: 5, column: 12
 ';' at line: 5, column: 15
+'}' at line: 6, column: 1
 RETURN STATEMENT
 STATEMENT
-'}' at line: 6, column: 1
-STATEMENT LIST
-STATEMENT LIST
-STATEMENT LIST
-STATEMENT LIST
+STATEMENT
+STATEMENT
+STATEMENT
 FUNCTION DECLARATION
 Type: 'set' on line: 8, column: 1
 Id: 'succ' at line: 8, column: 5
