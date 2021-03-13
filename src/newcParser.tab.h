@@ -75,7 +75,12 @@
      REMOVE = 291,
      EXISTS = 292,
      FORALL = 293,
-     SEMIC = 294
+     SEMIC = 294,
+     COMMA = 295,
+     STFUNC = 296,
+     ENDFUNC = 297,
+     PARENL = 298,
+     PARENR = 299
    };
 #endif
 /* Tokens.  */
@@ -116,13 +121,18 @@
 #define EXISTS 292
 #define FORALL 293
 #define SEMIC 294
+#define COMMA 295
+#define STFUNC 296
+#define ENDFUNC 297
+#define PARENL 298
+#define PARENR 299
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 16 "newcParser.y"
+#line 20 "newcParser.y"
 {
   char* str;
   int integer;
@@ -131,7 +141,7 @@ typedef union YYSTYPE
   struct node *ast;
 }
 /* Line 1529 of yacc.c.  */
-#line 135 "newcParser.tab.h"
+#line 145 "newcParser.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -140,3 +150,17 @@ typedef union YYSTYPE
 
 extern YYSTYPE yylval;
 
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+} YYLTYPE;
+# define yyltype YYLTYPE /* obsolescent; will be withdrawn */
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
+#endif
+
+extern YYLTYPE yylloc;

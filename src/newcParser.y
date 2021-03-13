@@ -1,3 +1,7 @@
+%error-verbose
+%debug
+%locations
+
 %{
 
 #include<stdio.h>
@@ -66,10 +70,16 @@ extern int yylex_destroy(void);
 %token<str> FORALL
 
 %token<str> SEMIC
+%token<str> COMMA
+%token<str> STFUNC
+%token<str> ENDFUNC
+%token<str> PARENL
+%token<str> PARENR
 
 
 %start prog
-%type<ast> declarations_list declaration var_dec
+%type<ast> declarations_list declaration var_dec func_dec params_list parameter statement_list statement
+%type<ast> ret_st
 // %type declarations_list declaration var_dec function_declaration parameters_list parameter statement_list statement
 // %type assign_value basic_ops if_ops for_op forall_op expression terminal set_op log_op in_set
 // %type diff_is_type is_type math_op io_ops read write writeln ret_st
@@ -87,10 +97,44 @@ declarations_list:
 
 declaration:
     var_dec     {}
+  | func_dec    {}
+  ;
+
+func_dec:
+    TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC    {printf("FUNCTION DECLARATION\n");}
+  ;
+
+params_list:
+  | parameter COMMA params_list   {printf("PARAMETER LIST\n");}
+  | parameter                     {printf("PARAMETER LIST\n");}
+  ;
+
+parameter:
+    TYPE ID         {printf("PARAMETER\n");}
+  ;
+
+statement_list:
+  | statement statement_list      {printf("STATEMENT LIST\n");}
+  ;
+
+statement:
+    ret_st          {printf("STATEMENT\n");}
+  | var_dec         {}
+  | io_ops          {}
+  ;
+
+ret_st:
+    RETURN SEMIC          {printf("RETURN STATEMENT\n");}
   ;
 
 var_dec:
     TYPE ID SEMIC   {printf("VARIABLE DECLARATION\n");}
+  ;
+
+io_ops:
+    READ PARENL PARENR        {printf("READ OPERATION\n");}
+  | WRITE PARENL ID PARENR    {printf("WRITE OPERATION\n");}
+  | WRITELN PARENL ID PARENR  {printf("WRITELN OPERATION\n");}
   ;
 
 
