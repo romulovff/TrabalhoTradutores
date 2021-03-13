@@ -198,12 +198,18 @@ log_op:
   ;
 
 func_call:
-    ID PARENL params_list PARENR SEMIC                        {}
+    ID PARENL args_list PARENR SEMIC   {}
   ;
 
 in_set:
     expression IN expression           {}
   ;
+
+args_list:
+  |  expression COMMA args_list              {}
+  |  expression
+  ;
+
 
 assign_value:
     ID ASSIGN expression     {printf("ASSIGN EXPRESSION\n");}
