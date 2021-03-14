@@ -1,4 +1,5 @@
 set add_int(set s) {
+    newset = EMPTY;
     return add(2 in add(1 in s));
 }
 

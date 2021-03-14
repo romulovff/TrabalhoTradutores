@@ -31,32 +31,23 @@ Node *ast_tree = NULL;
   struct node *ast;
 }
 
-%token<str> ID
-%token<str> TYPE
-
+%token<str> ID TYPE STRING CHAR EMPTY
 %token<integer> INTEGER
 %token<dec> DECIMAL
-%token<str> STRING
-%token<str> CHAR
 
-%token<str> EMPTY
-
-%left ADD SUB MULT DIV SEMIC
+%left ADD SUB MULT DIV
 %left OR AND SMALLER GREATER
 %left SMALLEQ GREATEQ EQUALS DIFFERENT
 %right ASSIGN NEG
 
 %token IF ELSE FOR READ WRITE WRITELN MAIN RETURN
 %token IN ISTYPE ADDSET REMOVE EXISTS FORALL
-%token COMMA STFUNC ENDFUNC PARENL PARENR
+%token COMMA STFUNC ENDFUNC PARENL PARENR SEMIC
 
 
 %start prog
 %type<ast> declarations_list declaration var_dec func_dec params_list parameter statement_list statement
-%type<ast> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression log_op func_call
-// %type declarations_list declaration var_dec function_declaration parameters_list parameter statement_list statement
-// %type assign_value basic_ops if_ops for_op forall_op expression terminal set_op log_op in_set
-// %type diff_is_type is_type math_op io_ops read write writeln ret_st
+%type<ast> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call
 
 %%
 
@@ -65,7 +56,7 @@ prog:
   ;
 
 declarations_list:
-    declaration declarations_list     {}
+    declarations_list declaration     {}
   | declaration       {}
   ;
 
@@ -76,11 +67,11 @@ declaration:
 
 func_dec:
     TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC    {printf("FUNCTION DECLARATION\n");}
-  | TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC    {printf("MAIN DECLARATION\n");}
+  | TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC  {printf("MAIN DECLARATION\n");}
   ;
 
 params_list:
-    parameter COMMA params_list   {printf("PARAMETER LIST\n");}
+    params_list COMMA parameter   {printf("PARAMETER LIST\n");}
   | parameter                     {printf("PARAMETER LIST\n");}
   |                               {}
   ;
@@ -90,29 +81,32 @@ parameter:
   ;
 
 statement_list:
-    statement statement_list      {printf("STATEMENT\n");}
+    statement_list statement      {printf("STATEMENT\n");}
   |                               {}
   ;
 
 statement:
-    ret_st          {}
+    expression_stmt {}
+  | ret_st          {}
   | var_dec         {}
   | io_ops          {}
   | basic_ops       {}
-  | assign_value    {}
-  | expression      {}
+  ;
+
+expression_stmt:
+    expression SEMIC      {}
   ;
 
 basic_ops:
     if_ops                                                       {}
-  | FOR PARENL log_op PARENR STFUNC statement_list ENDFUNC       {}
+  | FOR PARENL operation PARENR STFUNC statement_list ENDFUNC    {}
   | FORALL PARENL in_set PARENR set_op SEMIC                     {}
   | FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC    {}
   ;
 
 if_ops:
-    IF PARENL log_op PARENR STFUNC statement_list ENDFUNC                                            {}
-  | IF PARENL log_op PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC         {}
+    IF PARENL operation PARENR STFUNC statement_list ENDFUNC                                            {}
+  | IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC         {}
   ;
 
 ret_st:
@@ -130,25 +124,28 @@ io_ops:
   ;
 
 expression:
+    set_op                        {}
+  | operation                     {}
+  | func_call                     {}
+  | assign_value                  {}
+  ;
+
+term:
     ID                            {}
   | INTEGER                       {}
   | DECIMAL                       {}
   | CHAR                          {}
   | STRING                        {}
   | EMPTY                         {}
-  | math_op                       {}
-  | set_op                        {}
-  | log_op                        {}
-  | func_call                     {}
-  | expression SEMIC              {}
   | PARENL expression PARENR      {}
   ;
 
 math_op:
-    expression ADD expression         {printf("ADD OPERATION\n");}
-  | expression SUB expression         {printf("SUB OPERATION\n");}
-  | expression DIV expression         {printf("DIV OPERATION\n");}
-  | expression MULT expression        {printf("MULT OPERATION\n");}
+    term DIV expression         {printf("DIV OPERATION\n");}
+  | term MULT expression        {printf("MULT OPERATION\n");}
+  | term ADD expression         {printf("ADD OPERATION\n");}
+  | term SUB expression         {printf("SUB OPERATION\n");}
+  | term                        {}
   ;
 
 set_op:
@@ -157,31 +154,33 @@ set_op:
   | EXISTS PARENL in_set PARENR        {}
   ;
 
-log_op:
-    in_set                             {}
+operation:
+    math_op
+  | in_set                             {}
   | ISTYPE PARENL expression PARENR    {}
-  | expression SMALLER expression      {}
-  | expression GREATER expression      {}
-  | expression SMALLEQ expression      {}
-  | expression GREATEQ expression      {}
-  | expression EQUALS expression       {}
-  | expression DIFFERENT expression    {}
-  | expression OR expression           {}
-  | expression AND expression          {}
+  | term SMALLER expression      {}
+  | term GREATER expression      {}
+  | term SMALLEQ expression      {}
+  | term GREATEQ expression      {}
+  | term EQUALS expression       {}
+  | term DIFFERENT expression    {}
+  | term OR expression           {}
+  | term AND expression          {}
   | NEG expression                     {}
   ;
 
 func_call:
-    ID PARENL args_list PARENR SEMIC   {}
+    ID PARENL args_list PARENR   {}
   ;
 
 in_set:
-    expression IN expression           {}
+    term IN expression           {}
   ;
 
 args_list:
-  |  expression COMMA args_list              {}
-  |  expression
+    args_list COMMA term              {}
+  | term                              {}
+  |                                         {}
   ;
 
 

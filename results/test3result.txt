@@ -17,11 +17,13 @@ Id: 's' at line: 2, column: 9
 ';' at line: 2, column: 10
 Id: 's' at line: 3, column: 5
 VARIABLE DECLARATION
+STATEMENT
 '=' at line: 3, column: 7
 Constant: 'EMPTY' at line: 3, column: 9
 ';' at line: 3, column: 14
-Keyword [ADD]: 'add' at line: 5, column: 5
 ASSIGN EXPRESSION
+Keyword [ADD]: 'add' at line: 5, column: 5
+STATEMENT
 '(' at line: 5, column: 8
 Integer: '1' at line: 5, column: 9
 Keyword [IN]: 'in' at line: 5, column: 11
@@ -29,6 +31,7 @@ Id: 's' at line: 5, column: 14
 ')' at line: 5, column: 15
 ';' at line: 5, column: 16
 Keyword [ADD]: 'add' at line: 6, column: 5
+STATEMENT
 '(' at line: 6, column: 8
 Integer: '2' at line: 6, column: 9
 Keyword [IN]: 'in' at line: 6, column: 11
@@ -36,6 +39,7 @@ Id: 's' at line: 6, column: 14
 ')' at line: 6, column: 15
 ';' at line: 6, column: 16
 Keyword [ADD]: 'add' at line: 7, column: 5
+STATEMENT
 '(' at line: 7, column: 8
 Integer: '5' at line: 7, column: 9
 Keyword [IN]: 'in' at line: 7, column: 11
@@ -43,6 +47,7 @@ Id: 's' at line: 7, column: 14
 ')' at line: 7, column: 15
 ';' at line: 7, column: 16
 Keyword [ADD]: 'add' at line: 8, column: 5
+STATEMENT
 '(' at line: 8, column: 8
 Integer: '8' at line: 8, column: 9
 Keyword [IN]: 'in' at line: 8, column: 11
@@ -50,19 +55,23 @@ Id: 's' at line: 8, column: 14
 ')' at line: 8, column: 15
 ';' at line: 8, column: 16
 Type: 'set' on line: 10, column: 5
+STATEMENT
 Id: 'possibleSums' at line: 10, column: 9
 ';' at line: 10, column: 21
 Id: 'possibleSums' at line: 11, column: 5
 VARIABLE DECLARATION
+STATEMENT
 '=' at line: 11, column: 18
 Constant: 'EMPTY' at line: 11, column: 20
 ';' at line: 11, column: 25
-Type: 'int' on line: 12, column: 5
 ASSIGN EXPRESSION
+Type: 'int' on line: 12, column: 5
+STATEMENT
 Id: 'x' at line: 12, column: 9
 ';' at line: 12, column: 10
 Keyword [FORALL]: 'forall' at line: 14, column: 5
 VARIABLE DECLARATION
+STATEMENT
 '(' at line: 14, column: 12
 Id: 'x' at line: 14, column: 13
 Keyword [IN]: 'in' at line: 14, column: 15
@@ -74,15 +83,18 @@ Id: 'sumsWithX' at line: 15, column: 13
 ';' at line: 15, column: 22
 Id: 'sumsWithX' at line: 16, column: 9
 VARIABLE DECLARATION
+STATEMENT
 '=' at line: 16, column: 19
 Constant: 'EMPTY' at line: 16, column: 21
 ';' at line: 16, column: 26
-Type: 'int' on line: 17, column: 9
 ASSIGN EXPRESSION
+Type: 'int' on line: 17, column: 9
+STATEMENT
 Id: 'val' at line: 17, column: 13
 ';' at line: 17, column: 16
 Keyword [FORALL]: 'forall' at line: 18, column: 9
 VARIABLE DECLARATION
+STATEMENT
 '(' at line: 18, column: 16
 Id: 'val' at line: 18, column: 17
 Keyword [IN]: 'in' at line: 18, column: 21
@@ -101,6 +113,7 @@ Id: 'sumsWithX' at line: 18, column: 55
 ')' at line: 18, column: 64
 ';' at line: 18, column: 65
 Keyword [FORALL]: 'forall' at line: 19, column: 9
+STATEMENT
 '(' at line: 19, column: 16
 Id: 'val' at line: 19, column: 17
 Keyword [IN]: 'in' at line: 19, column: 21
@@ -114,6 +127,7 @@ Id: 'possibleSums' at line: 19, column: 47
 ')' at line: 19, column: 59
 ';' at line: 19, column: 60
 Keyword [IF]: 'if' at line: 20, column: 9
+STATEMENT
 '(' at line: 20, column: 12
 Integer: '13' at line: 20, column: 13
 Keyword [IN]: 'in' at line: 20, column: 16
@@ -140,21 +154,7 @@ WRITELN OPERATION
 STATEMENT
 '}' at line: 21, column: 5
 STATEMENT
-STATEMENT
-STATEMENT
-STATEMENT
-STATEMENT
-STATEMENT
 '}' at line: 22, column: 1
-STATEMENT
-STATEMENT
-STATEMENT
-STATEMENT
-STATEMENT
-STATEMENT
-STATEMENT
-STATEMENT
-STATEMENT
 STATEMENT
 MAIN DECLARATION
 
