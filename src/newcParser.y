@@ -1,4 +1,5 @@
-%error-verbose
+%define parse.error verbose
+%define lr.type canonical-lr
 %debug
 %locations
 
@@ -9,11 +10,16 @@
 #include<string.h>
 #include "tree.h"
 
+int errors = 0;
+
 void yyerror(const char* msg) {
   printf("%s\n", msg);
+  errors += 1;
 }
 int yylex();
 extern int yylex_destroy(void);
+
+Node *ast_tree = NULL;
 
 %}
 
@@ -27,7 +33,6 @@ extern int yylex_destroy(void);
 
 %token<str> ID
 %token<str> TYPE
-%token<str> ELEMTYPE
 
 %token<integer> INTEGER
 %token<dec> DECIMAL
@@ -35,46 +40,15 @@ extern int yylex_destroy(void);
 %token<str> CHAR
 
 %token<str> EMPTY
-%token<str> MAIN
-%token<str> RETURN
 
-%left ADD
-%left SUB
-%left MULT
-%left DIV
+%left ADD SUB MULT DIV SEMIC
+%left OR AND SMALLER GREATER
+%left SMALLEQ GREATEQ EQUALS DIFFERENT
+%right ASSIGN NEG
 
-%left OR
-%left AND
-%right NEG
-%left SMALLER
-%left GREATER
-%left SMALLEQ
-%left GREATEQ
-%left EQUALS
-%left DIFFERENT
-%right ASSIGN
-
-%token<str> IF
-%token<str> ELSE
-%token<str> FOR
-
-%token<str> READ
-%token<str> WRITE
-%token<str> WRITELN
-
-%token<str> IN
-%token<str> ISTYPE
-%token<str> ADDSET
-%token<str> REMOVE
-%token<str> EXISTS
-%token<str> FORALL
-
-%token<str> SEMIC
-%token<str> COMMA
-%token<str> STFUNC
-%token<str> ENDFUNC
-%token<str> PARENL
-%token<str> PARENR
+%token IF ELSE FOR READ WRITE WRITELN MAIN RETURN
+%token IN ISTYPE ADDSET REMOVE EXISTS FORALL
+%token COMMA STFUNC ENDFUNC PARENL PARENR
 
 
 %start prog
@@ -87,7 +61,7 @@ extern int yylex_destroy(void);
 %%
 
 prog:
-    declarations_list     {}
+    declarations_list     { ast_tree = $1; }
   ;
 
 declarations_list:
@@ -106,8 +80,9 @@ func_dec:
   ;
 
 params_list:
-  | parameter COMMA params_list   {printf("PARAMETER LIST\n");}
+    parameter COMMA params_list   {printf("PARAMETER LIST\n");}
   | parameter                     {printf("PARAMETER LIST\n");}
+  |                               {}
   ;
 
 parameter:
@@ -115,7 +90,8 @@ parameter:
   ;
 
 statement_list:
-  | statement statement_list      {printf("STATEMENT\n");}
+    statement statement_list      {printf("STATEMENT\n");}
+  |                               {}
   ;
 
 statement:
@@ -149,18 +125,16 @@ var_dec:
 
 io_ops:
     READ PARENL PARENR SEMIC            {printf("READ OPERATION\n");}
-  | WRITE PARENL ID PARENR SEMIC        {printf("WRITE OPERATION\n");}
-  | WRITE PARENL CHAR PARENR SEMIC      {printf("WRITE OPERATION\n");}
-  | WRITE PARENL STRING PARENR SEMIC    {printf("WRITE OPERATION\n");}
-  | WRITELN PARENL ID PARENR SEMIC      {printf("WRITELN OPERATION\n");}
-  | WRITELN PARENL CHAR PARENR SEMIC    {printf("WRITELN OPERATION\n");}
-  | WRITELN PARENL STRING PARENR SEMIC  {printf("WRITELN OPERATION\n");}
+  | WRITE PARENL expression PARENR SEMIC    {printf("WRITE OPERATION\n");}
+  | WRITELN PARENL expression PARENR SEMIC  {printf("WRITELN OPERATION\n");}
   ;
 
 expression:
     ID                            {}
   | INTEGER                       {}
   | DECIMAL                       {}
+  | CHAR                          {}
+  | STRING                        {}
   | EMPTY                         {}
   | math_op                       {}
   | set_op                        {}

@@ -5,7 +5,7 @@ runtests: all test
 compile: runflex runbison compilefile
 
 runbison:
-	bison -d newcParser.y
+	bison -d --report=counterexamples -v newcParser.y
 
 runflex:
 	flex newc.l

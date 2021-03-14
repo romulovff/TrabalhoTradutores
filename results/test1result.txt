@@ -12,8 +12,8 @@ Id: 'add_int' at line: 1, column: 5
 '(' at line: 1, column: 12
 Type: 'set' on line: 1, column: 13
 Id: 's' at line: 1, column: 17
-PARAMETER
 ')' at line: 1, column: 18
+PARAMETER
 PARAMETER LIST
 '{' on line: 1, column: 20
 Keyword [RETURN]: 'return' at line: 2, column: 5
@@ -32,14 +32,14 @@ Id: 's' at line: 2, column: 30
 '}' at line: 3, column: 1
 RETURN STATEMENT
 STATEMENT
-FUNCTION DECLARATION
 Type: 'set' on line: 5, column: 1
+FUNCTION DECLARATION
 Id: 'add_float' at line: 5, column: 5
 '(' at line: 5, column: 14
 Type: 'set' on line: 5, column: 15
 Id: 's' at line: 5, column: 19
-PARAMETER
 ')' at line: 5, column: 20
+PARAMETER
 PARAMETER LIST
 '{' on line: 5, column: 22
 Keyword [RETURN]: 'return' at line: 6, column: 5
@@ -58,21 +58,21 @@ Id: 's' at line: 6, column: 34
 '}' at line: 7, column: 1
 RETURN STATEMENT
 STATEMENT
-FUNCTION DECLARATION
 Type: 'set' on line: 9, column: 1
+FUNCTION DECLARATION
 Id: 'add_set' at line: 9, column: 5
 '(' at line: 9, column: 12
 Type: 'set' on line: 9, column: 13
 Id: 's' at line: 9, column: 17
-PARAMETER
 ')' at line: 9, column: 18
+PARAMETER
 PARAMETER LIST
 '{' on line: 9, column: 20
 Type: 'set' on line: 10, column: 5
 Id: 'newset' at line: 10, column: 9
 ';' at line: 10, column: 15
-VARIABLE DECLARATION
 Id: 'newset' at line: 11, column: 5
+VARIABLE DECLARATION
 '=' at line: 11, column: 12
 Constant: 'EMPTY' at line: 11, column: 14
 ';' at line: 11, column: 19
@@ -90,8 +90,8 @@ RETURN STATEMENT
 STATEMENT
 STATEMENT
 STATEMENT
-FUNCTION DECLARATION
 Type: 'int' on line: 15, column: 1
+FUNCTION DECLARATION
 Main: 'main' on line: 15, column: 5
 '(' at line: 15, column: 9
 ')' at line: 15, column: 10
@@ -99,16 +99,16 @@ Main: 'main' on line: 15, column: 5
 Type: 'set' on line: 16, column: 5
 Id: 's' at line: 16, column: 9
 ';' at line: 16, column: 10
-VARIABLE DECLARATION
 Type: 'set' on line: 17, column: 5
+VARIABLE DECLARATION
 Id: 't' at line: 17, column: 9
 ';' at line: 17, column: 10
-VARIABLE DECLARATION
 Type: 'set' on line: 18, column: 5
+VARIABLE DECLARATION
 Id: 'o' at line: 18, column: 9
 ';' at line: 18, column: 10
-VARIABLE DECLARATION
 '}' at line: 19, column: 1
+VARIABLE DECLARATION
 STATEMENT
 STATEMENT
 STATEMENT
