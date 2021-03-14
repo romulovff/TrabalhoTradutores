@@ -9,8 +9,11 @@
 #include<stdlib.h>
 #include<string.h>
 #include "tree.h"
+#include "symbol.h"
 
 int errors = 0;
+
+extern Symbol *symbol_table;
 
 void yyerror(const char* msg) {
   printf("%s\n", msg);
@@ -200,6 +203,9 @@ int main(int argc, char *argv[]) {
   tree -> left = add_node_middle("value", 'T', tree -> left);
   tree -> left = add_node_right("value", 'C', tree -> left);
   print_tree(tree);
+
+  // add_symbol(1, "nome", 't', 't');
+  // print_symbols();
 
   printf("\n\n#### INICIANDO TESTE ####\n\n");
 

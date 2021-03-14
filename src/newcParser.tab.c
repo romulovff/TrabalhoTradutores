@@ -74,8 +74,11 @@
 #include<stdlib.h>
 #include<string.h>
 #include "tree.h"
+#include "symbol.h"
 
 int errors = 0;
+
+extern Symbol *symbol_table;
 
 void yyerror(const char* msg) {
   printf("%s\n", msg);
@@ -87,7 +90,7 @@ extern int yylex_destroy(void);
 Node *ast_tree = NULL;
 
 
-#line 91 "newcParser.tab.c"
+#line 94 "newcParser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -557,13 +560,13 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    55,    55,    59,    60,    64,    65,    69,    70,    74,
-      75,    76,    80,    84,    85,    89,    90,    91,    92,    93,
-      97,   101,   102,   103,   104,   108,   109,   113,   117,   121,
-     122,   123,   127,   128,   129,   130,   134,   135,   136,   137,
-     138,   139,   140,   144,   145,   146,   147,   148,   152,   153,
-     154,   158,   159,   160,   161,   162,   163,   164,   165,   166,
-     167,   168,   169,   173,   177,   181,   182,   183,   188
+       0,    58,    58,    62,    63,    67,    68,    72,    73,    77,
+      78,    79,    83,    87,    88,    92,    93,    94,    95,    96,
+     100,   104,   105,   106,   107,   111,   112,   116,   120,   124,
+     125,   126,   130,   131,   132,   133,   137,   138,   139,   140,
+     141,   142,   143,   147,   148,   149,   150,   151,   155,   156,
+     157,   161,   162,   163,   164,   165,   166,   167,   168,   169,
+     170,   171,   172,   176,   180,   184,   185,   186,   191
 };
 #endif
 
@@ -1991,403 +1994,403 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* prog: declarations_list  */
-#line 55 "newcParser.y"
+#line 58 "newcParser.y"
                           { ast_tree = (yyvsp[0].ast); }
-#line 1997 "newcParser.tab.c"
+#line 2000 "newcParser.tab.c"
     break;
 
   case 3: /* declarations_list: declarations_list declaration  */
-#line 59 "newcParser.y"
+#line 62 "newcParser.y"
                                       {}
-#line 2003 "newcParser.tab.c"
+#line 2006 "newcParser.tab.c"
     break;
 
   case 4: /* declarations_list: declaration  */
-#line 60 "newcParser.y"
+#line 63 "newcParser.y"
                       {}
-#line 2009 "newcParser.tab.c"
+#line 2012 "newcParser.tab.c"
     break;
 
   case 5: /* declaration: var_dec  */
-#line 64 "newcParser.y"
+#line 67 "newcParser.y"
                 {}
-#line 2015 "newcParser.tab.c"
+#line 2018 "newcParser.tab.c"
     break;
 
   case 6: /* declaration: func_dec  */
-#line 65 "newcParser.y"
+#line 68 "newcParser.y"
                 {}
-#line 2021 "newcParser.tab.c"
+#line 2024 "newcParser.tab.c"
     break;
 
   case 7: /* func_dec: TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC  */
-#line 69 "newcParser.y"
+#line 72 "newcParser.y"
                                                                        {printf("FUNCTION DECLARATION\n");}
-#line 2027 "newcParser.tab.c"
+#line 2030 "newcParser.tab.c"
     break;
 
   case 8: /* func_dec: TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC  */
-#line 70 "newcParser.y"
+#line 73 "newcParser.y"
                                                                        {printf("MAIN DECLARATION\n");}
-#line 2033 "newcParser.tab.c"
+#line 2036 "newcParser.tab.c"
     break;
 
   case 9: /* params_list: params_list COMMA parameter  */
-#line 74 "newcParser.y"
-                                  {printf("PARAMETER LIST\n");}
-#line 2039 "newcParser.tab.c"
+#line 77 "newcParser.y"
+                                  {printf("PARAMETER LIST\n"); add_symbol(1, "nome", 't', 't'); print_symbols();}
+#line 2042 "newcParser.tab.c"
     break;
 
   case 10: /* params_list: parameter  */
-#line 75 "newcParser.y"
+#line 78 "newcParser.y"
                                   {printf("PARAMETER LIST\n");}
-#line 2045 "newcParser.tab.c"
+#line 2048 "newcParser.tab.c"
     break;
 
   case 11: /* params_list: %empty  */
-#line 76 "newcParser.y"
+#line 79 "newcParser.y"
                                   {}
-#line 2051 "newcParser.tab.c"
+#line 2054 "newcParser.tab.c"
     break;
 
   case 12: /* parameter: TYPE ID  */
-#line 80 "newcParser.y"
+#line 83 "newcParser.y"
                     {printf("PARAMETER\n");}
-#line 2057 "newcParser.tab.c"
+#line 2060 "newcParser.tab.c"
     break;
 
   case 13: /* statement_list: statement_list statement  */
-#line 84 "newcParser.y"
+#line 87 "newcParser.y"
                                   {printf("STATEMENT\n");}
-#line 2063 "newcParser.tab.c"
+#line 2066 "newcParser.tab.c"
     break;
 
   case 14: /* statement_list: %empty  */
-#line 85 "newcParser.y"
+#line 88 "newcParser.y"
                                   {}
-#line 2069 "newcParser.tab.c"
+#line 2072 "newcParser.tab.c"
     break;
 
   case 15: /* statement: expression_stmt  */
-#line 89 "newcParser.y"
+#line 92 "newcParser.y"
                     {}
-#line 2075 "newcParser.tab.c"
+#line 2078 "newcParser.tab.c"
     break;
 
   case 16: /* statement: ret_st  */
-#line 90 "newcParser.y"
+#line 93 "newcParser.y"
                     {}
-#line 2081 "newcParser.tab.c"
+#line 2084 "newcParser.tab.c"
     break;
 
   case 17: /* statement: var_dec  */
-#line 91 "newcParser.y"
+#line 94 "newcParser.y"
                     {}
-#line 2087 "newcParser.tab.c"
+#line 2090 "newcParser.tab.c"
     break;
 
   case 18: /* statement: io_ops  */
-#line 92 "newcParser.y"
+#line 95 "newcParser.y"
                     {}
-#line 2093 "newcParser.tab.c"
+#line 2096 "newcParser.tab.c"
     break;
 
   case 19: /* statement: basic_ops  */
-#line 93 "newcParser.y"
+#line 96 "newcParser.y"
                     {}
-#line 2099 "newcParser.tab.c"
+#line 2102 "newcParser.tab.c"
     break;
 
   case 20: /* expression_stmt: expression SEMIC  */
-#line 97 "newcParser.y"
+#line 100 "newcParser.y"
                           {}
-#line 2105 "newcParser.tab.c"
+#line 2108 "newcParser.tab.c"
     break;
 
   case 21: /* basic_ops: if_ops  */
-#line 101 "newcParser.y"
+#line 104 "newcParser.y"
                                                                  {}
-#line 2111 "newcParser.tab.c"
+#line 2114 "newcParser.tab.c"
     break;
 
   case 22: /* basic_ops: FOR PARENL operation PARENR STFUNC statement_list ENDFUNC  */
-#line 102 "newcParser.y"
+#line 105 "newcParser.y"
                                                                  {}
-#line 2117 "newcParser.tab.c"
+#line 2120 "newcParser.tab.c"
     break;
 
   case 23: /* basic_ops: FORALL PARENL in_set PARENR set_op SEMIC  */
-#line 103 "newcParser.y"
+#line 106 "newcParser.y"
                                                                  {}
-#line 2123 "newcParser.tab.c"
+#line 2126 "newcParser.tab.c"
     break;
 
   case 24: /* basic_ops: FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC  */
-#line 104 "newcParser.y"
+#line 107 "newcParser.y"
                                                                  {}
-#line 2129 "newcParser.tab.c"
+#line 2132 "newcParser.tab.c"
     break;
 
   case 25: /* if_ops: IF PARENL operation PARENR STFUNC statement_list ENDFUNC  */
-#line 108 "newcParser.y"
+#line 111 "newcParser.y"
                                                                                                         {}
-#line 2135 "newcParser.tab.c"
+#line 2138 "newcParser.tab.c"
     break;
 
   case 26: /* if_ops: IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC  */
-#line 109 "newcParser.y"
+#line 112 "newcParser.y"
                                                                                                         {}
-#line 2141 "newcParser.tab.c"
+#line 2144 "newcParser.tab.c"
     break;
 
   case 27: /* ret_st: RETURN expression SEMIC  */
-#line 113 "newcParser.y"
+#line 116 "newcParser.y"
                                      {printf("RETURN STATEMENT\n");}
-#line 2147 "newcParser.tab.c"
+#line 2150 "newcParser.tab.c"
     break;
 
   case 28: /* var_dec: TYPE ID SEMIC  */
-#line 117 "newcParser.y"
+#line 120 "newcParser.y"
                     {printf("VARIABLE DECLARATION\n");}
-#line 2153 "newcParser.tab.c"
+#line 2156 "newcParser.tab.c"
     break;
 
   case 29: /* io_ops: READ PARENL PARENR SEMIC  */
-#line 121 "newcParser.y"
+#line 124 "newcParser.y"
                                         {printf("READ OPERATION\n");}
-#line 2159 "newcParser.tab.c"
+#line 2162 "newcParser.tab.c"
     break;
 
   case 30: /* io_ops: WRITE PARENL expression PARENR SEMIC  */
-#line 122 "newcParser.y"
+#line 125 "newcParser.y"
                                             {printf("WRITE OPERATION\n");}
-#line 2165 "newcParser.tab.c"
+#line 2168 "newcParser.tab.c"
     break;
 
   case 31: /* io_ops: WRITELN PARENL expression PARENR SEMIC  */
-#line 123 "newcParser.y"
+#line 126 "newcParser.y"
                                             {printf("WRITELN OPERATION\n");}
-#line 2171 "newcParser.tab.c"
+#line 2174 "newcParser.tab.c"
     break;
 
   case 32: /* expression: set_op  */
-#line 127 "newcParser.y"
+#line 130 "newcParser.y"
                                   {}
-#line 2177 "newcParser.tab.c"
+#line 2180 "newcParser.tab.c"
     break;
 
   case 33: /* expression: operation  */
-#line 128 "newcParser.y"
+#line 131 "newcParser.y"
                                   {}
-#line 2183 "newcParser.tab.c"
+#line 2186 "newcParser.tab.c"
     break;
 
   case 34: /* expression: func_call  */
-#line 129 "newcParser.y"
+#line 132 "newcParser.y"
                                   {}
-#line 2189 "newcParser.tab.c"
+#line 2192 "newcParser.tab.c"
     break;
 
   case 35: /* expression: assign_value  */
-#line 130 "newcParser.y"
+#line 133 "newcParser.y"
                                   {}
-#line 2195 "newcParser.tab.c"
+#line 2198 "newcParser.tab.c"
     break;
 
   case 36: /* term: ID  */
-#line 134 "newcParser.y"
+#line 137 "newcParser.y"
                                   {}
-#line 2201 "newcParser.tab.c"
+#line 2204 "newcParser.tab.c"
     break;
 
   case 37: /* term: INTEGER  */
-#line 135 "newcParser.y"
+#line 138 "newcParser.y"
                                   {}
-#line 2207 "newcParser.tab.c"
+#line 2210 "newcParser.tab.c"
     break;
 
   case 38: /* term: DECIMAL  */
-#line 136 "newcParser.y"
+#line 139 "newcParser.y"
                                   {}
-#line 2213 "newcParser.tab.c"
+#line 2216 "newcParser.tab.c"
     break;
 
   case 39: /* term: CHAR  */
-#line 137 "newcParser.y"
+#line 140 "newcParser.y"
                                   {}
-#line 2219 "newcParser.tab.c"
+#line 2222 "newcParser.tab.c"
     break;
 
   case 40: /* term: STRING  */
-#line 138 "newcParser.y"
+#line 141 "newcParser.y"
                                   {}
-#line 2225 "newcParser.tab.c"
+#line 2228 "newcParser.tab.c"
     break;
 
   case 41: /* term: EMPTY  */
-#line 139 "newcParser.y"
+#line 142 "newcParser.y"
                                   {}
-#line 2231 "newcParser.tab.c"
+#line 2234 "newcParser.tab.c"
     break;
 
   case 42: /* term: PARENL expression PARENR  */
-#line 140 "newcParser.y"
+#line 143 "newcParser.y"
                                   {}
-#line 2237 "newcParser.tab.c"
+#line 2240 "newcParser.tab.c"
     break;
 
   case 43: /* math_op: term DIV expression  */
-#line 144 "newcParser.y"
+#line 147 "newcParser.y"
                                 {printf("DIV OPERATION\n");}
-#line 2243 "newcParser.tab.c"
+#line 2246 "newcParser.tab.c"
     break;
 
   case 44: /* math_op: term MULT expression  */
-#line 145 "newcParser.y"
+#line 148 "newcParser.y"
                                 {printf("MULT OPERATION\n");}
-#line 2249 "newcParser.tab.c"
+#line 2252 "newcParser.tab.c"
     break;
 
   case 45: /* math_op: term ADD expression  */
-#line 146 "newcParser.y"
+#line 149 "newcParser.y"
                                 {printf("ADD OPERATION\n");}
-#line 2255 "newcParser.tab.c"
+#line 2258 "newcParser.tab.c"
     break;
 
   case 46: /* math_op: term SUB expression  */
-#line 147 "newcParser.y"
+#line 150 "newcParser.y"
                                 {printf("SUB OPERATION\n");}
-#line 2261 "newcParser.tab.c"
+#line 2264 "newcParser.tab.c"
     break;
 
   case 47: /* math_op: term  */
-#line 148 "newcParser.y"
+#line 151 "newcParser.y"
                                 {}
-#line 2267 "newcParser.tab.c"
+#line 2270 "newcParser.tab.c"
     break;
 
   case 48: /* set_op: ADDSET PARENL in_set PARENR  */
-#line 152 "newcParser.y"
+#line 155 "newcParser.y"
                                        {}
-#line 2273 "newcParser.tab.c"
+#line 2276 "newcParser.tab.c"
     break;
 
   case 49: /* set_op: REMOVE PARENL in_set PARENR  */
-#line 153 "newcParser.y"
+#line 156 "newcParser.y"
                                        {}
-#line 2279 "newcParser.tab.c"
+#line 2282 "newcParser.tab.c"
     break;
 
   case 50: /* set_op: EXISTS PARENL in_set PARENR  */
-#line 154 "newcParser.y"
+#line 157 "newcParser.y"
                                        {}
-#line 2285 "newcParser.tab.c"
+#line 2288 "newcParser.tab.c"
     break;
 
   case 52: /* operation: in_set  */
-#line 159 "newcParser.y"
+#line 162 "newcParser.y"
                                        {}
-#line 2291 "newcParser.tab.c"
+#line 2294 "newcParser.tab.c"
     break;
 
   case 53: /* operation: ISTYPE PARENL expression PARENR  */
-#line 160 "newcParser.y"
+#line 163 "newcParser.y"
                                        {}
-#line 2297 "newcParser.tab.c"
+#line 2300 "newcParser.tab.c"
     break;
 
   case 54: /* operation: term SMALLER expression  */
-#line 161 "newcParser.y"
+#line 164 "newcParser.y"
                                  {}
-#line 2303 "newcParser.tab.c"
+#line 2306 "newcParser.tab.c"
     break;
 
   case 55: /* operation: term GREATER expression  */
-#line 162 "newcParser.y"
+#line 165 "newcParser.y"
                                  {}
-#line 2309 "newcParser.tab.c"
+#line 2312 "newcParser.tab.c"
     break;
 
   case 56: /* operation: term SMALLEQ expression  */
-#line 163 "newcParser.y"
+#line 166 "newcParser.y"
                                  {}
-#line 2315 "newcParser.tab.c"
+#line 2318 "newcParser.tab.c"
     break;
 
   case 57: /* operation: term GREATEQ expression  */
-#line 164 "newcParser.y"
+#line 167 "newcParser.y"
                                  {}
-#line 2321 "newcParser.tab.c"
+#line 2324 "newcParser.tab.c"
     break;
 
   case 58: /* operation: term EQUALS expression  */
-#line 165 "newcParser.y"
+#line 168 "newcParser.y"
                                  {}
-#line 2327 "newcParser.tab.c"
+#line 2330 "newcParser.tab.c"
     break;
 
   case 59: /* operation: term DIFFERENT expression  */
-#line 166 "newcParser.y"
+#line 169 "newcParser.y"
                                  {}
-#line 2333 "newcParser.tab.c"
+#line 2336 "newcParser.tab.c"
     break;
 
   case 60: /* operation: term OR expression  */
-#line 167 "newcParser.y"
+#line 170 "newcParser.y"
                                  {}
-#line 2339 "newcParser.tab.c"
+#line 2342 "newcParser.tab.c"
     break;
 
   case 61: /* operation: term AND expression  */
-#line 168 "newcParser.y"
+#line 171 "newcParser.y"
                                  {}
-#line 2345 "newcParser.tab.c"
+#line 2348 "newcParser.tab.c"
     break;
 
   case 62: /* operation: NEG expression  */
-#line 169 "newcParser.y"
+#line 172 "newcParser.y"
                                        {}
-#line 2351 "newcParser.tab.c"
+#line 2354 "newcParser.tab.c"
     break;
 
   case 63: /* func_call: ID PARENL args_list PARENR  */
-#line 173 "newcParser.y"
+#line 176 "newcParser.y"
                                  {}
-#line 2357 "newcParser.tab.c"
+#line 2360 "newcParser.tab.c"
     break;
 
   case 64: /* in_set: term IN expression  */
-#line 177 "newcParser.y"
+#line 180 "newcParser.y"
                                  {}
-#line 2363 "newcParser.tab.c"
+#line 2366 "newcParser.tab.c"
     break;
 
   case 65: /* args_list: args_list COMMA term  */
-#line 181 "newcParser.y"
+#line 184 "newcParser.y"
                                       {}
-#line 2369 "newcParser.tab.c"
+#line 2372 "newcParser.tab.c"
     break;
 
   case 66: /* args_list: term  */
-#line 182 "newcParser.y"
+#line 185 "newcParser.y"
                                       {}
-#line 2375 "newcParser.tab.c"
+#line 2378 "newcParser.tab.c"
     break;
 
   case 67: /* args_list: %empty  */
-#line 183 "newcParser.y"
+#line 186 "newcParser.y"
                                             {}
-#line 2381 "newcParser.tab.c"
+#line 2384 "newcParser.tab.c"
     break;
 
   case 68: /* assign_value: ID ASSIGN expression  */
-#line 188 "newcParser.y"
+#line 191 "newcParser.y"
                              {printf("ASSIGN EXPRESSION\n");}
-#line 2387 "newcParser.tab.c"
+#line 2390 "newcParser.tab.c"
     break;
 
 
-#line 2391 "newcParser.tab.c"
+#line 2394 "newcParser.tab.c"
 
       default: break;
     }
@@ -2617,7 +2620,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 193 "newcParser.y"
+#line 196 "newcParser.y"
 
 int main(int argc, char *argv[]) {
   Node *tree;
@@ -2628,6 +2631,11 @@ int main(int argc, char *argv[]) {
   tree -> left = add_node_middle("value", 'T', tree -> left);
   tree -> left = add_node_right("value", 'C', tree -> left);
   print_tree(tree);
+
+  // add_symbol(1, "nome", 't', 't');
+  // add_symbol(2, "nome", 't', 't');
+  // add_symbol(1, "nome", 't', 't');
+  // print_symbols();
 
   printf("\n\n#### INICIANDO TESTE ####\n\n");
 

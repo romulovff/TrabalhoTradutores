@@ -12,10 +12,16 @@ Id: 'add_int' at line: 1, column: 5
 '(' at line: 1, column: 12
 Type: 'set' on line: 1, column: 13
 Id: 's' at line: 1, column: 17
-')' at line: 1, column: 18
+',' at line: 1, column: 18
 PARAMETER
 PARAMETER LIST
-'{' on line: 1, column: 20
+Type: 'set' on line: 1, column: 20
+Id: 'i' at line: 1, column: 24
+')' at line: 1, column: 25
+PARAMETER
+PARAMETER LIST
+user id 1: name nome
+'{' on line: 1, column: 27
 Id: 'newset' at line: 2, column: 5
 '=' at line: 2, column: 12
 Constant: 'EMPTY' at line: 2, column: 14
