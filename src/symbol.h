@@ -33,6 +33,6 @@ void print_symbols() {
     Symbol *s;
 
     for (s = symbol_table; s != NULL; s = s -> hh.next) {
-        printf("Symbol ID %d - Value: %s - Type: %c - Function Type: %c\n", s -> id, s -> name, s -> valueType, s -> symbolType);
+        printf("Symbol ID %d - Value: %s - Value Type: %c - Symbol Type: %c\n", s -> id, s -> name, s -> valueType, s -> symbolType);
     }
 }
