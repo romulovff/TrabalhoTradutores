@@ -102,29 +102,29 @@ Terminals, with rules where they appear
     STRING <str> (260) 39
     CHAR <str> (261) 38
     EMPTY <str> (262) 40
-    INTEGER <integer> (263) 36
-    DECIMAL <dec> (264) 37
-    ADD (265) 44
-    SUB (266) 45
-    MULT (267) 43
-    DIV (268) 42
-    OR (269) 59
-    AND (270) 60
-    SMALLER (271) 53
-    GREATER (272) 54
-    SMALLEQ (273) 55
-    GREATEQ (274) 56
-    EQUALS (275) 57
-    DIFFERENT (276) 58
-    ASSIGN (277) 67
-    NEG (278) 61
-    IF (279) 24 25
-    ELSE (280) 25
-    FOR (281) 21
-    READ (282) 28
-    WRITE (283) 29
-    WRITELN (284) 30
-    MAIN (285) 7
+    MAIN <str> (263) 7
+    INTEGER <integer> (264) 36
+    DECIMAL <dec> (265) 37
+    ADD (266) 44
+    SUB (267) 45
+    MULT (268) 43
+    DIV (269) 42
+    OR (270) 59
+    AND (271) 60
+    SMALLER (272) 53
+    GREATER (273) 54
+    SMALLEQ (274) 55
+    GREATEQ (275) 56
+    EQUALS (276) 57
+    DIFFERENT (277) 58
+    ASSIGN (278) 67
+    NEG (279) 61
+    IF (280) 24 25
+    ELSE (281) 25
+    FOR (282) 21
+    READ (283) 28
+    WRITE (284) 29
+    WRITELN (285) 30
     RETURN (286) 26
     IN (287) 63
     ISTYPE (288) 52

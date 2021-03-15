@@ -20,7 +20,6 @@ Id: 'i' at line: 1, column: 24
 ')' at line: 1, column: 25
 PARAMETER
 PARAMETER LIST
-user id 1: name nome
 '{' on line: 1, column: 27
 Id: 'newset' at line: 2, column: 5
 '=' at line: 2, column: 12
@@ -45,7 +44,6 @@ Id: 's' at line: 3, column: 30
 RETURN STATEMENT
 STATEMENT
 Type: 'set' on line: 6, column: 1
-FUNCTION DECLARATION
 Id: 'add_float' at line: 6, column: 5
 '(' at line: 6, column: 14
 Type: 'set' on line: 6, column: 15
@@ -71,7 +69,6 @@ Id: 's' at line: 7, column: 34
 RETURN STATEMENT
 STATEMENT
 Type: 'set' on line: 10, column: 1
-FUNCTION DECLARATION
 Id: 'add_set' at line: 10, column: 5
 '(' at line: 10, column: 12
 Type: 'set' on line: 10, column: 13
@@ -84,7 +81,6 @@ Type: 'set' on line: 11, column: 5
 Id: 'newset' at line: 11, column: 9
 ';' at line: 11, column: 15
 Id: 'newset' at line: 12, column: 5
-VARIABLE DECLARATION
 STATEMENT
 '=' at line: 12, column: 12
 Constant: 'EMPTY' at line: 12, column: 14
@@ -103,7 +99,6 @@ Id: 's' at line: 13, column: 21
 RETURN STATEMENT
 STATEMENT
 Type: 'int' on line: 16, column: 1
-FUNCTION DECLARATION
 Main: 'main' on line: 16, column: 5
 '(' at line: 16, column: 9
 ')' at line: 16, column: 10
@@ -112,20 +107,24 @@ Type: 'set' on line: 17, column: 5
 Id: 's' at line: 17, column: 9
 ';' at line: 17, column: 10
 Type: 'set' on line: 18, column: 5
-VARIABLE DECLARATION
 STATEMENT
 Id: 't' at line: 18, column: 9
 ';' at line: 18, column: 10
 Type: 'set' on line: 19, column: 5
-VARIABLE DECLARATION
 STATEMENT
 Id: 'o' at line: 19, column: 9
 ';' at line: 19, column: 10
 '}' at line: 20, column: 1
-VARIABLE DECLARATION
 STATEMENT
-MAIN DECLARATION
 
 
 #### FIM DO ARQUIVO ####
 
+Symbol ID 0 - Value: add_int - Type: s - Function Type: f
+Symbol ID 1 - Value: add_float - Type: s - Function Type: f
+Symbol ID 2 - Value: newset - Type: s - Function Type: v
+Symbol ID 3 - Value: add_set - Type: s - Function Type: f
+Symbol ID 4 - Value: s - Type: s - Function Type: v
+Symbol ID 5 - Value: t - Type: s - Function Type: v
+Symbol ID 6 - Value: o - Type: s - Function Type: v
+Symbol ID 7 - Value: main - Type: i - Function Type: f

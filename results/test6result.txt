@@ -16,22 +16,18 @@ Type: 'int' on line: 2, column: 3
 Id: 'n' at line: 2, column: 7
 ';' at line: 2, column: 8
 Type: 'int' on line: 3, column: 3
-VARIABLE DECLARATION
 STATEMENT
 Id: 'r' at line: 3, column: 7
 ';' at line: 3, column: 8
 Type: 'int' on line: 4, column: 3
-VARIABLE DECLARATION
 STATEMENT
 Id: 'sum' at line: 4, column: 7
 ';' at line: 4, column: 10
 Type: 'int' on line: 5, column: 3
-VARIABLE DECLARATION
 STATEMENT
 Id: 'temp' at line: 5, column: 7
 ';' at line: 5, column: 11
 Keyword [WRITELN]: 'writeln' at line: 6, column: 3
-VARIABLE DECLARATION
 STATEMENT
 '(' at line: 6, column: 10
 String: "enter the number=" on line: 6, column: 11
@@ -77,8 +73,12 @@ Integer: '0' at line: 13, column: 10
 '}' at line: 14, column: 1
 RETURN STATEMENT
 STATEMENT
-MAIN DECLARATION
 
 
 #### FIM DO ARQUIVO ####
 
+Symbol ID 0 - Value: n - Type: i - Function Type: v
+Symbol ID 1 - Value: r - Type: i - Function Type: v
+Symbol ID 2 - Value: sum - Type: i - Function Type: v
+Symbol ID 3 - Value: temp - Type: i - Function Type: v
+Symbol ID 4 - Value: main - Type: i - Function Type: f

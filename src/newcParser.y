@@ -12,6 +12,7 @@
 #include "symbol.h"
 
 int errors = 0;
+int symbolIdCounter = 0;
 
 extern Symbol *symbol_table;
 
@@ -27,14 +28,19 @@ Node *ast_tree = NULL;
 %}
 
 %union{
-  char* str;
+  char *str;
   int integer;
   float dec;
 
   struct node *ast;
 }
 
-%token<str> ID TYPE STRING CHAR EMPTY
+%token<str> ID
+%token<str> TYPE
+%token<str> STRING
+%token<str> CHAR
+%token<str> EMPTY
+%token<str> MAIN
 %token<integer> INTEGER
 %token<dec> DECIMAL
 
@@ -43,7 +49,7 @@ Node *ast_tree = NULL;
 %left SMALLEQ GREATEQ EQUALS DIFFERENT
 %right ASSIGN NEG
 
-%token IF ELSE FOR READ WRITE WRITELN MAIN RETURN
+%token IF ELSE FOR READ WRITE WRITELN RETURN
 %token IN ISTYPE ADDSET REMOVE EXISTS FORALL
 %token COMMA STFUNC ENDFUNC PARENL PARENR SEMIC
 
@@ -69,8 +75,14 @@ declaration:
   ;
 
 func_dec:
-    TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC    {printf("FUNCTION DECLARATION\n");}
-  | TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC  {printf("MAIN DECLARATION\n");}
+    TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC     {
+                                                                          add_symbol(symbolIdCounter, $2, $1[0], 'f');
+                                                                          symbolIdCounter++;
+                                                                        }
+  | TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC   {
+                                                                          add_symbol(symbolIdCounter, $2, $1[0], 'f');
+                                                                          symbolIdCounter++;
+                                                                        }
   ;
 
 params_list:
@@ -117,7 +129,10 @@ ret_st:
   ;
 
 var_dec:
-    TYPE ID SEMIC   {printf("VARIABLE DECLARATION\n");}
+    TYPE ID SEMIC   {
+                      add_symbol(symbolIdCounter, $2, $1[0], 'v');
+                      symbolIdCounter++;
+                    }
   ;
 
 io_ops:
@@ -219,6 +234,8 @@ int main(int argc, char *argv[]) {
   fclose(file);
 
   printf("\n\n#### FIM DO ARQUIVO ####\n\n");
+
+  print_symbols();
 
   return 0;
 }

@@ -59,29 +59,29 @@ extern int yydebug;
     STRING = 260,                  /* STRING  */
     CHAR = 261,                    /* CHAR  */
     EMPTY = 262,                   /* EMPTY  */
-    INTEGER = 263,                 /* INTEGER  */
-    DECIMAL = 264,                 /* DECIMAL  */
-    ADD = 265,                     /* ADD  */
-    SUB = 266,                     /* SUB  */
-    MULT = 267,                    /* MULT  */
-    DIV = 268,                     /* DIV  */
-    OR = 269,                      /* OR  */
-    AND = 270,                     /* AND  */
-    SMALLER = 271,                 /* SMALLER  */
-    GREATER = 272,                 /* GREATER  */
-    SMALLEQ = 273,                 /* SMALLEQ  */
-    GREATEQ = 274,                 /* GREATEQ  */
-    EQUALS = 275,                  /* EQUALS  */
-    DIFFERENT = 276,               /* DIFFERENT  */
-    ASSIGN = 277,                  /* ASSIGN  */
-    NEG = 278,                     /* NEG  */
-    IF = 279,                      /* IF  */
-    ELSE = 280,                    /* ELSE  */
-    FOR = 281,                     /* FOR  */
-    READ = 282,                    /* READ  */
-    WRITE = 283,                   /* WRITE  */
-    WRITELN = 284,                 /* WRITELN  */
-    MAIN = 285,                    /* MAIN  */
+    MAIN = 263,                    /* MAIN  */
+    INTEGER = 264,                 /* INTEGER  */
+    DECIMAL = 265,                 /* DECIMAL  */
+    ADD = 266,                     /* ADD  */
+    SUB = 267,                     /* SUB  */
+    MULT = 268,                    /* MULT  */
+    DIV = 269,                     /* DIV  */
+    OR = 270,                      /* OR  */
+    AND = 271,                     /* AND  */
+    SMALLER = 272,                 /* SMALLER  */
+    GREATER = 273,                 /* GREATER  */
+    SMALLEQ = 274,                 /* SMALLEQ  */
+    GREATEQ = 275,                 /* GREATEQ  */
+    EQUALS = 276,                  /* EQUALS  */
+    DIFFERENT = 277,               /* DIFFERENT  */
+    ASSIGN = 278,                  /* ASSIGN  */
+    NEG = 279,                     /* NEG  */
+    IF = 280,                      /* IF  */
+    ELSE = 281,                    /* ELSE  */
+    FOR = 282,                     /* FOR  */
+    READ = 283,                    /* READ  */
+    WRITE = 284,                   /* WRITE  */
+    WRITELN = 285,                 /* WRITELN  */
     RETURN = 286,                  /* RETURN  */
     IN = 287,                      /* IN  */
     ISTYPE = 288,                  /* ISTYPE  */
@@ -103,9 +103,9 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 29 "newcParser.y"
+#line 30 "newcParser.y"
 
-  char* str;
+  char *str;
   int integer;
   float dec;
 

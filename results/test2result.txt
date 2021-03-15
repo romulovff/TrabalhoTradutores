@@ -20,7 +20,6 @@ Type: 'set' on line: 2, column: 5
 Id: 'ans' at line: 2, column: 9
 ';' at line: 2, column: 12
 Id: 'ans' at line: 3, column: 5
-VARIABLE DECLARATION
 STATEMENT
 '=' at line: 3, column: 9
 Constant: 'EMPTY' at line: 3, column: 11
@@ -48,7 +47,6 @@ Id: 'ans' at line: 5, column: 12
 RETURN STATEMENT
 STATEMENT
 Type: 'set' on line: 8, column: 1
-FUNCTION DECLARATION
 Id: 'succ' at line: 8, column: 5
 '(' at line: 8, column: 9
 Type: 'set' on line: 8, column: 10
@@ -61,7 +59,6 @@ Type: 'set' on line: 9, column: 5
 Id: 'next' at line: 9, column: 9
 ';' at line: 9, column: 13
 Id: 'next' at line: 10, column: 5
-VARIABLE DECLARATION
 STATEMENT
 '=' at line: 10, column: 10
 Id: 'copy_set' at line: 10, column: 12
@@ -83,7 +80,6 @@ Id: 'next' at line: 11, column: 21
 RETURN STATEMENT
 STATEMENT
 Type: 'int' on line: 14, column: 1
-FUNCTION DECLARATION
 Main: 'main' on line: 14, column: 5
 '(' at line: 14, column: 9
 ')' at line: 14, column: 10
@@ -92,22 +88,18 @@ Type: 'set' on line: 15, column: 5
 Id: 'zero' at line: 15, column: 9
 ';' at line: 15, column: 13
 Type: 'set' on line: 15, column: 15
-VARIABLE DECLARATION
 STATEMENT
 Id: 'one' at line: 15, column: 19
 ';' at line: 15, column: 22
 Type: 'set' on line: 15, column: 24
-VARIABLE DECLARATION
 STATEMENT
 Id: 'two' at line: 15, column: 28
 ';' at line: 15, column: 31
 Type: 'set' on line: 15, column: 33
-VARIABLE DECLARATION
 STATEMENT
 Id: 'three' at line: 15, column: 37
 ';' at line: 15, column: 42
 Id: 'zero' at line: 17, column: 5
-VARIABLE DECLARATION
 STATEMENT
 '=' at line: 17, column: 10
 Constant: 'EMPTY' at line: 17, column: 12
@@ -142,8 +134,16 @@ Id: 'two' at line: 20, column: 18
 ASSIGN EXPRESSION
 '}' at line: 21, column: 1
 STATEMENT
-MAIN DECLARATION
 
 
 #### FIM DO ARQUIVO ####
 
+Symbol ID 0 - Value: ans - Type: s - Function Type: v
+Symbol ID 1 - Value: copy_set - Type: s - Function Type: f
+Symbol ID 2 - Value: next - Type: s - Function Type: v
+Symbol ID 3 - Value: succ - Type: s - Function Type: f
+Symbol ID 4 - Value: zero - Type: s - Function Type: v
+Symbol ID 5 - Value: one - Type: s - Function Type: v
+Symbol ID 6 - Value: two - Type: s - Function Type: v
+Symbol ID 7 - Value: three - Type: s - Function Type: v
+Symbol ID 8 - Value: main - Type: i - Function Type: f
