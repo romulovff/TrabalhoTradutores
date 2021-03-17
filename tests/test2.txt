@@ -12,7 +12,10 @@ set succ(set n) {
 }
 
 int main() {
-    set zero; set one; set two; set three;
+    set zero; 
+    set one; 
+    set two; 
+    set three;
 
     zero = EMPTY;
     one = succ(zero);

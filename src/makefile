@@ -11,7 +11,7 @@ runflex:
 	flex newc.l
 
 compilefile:
-	gcc lex.yy.c newcParser.tab.c -ll -o parser
+	gcc lex.yy.c -g newcParser.tab.c -ll -g -Wall -o parser
 
 # test:
 # 	./newc < ../tests/test1.txt > ../results/test1result.txt

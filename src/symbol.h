@@ -32,7 +32,10 @@ void add_symbol(int id, char *name, char valueType, char symbolType) {
 void print_symbols() {
     Symbol *s;
 
+    printf("***************************** TABELA DE SIMBOLOS *****************************\n");
+    printf("|   ID   |    Valor        Tipo do dado/retorno         Tipo do símbolo    \n");
     for (s = symbol_table; s != NULL; s = s -> hh.next) {
-        printf("Symbol ID %d - Value: %s - Value Type: %c - Symbol Type: %c\n", s -> id, s -> name, s -> valueType, s -> symbolType);
+        printf("|   %d    |    %s         %c         %c\n", s -> id, s -> name, s -> valueType, s -> symbolType);
     }
+    printf("******************************************************************************\n");
 }
