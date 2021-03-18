@@ -1,0 +1,130 @@
+
+
+#### INICIO DA ÁRVORE SINTÁTICA ####
+
+
+ERRO DE SINTAXE
+syntax error, unexpected FOR, linha: 14, coluna: 11
+
+ERRO DE SINTAXE
+syntax error, unexpected FOR, linha: 14, coluna: 11
+
+ERRO DE SINTAXE
+syntax error, unexpected PARENR, linha: 14, coluna: 16
+
+ERRO DE SINTAXE
+syntax error, unexpected PARENR, linha: 15, coluna: 10
+declarations_list declaration
+var_dec
+TYPE ID SEMIC
+float
+first_thing
+func_dec
+TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+set
+test_return
+vazio
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+vazio
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+INTEGER
+1
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+DECIMAL
+1.300000
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term ADD expression
+INTEGER
+2
++
+operation
+math_op
+term
+INTEGER
+5
+ret_st
+RETURN expression SEMIC
+return
+set_op
+ADDSET PARENL in_set PARENR
+add
+term IN expression
+ID
+x
+in
+operation
+math_op
+term
+ID
+s
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+ID
+ans
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+EMPTY
+EMPTY
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+STRING
+"string"
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+CHAR
+0
+
+
+#### FIM DA ÁRVORE SINTÁTICA ####
+
+**************** TABELA DE SIMBOLOS ****************
+|   ID   |    Valor             Tipo do símbolo     
+|   0    |    first_thing            var
+|   1    |    add_float            func
+|   2    |    second_thing            var
+|   3    |    another_thing            var
+|   4    |    add_set            func
+|   5    |    zero            var
+|   6    |    one            var
+|   7    |    two            var
+|   8    |    three            var
+|   9    |    subsum            func
+|   10    |    test_return            func
+****************************************************

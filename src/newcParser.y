@@ -249,13 +249,13 @@ term:
                                     $$ = create_node1("ID", create_node0($1));
                                   }
   | INTEGER                       {
-                                    $$ = create_node1("INTEGER", create_node0_int($1));
+                                    $$ = create_node1("INTEGER", create_node0_int($1, 'i'));
                                   }
   | DECIMAL                       {
-                                    $$ = create_node1("DECIMAL", create_node0_dec($1));
+                                    $$ = create_node1("DECIMAL", create_node0_dec($1, 'd'));
                                   }
   | CHAR                          {
-                                    $$ = create_node1("CHAR", create_node0_char($1));
+                                    $$ = create_node1("CHAR", create_node0_char($1, 'c'));
                                   }
   | STRING                        {
                                     $$ = create_node1("STRING", create_node0($1));

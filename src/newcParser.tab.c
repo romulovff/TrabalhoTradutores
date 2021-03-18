@@ -2399,7 +2399,7 @@ yyreduce:
   case 43: /* term: INTEGER  */
 #line 251 "newcParser.y"
                                   {
-                                    (yyval.tree_node) = create_node1("INTEGER", create_node0_int((yyvsp[0].integer)));
+                                    (yyval.tree_node) = create_node1("INTEGER", create_node0_int((yyvsp[0].integer), 'i'));
                                   }
 #line 2405 "newcParser.tab.c"
     break;
@@ -2407,7 +2407,7 @@ yyreduce:
   case 44: /* term: DECIMAL  */
 #line 254 "newcParser.y"
                                   {
-                                    (yyval.tree_node) = create_node1("DECIMAL", create_node0_dec((yyvsp[0].dec)));
+                                    (yyval.tree_node) = create_node1("DECIMAL", create_node0_dec((yyvsp[0].dec), 'd'));
                                   }
 #line 2413 "newcParser.tab.c"
     break;
@@ -2415,7 +2415,7 @@ yyreduce:
   case 45: /* term: CHAR  */
 #line 257 "newcParser.y"
                                   {
-                                    (yyval.tree_node) = create_node1("CHAR", create_node0_char((yyvsp[0].character)));
+                                    (yyval.tree_node) = create_node1("CHAR", create_node0_char((yyvsp[0].character), 'c'));
                                   }
 #line 2421 "newcParser.tab.c"
     break;

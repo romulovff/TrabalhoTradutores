@@ -1,0 +1,261 @@
+
+
+#### INICIO DA ÁRVORE SINTÁTICA ####
+
+declaration
+func_dec
+TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC
+int
+main
+vazio
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+vazio
+var_dec
+TYPE ID SEMIC
+set
+s
+expression_statement
+expression SEMIC
+assign_value
+ID ASSIGN expression
+s
+=
+operation
+math_op
+term
+EMPTY
+EMPTY
+expression_statement
+expression SEMIC
+set_op
+ADDSET PARENL in_set PARENR
+add
+term IN expression
+INTEGER
+1
+in
+operation
+math_op
+term
+ID
+s
+expression_statement
+expression SEMIC
+set_op
+ADDSET PARENL in_set PARENR
+add
+term IN expression
+INTEGER
+2
+in
+operation
+math_op
+term
+ID
+s
+expression_statement
+expression SEMIC
+set_op
+ADDSET PARENL in_set PARENR
+add
+term IN expression
+INTEGER
+5
+in
+operation
+math_op
+term
+ID
+s
+expression_statement
+expression SEMIC
+set_op
+ADDSET PARENL in_set PARENR
+add
+term IN expression
+INTEGER
+8
+in
+operation
+math_op
+term
+ID
+s
+var_dec
+TYPE ID SEMIC
+set
+possibleSums
+expression_statement
+expression SEMIC
+assign_value
+ID ASSIGN expression
+possibleSums
+=
+operation
+math_op
+term
+EMPTY
+EMPTY
+var_dec
+TYPE ID SEMIC
+int
+x
+io_ops
+READ PARENL expression PARENR SEMIC
+read
+operation
+math_op
+term
+ID
+var
+basic_ops
+FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC
+forall
+term IN expression
+ID
+x
+in
+operation
+math_op
+term
+ID
+s
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+vazio
+var_dec
+TYPE ID SEMIC
+set
+sumsWithX
+expression_statement
+expression SEMIC
+assign_value
+ID ASSIGN expression
+sumsWithX
+=
+operation
+math_op
+term
+EMPTY
+EMPTY
+var_dec
+TYPE ID SEMIC
+int
+val
+basic_ops
+FORALL PARENL in_set PARENR set_op SEMIC 
+forall
+term IN expression
+ID
+val
+in
+operation
+math_op
+term
+ID
+possibleSums
+ADDSET PARENL in_set PARENR
+add
+term IN expression
+PARENL expression PARENR
+operation
+math_op
+term ADD expression
+ID
+x
++
+operation
+math_op
+term
+ID
+val
+in
+operation
+math_op
+term
+ID
+sumsWithX
+basic_ops
+FORALL PARENL in_set PARENR set_op SEMIC 
+forall
+term IN expression
+ID
+val
+in
+operation
+math_op
+term
+ID
+sumsWithX
+ADDSET PARENL in_set PARENR
+add
+term IN expression
+ID
+val
+in
+operation
+math_op
+term
+ID
+possibleSums
+basic_ops
+if_ops
+IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC
+if
+in_set
+term IN expression
+INTEGER
+13
+in
+operation
+math_op
+term
+ID
+possibleSums
+statement_list statement
+vazio
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term
+CHAR
+0
+else
+statement_list statement
+vazio
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term
+CHAR
+�
+
+
+#### FIM DA ÁRVORE SINTÁTICA ####
+
+**************** TABELA DE SIMBOLOS ****************
+|   ID   |    Valor             Tipo do símbolo     
+|   0    |    s            var
+|   1    |    possibleSums            var
+|   2    |    x            var
+|   3    |    sumsWithX            var
+|   4    |    val            var
+****************************************************

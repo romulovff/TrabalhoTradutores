@@ -6,6 +6,7 @@ typedef struct node {
   float decimal;
   char character;
   char *value;
+  char type;
   struct node *left;
   struct node *middle0;
   struct node *middle1;
@@ -17,6 +18,7 @@ Node* create_node0(char *value) {
   Node *node = (Node *)calloc(1, sizeof(Node));
 
   node -> value = value;
+  node -> type = 's';
   node -> left = NULL;
   node -> middle0 = NULL;
   node -> middle1 = NULL;
@@ -26,10 +28,11 @@ Node* create_node0(char *value) {
   return node;
 }
 
-Node* create_node0_int(int value) {
+Node* create_node0_int(int value, char type) {
   Node *node = (Node *)calloc(1, sizeof(Node));
 
   node -> integer = value;
+  node -> type = type;
   node -> left = NULL;
   node -> middle0 = NULL;
   node -> middle1 = NULL;
@@ -39,10 +42,11 @@ Node* create_node0_int(int value) {
   return node;
 }
 
-Node* create_node0_dec(float value) {
+Node* create_node0_dec(float value, char type) {
   Node *node = (Node *)calloc(1, sizeof(Node));
 
   node -> decimal = value;
+  node -> type = type;
   node -> left = NULL;
   node -> middle0 = NULL;
   node -> middle1 = NULL;
@@ -52,10 +56,11 @@ Node* create_node0_dec(float value) {
   return node;
 }
 
-Node* create_node0_char(char value) {
+Node* create_node0_char(char value, char type) {
   Node *node = (Node *)calloc(1, sizeof(Node));
 
   node -> character = value;
+  node -> type = type;
   node -> left = NULL;
   node -> middle0 = NULL;
   node -> middle1 = NULL;
@@ -69,6 +74,7 @@ Node* create_node1(char *value, Node* left) {
   Node *node = (Node *)calloc(1, sizeof(Node));
 
   node -> value = value;
+  node -> type = 's';
   node -> left = left;
   node -> middle0 = NULL;
   node -> middle1 = NULL;
@@ -82,6 +88,7 @@ Node* create_node2(char *value, Node* left, Node* middle0) {
   Node *node = (Node *)calloc(1, sizeof(Node));
 
   node -> value = value;
+  node -> type = 's';
   node -> left = left;
   node -> middle0 = middle0;
   node -> middle1 = NULL;
@@ -95,6 +102,7 @@ Node* create_node3(char *value, Node* left, Node* middle0, Node* middle1) {
   Node *node = (Node *)calloc(1, sizeof(Node));
 
   node -> value = value;
+  node -> type = 's';
   node -> left = left;
   node -> middle0 = middle0;
   node -> middle1 = middle1;
@@ -108,6 +116,7 @@ Node* create_node4(char *value, Node* left, Node* middle0, Node* middle1, Node* 
   Node *node = (Node *)calloc(1, sizeof(Node));
 
   node -> value = value;
+  node -> type = 's';
   node -> left = left;
   node -> middle0 = middle0;
   node -> middle1 = middle1;
@@ -121,6 +130,7 @@ Node* create_node5(char *value, Node* left, Node* middle0, Node* middle1, Node* 
   Node *node = (Node *)calloc(1, sizeof(Node));
 
   node -> value = value;
+  node -> type = 's';
   node -> left = left;
   node -> middle0 = middle0;
   node -> middle1 = middle1;
@@ -135,7 +145,14 @@ void print_tree(Node *node) {
   if(node == NULL)
     return;
   
-  printf("%s\n", node -> value);
+  if(node -> type == 's')
+    printf("%s\n", node -> value);
+  if(node -> type == 'i')
+    printf("%d\n", node -> integer);
+  if(node -> type == 'd')
+    printf("%f\n", node -> decimal);
+  if(node -> type == 'c')
+    printf("%c\n", node -> character);
   
   print_tree(node -> left);
   print_tree(node -> middle0);
