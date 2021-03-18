@@ -13,13 +13,6 @@ runflex:
 compilefile:
 	gcc lex.yy.c -g newcParser.tab.c -ll -g -Wall -o parser
 
-# test:
-# 	./newc < ../tests/test1.txt > ../results/test1result.txt
-# 	./newc < ../tests/test2.txt > ../results/test2result.txt
-# 	./newc < ../tests/test3.txt > ../results/test3result.txt
-# 	./newc < ../tests/test4.txt > ../results/test4result.txt
-# 	./newc < ../tests/test5.txt > ../results/test5result.txt
-
 test:
 	./parser < ../tests/test1.nc > ../results/test1result.txt
 	./parser < ../tests/test2.nc > ../results/test2result.txt

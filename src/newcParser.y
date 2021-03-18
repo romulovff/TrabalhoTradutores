@@ -6,6 +6,7 @@
 %{
 
 #include<stdio.h>
+#include<stdbool.h>
 #include<stdlib.h>
 #include<string.h>
 #include "tree.h"
@@ -81,8 +82,8 @@ declarations_list:
                                         ast_tree = create_node1("declaration", $1);
                                       }
   | error                             {
+                                        $$ = create_node0("ERRO!!!!");
                                         yyerror(yymsg);
-                                        ast_tree = create_node1("ERROR", $1);
                                       }
   ;
 
@@ -118,8 +119,8 @@ params_list:
                                     $$ = create_node0("vazio");
                                   }
   | error                         {
+                                    $$ = create_node0("ERRO!!!!");
                                     yyerror(yymsg);
-                                    $$ = create_node1("ERROR", $1);
                                   }
   ;
 
@@ -137,8 +138,8 @@ statement_list:
                                     $$ = create_node0("vazio");
                                   }
   | error                         {
+                                    $$ = create_node0("ERRO!!!!");
                                     yyerror(yymsg);
-                                    $$ = create_node1("ERROR", $1);
                                   }
   ;
 
@@ -375,19 +376,20 @@ int main(int argc, char *argv[]) {
 
   ast_tree = NULL;
 
-  printf("\n\n#### INICIANDO TESTE ####\n\n");
+  printf("\n\n#### INICIO DA ÁRVORE SINTÁTICA ####\n\n");
 
   FILE *file;
 
   file = fopen(argv[1], "r");
 
   yyparse();
+
   print_tree(ast_tree);
   yylex_destroy();
 
   fclose(file);
 
-  printf("\n\n#### FIM DO ARQUIVO ####\n\n");
+  printf("\n\n#### FIM DA ÁRVORE SINTÁTICA ####\n\n");
 
   print_symbols();
 

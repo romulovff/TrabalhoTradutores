@@ -1,7 +1,7 @@
 //Linguagem não reconhecida
 
 int main() {
-  set s, t;
+  set t, s;
 
   if(s & t) {
     writeln("Algum teste errado");

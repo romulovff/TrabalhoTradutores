@@ -14,7 +14,7 @@ int test_forall () {
 
 float test_set_func_calls () {
     float test() {
-        write("errado);
+        write("errado");
     }
 }
 
