@@ -328,7 +328,7 @@ forall    "forall"
 
 {char}    {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
+            yylval.character = (char) strdup(yytext);
             return CHAR;
           }
 

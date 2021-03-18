@@ -30,8 +30,9 @@ extern int yylex_destroy(void);
 %}
 
 %union{
-  char *str;
   int integer;
+  char *str;
+  char character;
   float dec;
 
   struct node *tree_node;
@@ -40,7 +41,7 @@ extern int yylex_destroy(void);
 %token<str> ID
 %token<str> TYPE
 %token<str> STRING
-%token<str> CHAR
+%token<character> CHAR
 %token<str> EMPTY
 %token<str> MAIN
 %token<integer> INTEGER
@@ -51,39 +52,46 @@ extern int yylex_destroy(void);
 %left SMALLEQ GREATEQ EQUALS DIFFERENT
 %right ASSIGN NEG
 
-%token IF ELSE FOR READ WRITE WRITELN RETURN
+%token<str> ADD SUB MULT DIV
+%token<str> OR AND SMALLER GREATER
+%token<str> SMALLEQ GREATEQ EQUALS DIFFERENT
+%token<str> ASSIGN NEG
+
+%token<str> IF ELSE FOR READ WRITE WRITELN RETURN
 %token<str> IN ISTYPE ADDSET REMOVE EXISTS FORALL
 %token<str> COMMA STFUNC ENDFUNC PARENL PARENR SEMIC
 
 
 %start program
-%type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body
-%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list
+%type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement
+%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error
 
 %%
 
 program:
     declarations_list     {
-                            printf("program -> declarations_list\n");
                           }
   ;
 
 declarations_list:
     declarations_list declaration     {
-                                        printf("declarations_list -> declarations_list declaration\n");
+                                        ast_tree = create_node2("declarations_list declaration", $1, $2);
                                       }
   | declaration                       {
-                                        printf("declarations_list -> declaration\n");
+                                        ast_tree = create_node1("declaration", $1);
                                       }
-  | error                             {yyerror(yymsg);}
+  | error                             {
+                                        yyerror(yymsg);
+                                        ast_tree = create_node1("ERROR", $1);
+                                      }
   ;
 
 declaration:
     var_dec     {
-                  printf("declaration -> var_dec\n");
+                  $$ = create_node1("var_dec", $1);
                 }
   | func_dec    {
-                  printf("declaration -> func_dec\n");
+                  $$ = create_node1("func_dec", $1);
                 }
   ;
 
@@ -91,103 +99,109 @@ func_dec:
     TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC     {
                                                                           add_symbol(symbolIdCounter, $2, "func");
                                                                           symbolIdCounter++;
-                                                                          printf("func_dec -> TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC\n");
+                                                                          $$ = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $4, $7);
                                                                         }
   | TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC   {
                                                                           symbolIdCounter++;
-                                                                          printf("func_dec -> TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC\n");
+                                                                          $$ = create_node4("TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $4, $7);
                                                                         }
   ;
 
 params_list:
     params_list COMMA parameter   {
-                                    printf("params_list -> params_list COMMA parameter\n");
+                                    $$ = create_node2("params_list COMMA parameter", $1, $3);
                                   }
   | parameter                     {
-                                    printf("params_list -> parameter\n");
+                                    $$ = create_node1("parameter", $1);
                                   }
   |                               {
-                                    printf("params_list -> 'vazio'\n");
+                                    $$ = create_node0("vazio");
                                   }
-  | error                         {yyerror(yymsg);}
+  | error                         {
+                                    yyerror(yymsg);
+                                    $$ = create_node1("ERROR", $1);
+                                  }
   ;
 
 parameter:
     TYPE ID         {
-                      printf("parameter -> TYPE ID\n");
+                      $$ = create_node2("TYPE ID", create_node0($1), create_node0($2));
                     }
   ;
 
 statement_list:
     statement_list statement      {
-                                    printf("statement_list -> statement_list statement\n");
+                                    $$ = create_node2("statement_list statement", $1, $2);
                                   }
   |                               {
-                                    printf("statement_list -> 'vazio'\n");
+                                    $$ = create_node0("vazio");
                                   }
-  | error                         {yyerror(yymsg);}
+  | error                         {
+                                    yyerror(yymsg);
+                                    $$ = create_node1("ERROR", $1);
+                                  }
   ;
 
 statement:
     expression_statement  {
-                            printf("statement -> expression_statement\n");
+                            $$ = create_node1("expression_statement", $1);
                           }
   | ret_st                {
-                            printf("statement -> ret_st\n");
+                            $$ = create_node1("ret_st", $1);
                           }
   | var_dec               {
-                            printf("statement -> var_dec\n");
+                            $$ = create_node1("var_dec", $1);
                           }
   | io_ops                {
-                            printf("statement -> io_ops\n");
+                            $$ = create_node1("io_ops", $1);
                           }
   | basic_ops             {
-                            printf("statement -> basic_ops\n");
+                            $$ = create_node1("basic_ops", $1);
                           }
   ;
 
 expression_statement:
     expression SEMIC      {
-                            printf("expression_statement -> expression SEMIC\n");
+                            $$ = create_node1("expression SEMIC", $1);
                           }
   ;
 
 basic_ops:
     if_ops                                                        {
-                                                                    printf("basic_ops -> if_ops\n");
+                                                                    $$ = create_node1("if_ops", $1);
                                                                   }
   | FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC      {
-                                                                    printf("basic_ops -> FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC\n");
+                                                                    $$ = create_node3("FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC", create_node0($1), $3, $6);
                                                                   }
   | FORALL PARENL in_set PARENR set_op SEMIC                      {
-                                                                    printf("basic_ops -> FORALL PARENL in_set PARENR set_op SEMIC\n");
+                                                                    $$ = create_node3("FORALL PARENL in_set PARENR set_op SEMIC ", create_node0($1), $3, $5);
                                                                   }
   | FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC     {
-                                                                    printf("basic_ops -> FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC\n");
+                                                                    $$ = create_node3("FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC", create_node0($1), $3, $6);
                                                                   }
   ;
 
 for_body:
     expression_statement expression_statement expression          {
-                                                                    printf("for_body -> expression_statement expression_statement expression\n");
+                                                                    $$ = create_node3("expression_statement expression_statement expression", $1, $2, $3);
                                                                   }
   | SEMIC expression_statement expression                         {
-                                                                    printf("for_body -> SEMIC expression_statement expression\n");
+                                                                    $$ = create_node2("SEMIC expression_statement expression", $2, $3);
                                                                   }
   ;
 
 if_ops:
     IF PARENL operation PARENR STFUNC statement_list ENDFUNC                                            {
-                                                                                                          printf("if_ops -> IF PARENL operation PARENR STFUNC statement_list ENDFUNC\n");
+                                                                                                          $$ = create_node3("IF PARENL operation PARENR STFUNC statement_list ENDFUNC", create_node0($1), $3, $6);
                                                                                                         }
   | IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC         {
-                                                                                                          printf("if_ops -> IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC\n");
+                                                                                                          $$ = create_node5("IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC", create_node0($1), $3, $6, create_node0($8), $10);
                                                                                                         }
   ;
 
 ret_st:
     RETURN expression SEMIC         {
-                                      printf("ret_st -> RETURN expression SEMIC\n");
+                                      $$ = create_node2("RETURN expression SEMIC", create_node0($1), $2);
                                     }
   ;
 
@@ -195,161 +209,161 @@ var_dec:
     TYPE ID SEMIC   {
                       add_symbol(symbolIdCounter, $2, "var");
                       symbolIdCounter++;
-                      printf("var_dec -> TYPE ID SEMIC\n");
+                      $$ = create_node2("TYPE ID SEMIC", create_node0($1), create_node0($2));
                     }
   ;
 
 io_ops:
     READ PARENL PARENR SEMIC                {
-                                              printf("io_ops -> READ PARENL PARENR SEMIC\n");
+                                              $$ = create_node1("READ PARENL PARENR SEMIC", create_node0($1));
                                             }
   | READ PARENL expression PARENR SEMIC     {
-                                              printf("io_ops -> READ PARENL expression PARENR SEMIC\n");
+                                              $$ = create_node2("READ PARENL expression PARENR SEMIC", create_node0($1), $3);
                                             }
   | WRITE PARENL expression PARENR SEMIC    {
-                                              printf("io_ops -> WRITE PARENL expression PARENR SEMIC\n");
+                                              $$ = create_node2("WRITE PARENL expression PARENR SEMIC", create_node0($1), $3);
                                             }
   | WRITELN PARENL expression PARENR SEMIC  {
-                                              printf("io_ops -> WRITELN PARENL expression PARENR SEMIC\n");
+                                              $$ = create_node2("WRITELN PARENL expression PARENR SEMIC", create_node0($1), $3);
                                             }
   ;
 
 expression:
     set_op                        {
-                                    printf("expression -> set_op\n");
+                                    $$ = create_node1("set_op", $1);
                                   }
   | operation                     {
-                                    printf("expression -> operation\n");
+                                    $$ = create_node1("operation", $1);
                                   }
   | func_call                     {
-                                    printf("expression -> func_call\n");
+                                    $$ = create_node1("func_call", $1);
                                   }
   | assign_value                  {
-                                    printf("expression -> assign_value\n");
+                                    $$ = create_node1("assign_value", $1);
                                   }
   ;
 
 term:
     ID                            {
-                                    printf("term -> ID\n");
+                                    $$ = create_node1("ID", create_node0($1));
                                   }
   | INTEGER                       {
-                                    printf("term -> INTEGER\n");
+                                    $$ = create_node1("INTEGER", create_node0_int($1));
                                   }
   | DECIMAL                       {
-                                    printf("term -> DECIMAL\n");
+                                    $$ = create_node1("DECIMAL", create_node0_dec($1));
                                   }
   | CHAR                          {
-                                    printf("term -> CHAR\n");
+                                    $$ = create_node1("CHAR", create_node0_char($1));
                                   }
   | STRING                        {
-                                    printf("term -> STRING\n");
+                                    $$ = create_node1("STRING", create_node0($1));
                                   }
   | EMPTY                         {
-                                    printf("term -> EMPTY\n");
+                                    $$ = create_node1("EMPTY", create_node0($1));
                                   }
   | PARENL expression PARENR      {
-                                    printf("term -> PARENL expression PARENR\n");
+                                    $$ = create_node1("PARENL expression PARENR", $2);
                                   }
   ;
 
 math_op:
     term DIV expression         {
-                                  printf("math_op -> term DIV expression\n");
+                                  $$ = create_node3("term DIV expression", $1, create_node0($2), $3);
                                 }
   | term MULT expression        {
-                                  printf("math_op -> term MULT expression\n");
+                                  $$ = create_node3("term MULT expression", $1, create_node0($2), $3);
                                 }
   | term ADD expression         {
-                                  printf("math_op -> term ADD expression\n");
+                                  $$ = create_node3("term ADD expression", $1, create_node0($2), $3);
                                 }
   | term SUB expression         {
-                                  printf("math_op -> term SUB expression\n");
+                                  $$ = create_node3("term SUB expression", $1, create_node0($2), $3);
                                 }
   | term                        {
-                                  printf("math_op -> term\n");
+                                  $$ = create_node1("term", $1);
                                 }
   ;
 
 set_op:
     ADDSET PARENL in_set PARENR         {
-                                          printf("set_op -> ADDSET PARENL in_set PARENR\n");
+                                          $$ = create_node2("ADDSET PARENL in_set PARENR", create_node0($1), $3);
                                         }
   | REMOVE PARENL in_set PARENR         {
-                                          printf("set_op -> REMOVE PARENL in_set PARENR\n");
+                                          $$ = create_node2("REMOVE PARENL in_set PARENR", create_node0($1), $3);
                                         }
   | EXISTS PARENL in_set PARENR         {
-                                          printf("set_op -> EXISTS PARENL in_set PARENR\n");
+                                          $$ = create_node2("EXISTS PARENL in_set PARENR", create_node0($1), $3);
                                         }
   ;
 
 operation:
     math_op                             {
-                                          printf("operation -> math_op\n");
+                                          $$ = create_node1("math_op", $1);
                                         }
   | in_set                              {
-                                          printf("operation -> in_set\n");
+                                          $$ = create_node1("in_set", $1);
                                         }
   | ISTYPE PARENL expression PARENR     {
-                                          printf("operation -> ISTYPE PARENL expression PARENR\n");
+                                          $$ = create_node2("ISTYPE PARENL expression PARENR", create_node0($1), $3);
                                         }
   | term SMALLER expression             {
-                                          printf("operation -> term < expression\n");
+                                          $$ = create_node3("term SMALLER expression", $1, create_node0($2), $3);
                                         }
   | term GREATER expression             {
-                                          printf("operation -> term > expression\n");
+                                          $$ = create_node3("term GREATER expression", $1, create_node0($2), $3);
                                         }
   | term SMALLEQ expression             {
-                                          printf("operation -> term <= expression\n");
+                                          $$ = create_node3("term SMALLEQ expression", $1, create_node0($2), $3);
                                         }
   | term GREATEQ expression             {
-                                          printf("operation -> term >= expression\n");
+                                          $$ = create_node3("term GREATEQ expression", $1, create_node0($2), $3);
                                         }
   | term EQUALS expression              {
-                                          printf("operation -> term == expression\n");
+                                          $$ = create_node3("term EQUALS expression", $1, create_node0($2), $3);
                                         }
   | term DIFFERENT expression           {
-                                          printf("operation -> term != expression\n");
+                                          $$ = create_node3("term DIFFERENT expression", $1, create_node0($2), $3);
                                         }
   | term OR expression                  {
-                                          printf("operation -> term || expression\n");
+                                          $$ = create_node3("term OR expression", $1, create_node0($2), $3);
                                         }
   | term AND expression                 {
-                                          printf("operation -> term && expression\n");
+                                          $$ = create_node3("term AND expression", $1, create_node0($2), $3);
                                         }
   | NEG expression                      {
-                                          printf("operation -> ! expression\n");
+                                          $$ = create_node2("NEG expression", create_node0($1), $2);
                                         }
   ;
 
 func_call:
     ID PARENL args_list PARENR    {
-                                    printf("func_call -> ID PARENL args_list PARENR\n");
+                                    $$ = create_node2("ID PARENL args_list PARENR", create_node0($1), $3);
                                   }
   ;
 
 in_set:
     term IN expression            {
-                                    printf("in_set -> Iterm IN expression\n");
+                                    $$ = create_node3("term IN expression", $1, create_node0($2), $3);
                                   }
   ;
 
 args_list:
     args_list COMMA term              {
-                                        printf("args_list -> Iargs_list COMMA term\n");
+                                        $$ = create_node2("args_list COMMA term", $1, $3);
                                       }
   | term                              {
-                                        printf("args_list -> Iterm\n");
+                                        $$ = create_node1("term", $1);
                                       }
   |                                   {
-                                        printf("args_list -> I'vazio'\n");
+                                        $$ = create_node0("vazio");
                                       }
   ;
 
 
 assign_value:
     ID ASSIGN expression      {
-                                printf("assign_value -> ID ASSIGN expression\n");
+                                $$ = create_node3("ID ASSIGN expression", create_node0($1), create_node0($2), $3);
                               }
   ;
 
@@ -359,6 +373,8 @@ assign_value:
 
 int main(int argc, char *argv[]) {
 
+  ast_tree = NULL;
+
   printf("\n\n#### INICIANDO TESTE ####\n\n");
 
   FILE *file;
@@ -366,6 +382,7 @@ int main(int argc, char *argv[]) {
   file = fopen(argv[1], "r");
 
   yyparse();
+  print_tree(ast_tree);
   yylex_destroy();
 
   fclose(file);

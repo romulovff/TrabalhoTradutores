@@ -103,36 +103,36 @@ Grammar
 Terminals, with rules where they appear
 
     $end (0) 0
-    error (256) 4 12 16
+    error <tree_node> (256) 4 12 16
     ID <str> (258) 7 13 32 41 68 73
     TYPE <str> (259) 7 8 13 32
     STRING <str> (260) 45
-    CHAR <str> (261) 44
+    CHAR <character> (261) 44
     EMPTY <str> (262) 46
     MAIN <str> (263) 8
     INTEGER <integer> (264) 42
     DECIMAL <dec> (265) 43
-    ADD (266) 50
-    SUB (267) 51
-    MULT (268) 49
-    DIV (269) 48
-    OR (270) 65
-    AND (271) 66
-    SMALLER (272) 59
-    GREATER (273) 60
-    SMALLEQ (274) 61
-    GREATEQ (275) 62
-    EQUALS (276) 63
-    DIFFERENT (277) 64
-    ASSIGN (278) 73
-    NEG (279) 67
-    IF (280) 29 30
-    ELSE (281) 30
-    FOR (282) 24
-    READ (283) 33 34
-    WRITE (284) 35
-    WRITELN (285) 36
-    RETURN (286) 31
+    ADD <str> (266) 50
+    SUB <str> (267) 51
+    MULT <str> (268) 49
+    DIV <str> (269) 48
+    OR <str> (270) 65
+    AND <str> (271) 66
+    SMALLER <str> (272) 59
+    GREATER <str> (273) 60
+    SMALLEQ <str> (274) 61
+    GREATEQ <str> (275) 62
+    EQUALS <str> (276) 63
+    DIFFERENT <str> (277) 64
+    ASSIGN <str> (278) 73
+    NEG <str> (279) 67
+    IF <str> (280) 29 30
+    ELSE <str> (281) 30
+    FOR <str> (282) 24
+    READ <str> (283) 33 34
+    WRITE <str> (284) 35
+    WRITELN <str> (285) 36
+    RETURN <str> (286) 31
     IN <str> (287) 69
     ISTYPE <str> (288) 58
     ADDSET <str> (289) 53
@@ -175,7 +175,7 @@ Nonterminals, with rules where they appear
     statement <tree_node> (52)
         on left: 17 18 19 20 21
         on right: 14
-    expression_statement (53)
+    expression_statement <tree_node> (53)
         on left: 22
         on right: 17 27 28
     basic_ops <tree_node> (54)

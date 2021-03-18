@@ -105,13 +105,14 @@ union YYSTYPE
 {
 #line 32 "newcParser.y"
 
-  char *str;
   int integer;
+  char *str;
+  char character;
   float dec;
 
   struct node *tree_node;
 
-#line 115 "newcParser.tab.h"
+#line 116 "newcParser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
