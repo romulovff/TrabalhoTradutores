@@ -67,7 +67,7 @@ write     "write"
 writeln   "writeln"
 
 inkey     "in"
-istype    "is_"{type}
+istype    "is_set"
 addset    "add"
 rmset     "remove"
 exists    "exists"

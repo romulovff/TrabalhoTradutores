@@ -11,6 +11,8 @@ int main() {
     possibleSums = EMPTY;
     int x;
 
+    read(var);
+
     forall (x in s) {
         set sumsWithX;
         sumsWithX = EMPTY;

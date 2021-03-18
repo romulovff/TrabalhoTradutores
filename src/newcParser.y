@@ -34,7 +34,7 @@ extern int yylex_destroy(void);
   int integer;
   float dec;
 
-  struct node *ast;
+  struct node *tree_node;
 }
 
 %token<str> ID
@@ -56,311 +56,301 @@ extern int yylex_destroy(void);
 %token<str> COMMA STFUNC ENDFUNC PARENL PARENR SEMIC
 
 
-%start prog
-%type<ast> declarations_list declaration var_dec func_dec params_list parameter statement_list statement
-%type<ast> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list
+%start program
+%type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body
+%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list
 
 %%
 
-prog:
+program:
     declarations_list     {
-
+                            printf("program -> declarations_list\n");
                           }
   ;
 
 declarations_list:
     declarations_list declaration     {
-                                        // $1 -> value = "declarations_list";
-                                        // $2 -> value = "declaration";
-                                        // $$ = create_node2("declarations_list", $1, $2);
-                                        // printf("%s ", $1 -> value);
-                                        // printf("%s\n", $2 -> value);
+                                        printf("declarations_list -> declarations_list declaration\n");
                                       }
-  | declaration       {
-                        // $1 -> value = "declaration";
-                        // $$ = create_node1("declarations_list", $1);
-                        // printf("%s\n", $1 -> value);
-                      }
-  | error {yyerror(yymsg);}
+  | declaration                       {
+                                        printf("declarations_list -> declaration\n");
+                                      }
+  | error                             {yyerror(yymsg);}
   ;
 
 declaration:
     var_dec     {
-                  // $1 -> value = "var_dec";
-                  // $$ = create_node1("declaration", $1);
-                  // printf("%s\n", $1 -> value);
+                  printf("declaration -> var_dec\n");
                 }
   | func_dec    {
-                  // $1 -> value = "func_dec";
-                  // $$ = create_node1("declaration", $1);
-                  // printf("%s\n", $1 -> value);
+                  printf("declaration -> func_dec\n");
                 }
   ;
 
 func_dec:
     TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC     {
-                                                                          add_symbol(symbolIdCounter, $2, $1[0], 'f');
+                                                                          add_symbol(symbolIdCounter, $2, "func");
                                                                           symbolIdCounter++;
-                                                                          // Node *node0 = (Node *)calloc(1, sizeof(Node));
-                                                                          // Node *node1 = (Node *)calloc(1, sizeof(Node));
-                                                                          // Node *node2 = (Node *)calloc(1, sizeof(Node));
-                                                                          // Node *node3 = (Node *)calloc(1, sizeof(Node));
-                                                                          // Node *node4 = (Node *)calloc(1, sizeof(Node));
-                                                                          // Node *node5 = (Node *)calloc(1, sizeof(Node));
-                                                                          // node0 -> value = $1;
-                                                                          // node1 -> value = $2;
-                                                                          // node2 -> value = $3;
-                                                                          // node3 -> value = $5;
-                                                                          // node4 -> value = $6;
-                                                                          // node5 -> value = $8;
-                                                                          // $4 -> value = "params_list";
-                                                                          // $7 -> value = "statement_list";
-                                                                          // $$ = create_node8("func_dec", node0, node1, node2, $4, node3, node4, $7, node5);
-                                                                          // printf("%s ", $1);
-                                                                          // printf("%s ", $2);
-                                                                          // printf("%s ", $3);
-                                                                          // printf("%s ", $4 -> value);
-                                                                          // printf("%s ", $5);
-                                                                          // printf("%s ", $6);
-                                                                          // printf("%s ", $7 -> value);
-                                                                          // printf("%s \n", $8);
-                                                                          // free(node0);
-                                                                          // free(node1);
-                                                                          // free(node2);
-                                                                          // free(node3);
-                                                                          // free(node4);
-                                                                          // free(node5);
+                                                                          printf("func_dec -> TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC\n");
                                                                         }
   | TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC   {
-                                                                          add_symbol(symbolIdCounter, $2, $1[0], 'f');
                                                                           symbolIdCounter++;
-                                                                          // Node *node0 = (Node *)calloc(1, sizeof(Node));
-                                                                          // Node *node1 = (Node *)calloc(1, sizeof(Node));
-                                                                          // Node *node2 = (Node *)calloc(1, sizeof(Node));
-                                                                          // Node *node3 = (Node *)calloc(1, sizeof(Node));
-                                                                          // Node *node4 = (Node *)calloc(1, sizeof(Node));
-                                                                          // Node *node5 = (Node *)calloc(1, sizeof(Node));
-                                                                          // node0 -> value = $1;
-                                                                          // node1 -> value = $2;
-                                                                          // node2 -> value = $3;
-                                                                          // node3 -> value = $5;
-                                                                          // node4 -> value = $6;
-                                                                          // node5 -> value = $8;
-                                                                          // $4 -> value = "params_list";
-                                                                          // $7 -> value = "statement_list";
-                                                                          // $$ = create_node8("func_dec_main", node0, node1, node2, $4, node3, node4, $7, node5);
-                                                                          // printf("%s ", $1);
-                                                                          // printf("%s ", $2);
-                                                                          // printf("%s ", $3);
-                                                                          // printf("%s ", $4 -> value);
-                                                                          // printf("%s ", $5);
-                                                                          // printf("%s ", $6);
-                                                                          // printf("%s ", $7 -> value);
-                                                                          // printf("%s \n", $8);
-                                                                          // free(node0);
-                                                                          // free(node1);
-                                                                          // free(node2);
-                                                                          // free(node3);
-                                                                          // free(node4);
-                                                                          // free(node5);
+                                                                          printf("func_dec -> TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC\n");
                                                                         }
   ;
 
 params_list:
     params_list COMMA parameter   {
-                                    // Node *node0 = (Node *)calloc(1, sizeof(Node));
-                                    // node0 -> value = $2;
-                                    // $1 -> value = "params_list";
-                                    // $3 -> value = "parameter";
-                                    // $$ = create_node3("params_list", $1, node0, $3);
-                                    // printf("%s ", $1 -> value);
-                                    // printf("%s ", node0 -> value);
-                                    // printf("%s \n", $3 -> value);
-                                    // free(node0);
+                                    printf("params_list -> params_list COMMA parameter\n");
                                   }
   | parameter                     {
-                                    // $1 -> value = "parameter";
-                                    // $$ = create_node1("params_list", $1);
-                                    // printf("%s\n", $1 -> value);
+                                    printf("params_list -> parameter\n");
                                   }
   |                               {
-                                    
+                                    printf("params_list -> 'vazio'\n");
                                   }
-  | error {yyerror(yymsg);}
+  | error                         {yyerror(yymsg);}
   ;
 
 parameter:
     TYPE ID         {
-                      // Node *node0 = (Node *)calloc(1, sizeof(Node));
-                      // Node *node1 = (Node *)calloc(1, sizeof(Node));
-                      // node0 -> value = $1;
-                      // node1 -> value = $2;
-                      // $$ = create_node2("parameter", node0, node1);
-                      // printf("%s ", node0 -> value);
-                      // printf("%s\n", node1 -> value);
-                      // free(node0);
-                      // free(node1);
+                      printf("parameter -> TYPE ID\n");
                     }
   ;
 
 statement_list:
-    statement_list statement      {}
-  |                               {}
-  | error {yyerror(yymsg);}
+    statement_list statement      {
+                                    printf("statement_list -> statement_list statement\n");
+                                  }
+  |                               {
+                                    printf("statement_list -> 'vazio'\n");
+                                  }
+  | error                         {yyerror(yymsg);}
   ;
 
 statement:
-    expression_stmt {}
-  | ret_st          {}
-  | var_dec         {}
-  | io_ops          {}
-  | basic_ops       {}
+    expression_statement  {
+                            printf("statement -> expression_statement\n");
+                          }
+  | ret_st                {
+                            printf("statement -> ret_st\n");
+                          }
+  | var_dec               {
+                            printf("statement -> var_dec\n");
+                          }
+  | io_ops                {
+                            printf("statement -> io_ops\n");
+                          }
+  | basic_ops             {
+                            printf("statement -> basic_ops\n");
+                          }
   ;
 
-expression_stmt:
-    expression SEMIC      {}
+expression_statement:
+    expression SEMIC      {
+                            printf("expression_statement -> expression SEMIC\n");
+                          }
   ;
 
 basic_ops:
-    if_ops                                                       {}
-  | FOR PARENL operation PARENR STFUNC statement_list ENDFUNC    {}
-  | FORALL PARENL in_set PARENR set_op SEMIC                      {
-                                                                    // Node *node0 = (Node *)calloc(1, sizeof(Node));
-                                                                    // Node *node1 = (Node *)calloc(1, sizeof(Node));
-                                                                    // Node *node2 = (Node *)calloc(1, sizeof(Node));
-                                                                    // Node *node3 = (Node *)calloc(1, sizeof(Node));
-                                                                    // node0 -> value = $1;
-                                                                    // node1 -> value = $2;
-                                                                    // node2 -> value = $4;
-                                                                    // node3 -> value = $6;
-                                                                    // $$ = create_node6("basic_ops", node0, node1, $3, node2, $5, node3);
-                                                                    // printf("%s ", node0 -> value);
-                                                                    // printf("%s ", node1 -> value);
-                                                                    // printf("%s ", $3 -> value);
-                                                                    // printf("%s ", node2 -> value);
-                                                                    // printf("%s ", $5 -> value);
-                                                                    // printf("%s\n", node3 -> value);
-                                                                    // free(node0);
-                                                                    // free(node1);
-                                                                    // free(node2);
-                                                                    // free(node3);
+    if_ops                                                        {
+                                                                    printf("basic_ops -> if_ops\n");
                                                                   }
-  | FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC    {}
+  | FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC      {
+                                                                    printf("basic_ops -> FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC\n");
+                                                                  }
+  | FORALL PARENL in_set PARENR set_op SEMIC                      {
+                                                                    printf("basic_ops -> FORALL PARENL in_set PARENR set_op SEMIC\n");
+                                                                  }
+  | FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC     {
+                                                                    printf("basic_ops -> FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC\n");
+                                                                  }
+  ;
+
+for_body:
+    expression_statement expression_statement expression          {
+                                                                    printf("for_body -> expression_statement expression_statement expression\n");
+                                                                  }
+  | SEMIC expression_statement expression                         {
+                                                                    printf("for_body -> SEMIC expression_statement expression\n");
+                                                                  }
   ;
 
 if_ops:
-    IF PARENL operation PARENR STFUNC statement_list ENDFUNC                                            {}
-  | IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC         {}
+    IF PARENL operation PARENR STFUNC statement_list ENDFUNC                                            {
+                                                                                                          printf("if_ops -> IF PARENL operation PARENR STFUNC statement_list ENDFUNC\n");
+                                                                                                        }
+  | IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC         {
+                                                                                                          printf("if_ops -> IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC\n");
+                                                                                                        }
   ;
 
 ret_st:
-    RETURN expression SEMIC          {printf("RETURN\n");}
+    RETURN expression SEMIC         {
+                                      printf("ret_st -> RETURN expression SEMIC\n");
+                                    }
   ;
 
 var_dec:
     TYPE ID SEMIC   {
-                      add_symbol(symbolIdCounter, $2, $1[0], 'v');
+                      add_symbol(symbolIdCounter, $2, "var");
                       symbolIdCounter++;
+                      printf("var_dec -> TYPE ID SEMIC\n");
                     }
   ;
 
 io_ops:
-    READ PARENL PARENR SEMIC                {}
-  | WRITE PARENL expression PARENR SEMIC    {}
-  | WRITELN PARENL expression PARENR SEMIC  {}
+    READ PARENL PARENR SEMIC                {
+                                              printf("io_ops -> READ PARENL PARENR SEMIC\n");
+                                            }
+  | READ PARENL expression PARENR SEMIC     {
+                                              printf("io_ops -> READ PARENL expression PARENR SEMIC\n");
+                                            }
+  | WRITE PARENL expression PARENR SEMIC    {
+                                              printf("io_ops -> WRITE PARENL expression PARENR SEMIC\n");
+                                            }
+  | WRITELN PARENL expression PARENR SEMIC  {
+                                              printf("io_ops -> WRITELN PARENL expression PARENR SEMIC\n");
+                                            }
   ;
 
 expression:
-    set_op                        {}
-  | operation                     {}
-  | func_call                     {}
-  | assign_value                  {}
+    set_op                        {
+                                    printf("expression -> set_op\n");
+                                  }
+  | operation                     {
+                                    printf("expression -> operation\n");
+                                  }
+  | func_call                     {
+                                    printf("expression -> func_call\n");
+                                  }
+  | assign_value                  {
+                                    printf("expression -> assign_value\n");
+                                  }
   ;
 
 term:
-    ID                            {}
-  | INTEGER                       {
-                                    // char *result;
-                                    // sprintf(result, "%d", $1);
-                                    // $$ -> value = result;
+    ID                            {
+                                    printf("term -> ID\n");
                                   }
-  | DECIMAL                       {}
-  | CHAR                          {}
-  | STRING                        {}
-  | EMPTY                         {}
-  | PARENL expression PARENR      {}
+  | INTEGER                       {
+                                    printf("term -> INTEGER\n");
+                                  }
+  | DECIMAL                       {
+                                    printf("term -> DECIMAL\n");
+                                  }
+  | CHAR                          {
+                                    printf("term -> CHAR\n");
+                                  }
+  | STRING                        {
+                                    printf("term -> STRING\n");
+                                  }
+  | EMPTY                         {
+                                    printf("term -> EMPTY\n");
+                                  }
+  | PARENL expression PARENR      {
+                                    printf("term -> PARENL expression PARENR\n");
+                                  }
   ;
 
 math_op:
     term DIV expression         {
-                                  
+                                  printf("math_op -> term DIV expression\n");
                                 }
   | term MULT expression        {
-                                  
+                                  printf("math_op -> term MULT expression\n");
                                 }
   | term ADD expression         {
-                                  
+                                  printf("math_op -> term ADD expression\n");
                                 }
   | term SUB expression         {
-                                  
+                                  printf("math_op -> term SUB expression\n");
                                 }
   | term                        {
+                                  printf("math_op -> term\n");
                                 }
   ;
 
 set_op:
-    ADDSET PARENL in_set PARENR        {}
-  | REMOVE PARENL in_set PARENR        {}
-  | EXISTS PARENL in_set PARENR        {}
+    ADDSET PARENL in_set PARENR         {
+                                          printf("set_op -> ADDSET PARENL in_set PARENR\n");
+                                        }
+  | REMOVE PARENL in_set PARENR         {
+                                          printf("set_op -> REMOVE PARENL in_set PARENR\n");
+                                        }
+  | EXISTS PARENL in_set PARENR         {
+                                          printf("set_op -> EXISTS PARENL in_set PARENR\n");
+                                        }
   ;
 
 operation:
-    math_op
-  | in_set                             {}
-  | ISTYPE PARENL expression PARENR    {}
-  | term SMALLER expression      {}
-  | term GREATER expression      {}
-  | term SMALLEQ expression      {}
-  | term GREATEQ expression      {}
-  | term EQUALS expression       {}
-  | term DIFFERENT expression    {}
-  | term OR expression           {}
-  | term AND expression          {}
-  | NEG expression                     {}
+    math_op                             {
+                                          printf("operation -> math_op\n");
+                                        }
+  | in_set                              {
+                                          printf("operation -> in_set\n");
+                                        }
+  | ISTYPE PARENL expression PARENR     {
+                                          printf("operation -> ISTYPE PARENL expression PARENR\n");
+                                        }
+  | term SMALLER expression             {
+                                          printf("operation -> term < expression\n");
+                                        }
+  | term GREATER expression             {
+                                          printf("operation -> term > expression\n");
+                                        }
+  | term SMALLEQ expression             {
+                                          printf("operation -> term <= expression\n");
+                                        }
+  | term GREATEQ expression             {
+                                          printf("operation -> term >= expression\n");
+                                        }
+  | term EQUALS expression              {
+                                          printf("operation -> term == expression\n");
+                                        }
+  | term DIFFERENT expression           {
+                                          printf("operation -> term != expression\n");
+                                        }
+  | term OR expression                  {
+                                          printf("operation -> term || expression\n");
+                                        }
+  | term AND expression                 {
+                                          printf("operation -> term && expression\n");
+                                        }
+  | NEG expression                      {
+                                          printf("operation -> ! expression\n");
+                                        }
   ;
 
 func_call:
     ID PARENL args_list PARENR    {
-                                    // Node *node0 = (Node *)calloc(1, sizeof(Node));
-                                    // Node *node1 = (Node *)calloc(1, sizeof(Node));
-                                    // Node *node2 = (Node *)calloc(1, sizeof(Node));
-                                    // node0 -> value = $1;
-                                    // node1 -> value = $2;
-                                    // node2 -> value = $4;
-                                    // $$ = create_node4("basic_ops", node0, node1, $3, node2);
-                                    // printf("%s ", node0 -> value);
-                                    // printf("%s ", node1 -> value);
-                                    // printf("%s ", $3 -> value);
-                                    // printf("%s ", node2 -> value);
-                                    // free(node0);
-                                    // free(node1);
-                                    // free(node2);
+                                    printf("func_call -> ID PARENL args_list PARENR\n");
                                   }
   ;
 
 in_set:
-    term IN expression           {}
+    term IN expression            {
+                                    printf("in_set -> Iterm IN expression\n");
+                                  }
   ;
 
 args_list:
-    args_list COMMA term              {}
-  | term                              {}
-  |                                         {}
+    args_list COMMA term              {
+                                        printf("args_list -> Iargs_list COMMA term\n");
+                                      }
+  | term                              {
+                                        printf("args_list -> Iterm\n");
+                                      }
+  |                                   {
+                                        printf("args_list -> I'vazio'\n");
+                                      }
   ;
 
 
 assign_value:
-    ID ASSIGN expression     {}
+    ID ASSIGN expression      {
+                                printf("assign_value -> ID ASSIGN expression\n");
+                              }
   ;
 
 

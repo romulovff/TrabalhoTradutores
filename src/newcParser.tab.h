@@ -109,7 +109,7 @@ union YYSTYPE
   int integer;
   float dec;
 
-  struct node *ast;
+  struct node *tree_node;
 
 #line 115 "newcParser.tab.h"
 

@@ -6,14 +6,13 @@
 typedef struct symbol {
   int id;
   char *name;
-  char valueType;
-  char symbolType;
+  char *symbolType;
   UT_hash_handle hh;
 }Symbol;
 
 Symbol *symbol_table = NULL;
 
-void add_symbol(int id, char *name, char valueType, char symbolType) {
+void add_symbol(int id, char *name, char *symbolType) {
   struct symbol *s;
 
   HASH_FIND_INT(symbol_table, &id, s);
@@ -21,7 +20,6 @@ void add_symbol(int id, char *name, char valueType, char symbolType) {
     s = (Symbol*)malloc(sizeof(Symbol));
     s -> id = id;
     s -> name = name;
-    s -> valueType = valueType;
     s -> symbolType = symbolType;
     HASH_ADD_INT(symbol_table, id, s);
   } else {
@@ -32,10 +30,10 @@ void add_symbol(int id, char *name, char valueType, char symbolType) {
 void print_symbols() {
     Symbol *s;
 
-    printf("***************************** TABELA DE SIMBOLOS *****************************\n");
-    printf("|   ID   |    Valor        Tipo do dado/retorno         Tipo do símbolo    \n");
+    printf("**************** TABELA DE SIMBOLOS ****************\n");
+    printf("|   ID   |    Valor             Tipo do símbolo     \n");
     for (s = symbol_table; s != NULL; s = s -> hh.next) {
-        printf("|   %d    |    %s         %c         %c\n", s -> id, s -> name, s -> valueType, s -> symbolType);
+        printf("|   %d    |    %s            %s\n", s -> id, s -> name, s -> symbolType);
     }
-    printf("******************************************************************************\n");
+    printf("****************************************************\n");
 }
