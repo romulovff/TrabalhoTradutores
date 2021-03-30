@@ -235,7 +235,7 @@ operation
 math_op
 term
 CHAR
-0
+
 else
 statement_list statement
 vazio
@@ -246,7 +246,7 @@ operation
 math_op
 term
 CHAR
-–
+ê
 
 
 #### FIM DA √ÅRVORE SINT√ÅTICA ####

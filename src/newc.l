@@ -22,8 +22,8 @@ letter    [a-zA-Z]
 digit     [0-9]
 empty     "EMPTY"
 id        {letter}+({letter}|{digit}|_|-)*
-integer   {digit}+
-decimal   {digit}*[.]{digit}+
+integer   -?{digit}+
+decimal   -?{digit}*[.]{digit}+
 elem      {integer}|{decimal}
 set       "{"({elem}","?)*"}"
 char      '{letter}'

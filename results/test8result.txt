@@ -18,6 +18,8 @@ syntax error, unexpected ENDFUNC, expecting end of file or TYPE, linha: 19, colu
 ERRO DE SINTAXE
 syntax error, unexpected ENDFUNC, expecting end of file or TYPE, linha: 19, coluna: 2
 declarations_list declaration
+declarations_list declaration
+declaration
 func_dec
 TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 int
@@ -158,6 +160,12 @@ math_op
 term
 ID
 v
+func_dec
+TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+float
+test_set_func_calls
+vazio
+ERRO!!!!
 func_dec
 TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 int

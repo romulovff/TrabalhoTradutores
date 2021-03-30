@@ -64,6 +64,7 @@ extern int yylex_destroy(void);
 
 
 %start program
+%type<tree_node> program
 %type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement
 %type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error
 
@@ -71,15 +72,16 @@ extern int yylex_destroy(void);
 
 program:
     declarations_list     {
+                            ast_tree = $$;
                           }
   ;
 
 declarations_list:
     declarations_list declaration     {
-                                        ast_tree = create_node2("declarations_list declaration", $1, $2);
+                                        $$ = create_node2("declarations_list declaration", $1, $2);
                                       }
   | declaration                       {
-                                        ast_tree = create_node1("declaration", $1);
+                                        $$ = create_node1("declaration", $1);
                                       }
   | error                             {
                                         $$ = create_node0("ERRO!!!!");

@@ -14,11 +14,222 @@ syntax error, unexpected PARENR, linha: 14, coluna: 16
 
 ERRO DE SINTAXE
 syntax error, unexpected PARENR, linha: 15, coluna: 10
+
+ERRO DE SINTAXE
+syntax error, unexpected INTEGER, linha: 15, coluna: 20
+
+ERRO DE SINTAXE
+syntax error, unexpected INTEGER, linha: 15, coluna: 20
+
+ERRO DE SINTAXE
+syntax error, unexpected PARENR, linha: 15, coluna: 28
+
+ERRO DE SINTAXE
+syntax error, unexpected PARENR, linha: 16, coluna: 12
 declarations_list declaration
+declarations_list declaration
+declarations_list declaration
+declarations_list declaration
+declarations_list declaration
+declaration
 var_dec
 TYPE ID SEMIC
 float
 first_thing
+func_dec
+TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+set
+add_float
+vazio
+statement_list statement
+statement_list statement
+statement_list statement
+vazio
+io_ops
+READ PARENL PARENR SEMIC
+read
+io_ops
+READ PARENL PARENR SEMIC
+read
+io_ops
+WRITE PARENL expression PARENR SEMIC
+write
+operation
+math_op
+term
+INTEGER
+10
+var_dec
+TYPE ID SEMIC
+float
+second_thing
+func_dec
+TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+set
+add_set
+vazio
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+ERRO!!!!
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term ADD expression
+INTEGER
+20
++
+operation
+math_op
+term
+INTEGER
+50
+io_ops
+WRITE PARENL expression PARENR SEMIC
+write
+operation
+math_op
+term
+EMPTY
+EMPTY
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term
+EMPTY
+EMPTY
+io_ops
+WRITE PARENL expression PARENR SEMIC
+write
+operation
+math_op
+term
+STRING
+"a string example"
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term
+STRING
+"a string example"
+io_ops
+WRITE PARENL expression PARENR SEMIC
+write
+operation
+math_op
+term
+CHAR
+€
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term
+CHAR
+ 
+func_dec
+TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+set
+subsum
+params_list COMMA parameter
+params_list COMMA parameter
+params_list COMMA parameter
+parameter
+TYPE ID
+set
+s
+TYPE ID
+int
+target
+TYPE ID
+int
+cur_sum
+TYPE ID
+set
+ans
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+vazio
+var_dec
+TYPE ID SEMIC
+set
+zero
+var_dec
+TYPE ID SEMIC
+set
+one
+var_dec
+TYPE ID SEMIC
+set
+two
+var_dec
+TYPE ID SEMIC
+set
+three
+expression_statement
+expression SEMIC
+assign_value
+ID ASSIGN expression
+zero
+=
+operation
+math_op
+term
+EMPTY
+EMPTY
+expression_statement
+expression SEMIC
+assign_value
+ID ASSIGN expression
+one
+=
+func_call
+ID PARENL args_list PARENR
+succ
+term
+ID
+zero
+io_ops
+WRITE PARENL expression PARENR SEMIC
+write
+func_call
+ID PARENL args_list PARENR
+succ
+args_list COMMA term
+term
+ID
+zero
+ID
+one
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+func_call
+ID PARENL args_list PARENR
+succ
+args_list COMMA term
+term
+ID
+zero
+ID
+one
 func_dec
 TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 set

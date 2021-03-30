@@ -3,6 +3,8 @@
 #### INICIO DA ÁRVORE SINTÁTICA ####
 
 declarations_list declaration
+declarations_list declaration
+declaration
 func_dec
 TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 set
@@ -62,6 +64,49 @@ math_op
 term
 ID
 ans
+func_dec
+TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+set
+succ
+parameter
+TYPE ID
+set
+n
+statement_list statement
+statement_list statement
+statement_list statement
+vazio
+var_dec
+TYPE ID SEMIC
+set
+next
+expression_statement
+expression SEMIC
+assign_value
+ID ASSIGN expression
+next
+=
+func_call
+ID PARENL args_list PARENR
+copy_set
+term
+ID
+n
+ret_st
+RETURN expression SEMIC
+return
+set_op
+ADDSET PARENL in_set PARENR
+add
+term IN expression
+ID
+n
+in
+operation
+math_op
+term
+ID
+next
 func_dec
 TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC
 int
