@@ -27,6 +27,7 @@ void yyerror (const char *msg) {
 } 
 void yyerror(const char* msg);
 extern int yylex_destroy(void);
+extern FILE *yyin;
 
 %}
 
@@ -380,16 +381,14 @@ int main(int argc, char *argv[]) {
 
   printf("\n\n#### INICIO DA ÁRVORE SINTÁTICA ####\n\n");
 
-  FILE *file;
-
-  file = fopen(argv[1], "r");
+  yyin = fopen(argv[1], "r");
 
   yyparse();
 
   print_tree(ast_tree);
   yylex_destroy();
 
-  fclose(file);
+  fclose(yyin);
 
   printf("\n\n#### FIM DA ÁRVORE SINTÁTICA ####\n\n");
 

@@ -129,7 +129,7 @@ operation
 math_op
 term
 CHAR
-Ä
+
 io_ops
 WRITELN PARENL expression PARENR SEMIC
 writeln
@@ -137,7 +137,7 @@ operation
 math_op
 term
 CHAR
-†
+
 func_dec
 TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 set
@@ -320,7 +320,7 @@ operation
 math_op
 term
 CHAR
-0
+†
 
 
 #### FIM DA √ÅRVORE SINT√ÅTICA ####

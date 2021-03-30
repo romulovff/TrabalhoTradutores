@@ -1218,7 +1218,7 @@ YY_RULE_SETUP
 #line 329 "newc.l"
 {
             word_position += yyleng;
-            yylval.character = (char) strdup(yytext);
+            yylval.str = (char *) strdup(yytext);
             return CHAR;
           }
 	YY_BREAK

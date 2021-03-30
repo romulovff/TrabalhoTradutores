@@ -20,6 +20,7 @@ set
 i
 statement_list statement
 statement_list statement
+statement_list statement
 vazio
 expression_statement
 expression SEMIC
@@ -54,6 +55,19 @@ math_op
 term
 ID
 s
+expression_statement
+expression SEMIC
+operation
+math_op
+term ADD expression
+INTEGER
+2
++
+operation
+math_op
+term
+INTEGER
+-2
 func_dec
 TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 set

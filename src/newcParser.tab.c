@@ -92,9 +92,10 @@ void yyerror (const char *msg) {
 } 
 void yyerror(const char* msg);
 extern int yylex_destroy(void);
+extern FILE *yyin;
 
 
-#line 98 "newcParser.tab.c"
+#line 99 "newcParser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -565,14 +566,14 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    74,    74,    80,    83,    86,    93,    96,   102,   107,
-     114,   117,   120,   123,   130,   136,   139,   142,   149,   152,
-     155,   158,   161,   167,   173,   176,   179,   182,   188,   191,
-     197,   200,   206,   212,   220,   223,   226,   229,   235,   238,
-     241,   244,   250,   253,   256,   259,   262,   265,   268,   274,
-     277,   280,   283,   286,   292,   295,   298,   304,   307,   310,
-     313,   316,   319,   322,   325,   328,   331,   334,   337,   343,
-     349,   355,   358,   361,   368
+       0,    75,    75,    81,    84,    87,    94,    97,   103,   108,
+     115,   118,   121,   124,   131,   137,   140,   143,   150,   153,
+     156,   159,   162,   168,   174,   177,   180,   183,   189,   192,
+     198,   201,   207,   213,   221,   224,   227,   230,   236,   239,
+     242,   245,   251,   254,   257,   260,   263,   266,   269,   275,
+     278,   281,   284,   287,   293,   296,   299,   305,   308,   311,
+     314,   317,   320,   323,   326,   329,   332,   335,   338,   344,
+     350,   356,   359,   362,   369
 };
 #endif
 
@@ -2062,599 +2063,599 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: declarations_list  */
-#line 74 "newcParser.y"
+#line 75 "newcParser.y"
                           {
                             ast_tree = (yyval.tree_node);
                           }
-#line 2070 "newcParser.tab.c"
+#line 2071 "newcParser.tab.c"
     break;
 
   case 3: /* declarations_list: declarations_list declaration  */
-#line 80 "newcParser.y"
+#line 81 "newcParser.y"
                                       {
                                         (yyval.tree_node) = create_node2("declarations_list declaration", (yyvsp[-1].tree_node), (yyvsp[0].tree_node));
                                       }
-#line 2078 "newcParser.tab.c"
+#line 2079 "newcParser.tab.c"
     break;
 
   case 4: /* declarations_list: declaration  */
-#line 83 "newcParser.y"
+#line 84 "newcParser.y"
                                       {
                                         (yyval.tree_node) = create_node1("declaration", (yyvsp[0].tree_node));
                                       }
-#line 2086 "newcParser.tab.c"
+#line 2087 "newcParser.tab.c"
     break;
 
   case 5: /* declarations_list: error  */
-#line 86 "newcParser.y"
+#line 87 "newcParser.y"
                                       {
                                         (yyval.tree_node) = create_node0("ERRO!!!!");
                                         yyerror(yymsg);
                                       }
-#line 2095 "newcParser.tab.c"
+#line 2096 "newcParser.tab.c"
     break;
 
   case 6: /* declaration: var_dec  */
-#line 93 "newcParser.y"
+#line 94 "newcParser.y"
                 {
                   (yyval.tree_node) = create_node1("var_dec", (yyvsp[0].tree_node));
                 }
-#line 2103 "newcParser.tab.c"
+#line 2104 "newcParser.tab.c"
     break;
 
   case 7: /* declaration: func_dec  */
-#line 96 "newcParser.y"
+#line 97 "newcParser.y"
                 {
                   (yyval.tree_node) = create_node1("func_dec", (yyvsp[0].tree_node));
                 }
-#line 2111 "newcParser.tab.c"
+#line 2112 "newcParser.tab.c"
     break;
 
   case 8: /* func_dec: TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC  */
-#line 102 "newcParser.y"
+#line 103 "newcParser.y"
                                                                         {
                                                                           add_symbol(symbolIdCounter, (yyvsp[-6].str), "func");
                                                                           symbolIdCounter++;
                                                                           (yyval.tree_node) = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0((yyvsp[-7].str)), create_node0((yyvsp[-6].str)), (yyvsp[-4].tree_node), (yyvsp[-1].tree_node));
                                                                         }
-#line 2121 "newcParser.tab.c"
+#line 2122 "newcParser.tab.c"
     break;
 
   case 9: /* func_dec: TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC  */
-#line 107 "newcParser.y"
+#line 108 "newcParser.y"
                                                                         {
                                                                           symbolIdCounter++;
                                                                           (yyval.tree_node) = create_node4("TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0((yyvsp[-7].str)), create_node0((yyvsp[-6].str)), (yyvsp[-4].tree_node), (yyvsp[-1].tree_node));
                                                                         }
-#line 2130 "newcParser.tab.c"
+#line 2131 "newcParser.tab.c"
     break;
 
   case 10: /* params_list: params_list COMMA parameter  */
-#line 114 "newcParser.y"
+#line 115 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node2("params_list COMMA parameter", (yyvsp[-2].tree_node), (yyvsp[0].tree_node));
                                   }
-#line 2138 "newcParser.tab.c"
+#line 2139 "newcParser.tab.c"
     break;
 
   case 11: /* params_list: parameter  */
-#line 117 "newcParser.y"
+#line 118 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node1("parameter", (yyvsp[0].tree_node));
                                   }
-#line 2146 "newcParser.tab.c"
+#line 2147 "newcParser.tab.c"
     break;
 
   case 12: /* params_list: %empty  */
-#line 120 "newcParser.y"
+#line 121 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node0("vazio");
                                   }
-#line 2154 "newcParser.tab.c"
+#line 2155 "newcParser.tab.c"
     break;
 
   case 13: /* params_list: error  */
-#line 123 "newcParser.y"
+#line 124 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node0("ERRO!!!!");
                                     yyerror(yymsg);
                                   }
-#line 2163 "newcParser.tab.c"
+#line 2164 "newcParser.tab.c"
     break;
 
   case 14: /* parameter: TYPE ID  */
-#line 130 "newcParser.y"
+#line 131 "newcParser.y"
                     {
                       (yyval.tree_node) = create_node2("TYPE ID", create_node0((yyvsp[-1].str)), create_node0((yyvsp[0].str)));
                     }
-#line 2171 "newcParser.tab.c"
+#line 2172 "newcParser.tab.c"
     break;
 
   case 15: /* statement_list: statement_list statement  */
-#line 136 "newcParser.y"
+#line 137 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node2("statement_list statement", (yyvsp[-1].tree_node), (yyvsp[0].tree_node));
                                   }
-#line 2179 "newcParser.tab.c"
+#line 2180 "newcParser.tab.c"
     break;
 
   case 16: /* statement_list: %empty  */
-#line 139 "newcParser.y"
+#line 140 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node0("vazio");
                                   }
-#line 2187 "newcParser.tab.c"
+#line 2188 "newcParser.tab.c"
     break;
 
   case 17: /* statement_list: error  */
-#line 142 "newcParser.y"
+#line 143 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node0("ERRO!!!!");
                                     yyerror(yymsg);
                                   }
-#line 2196 "newcParser.tab.c"
+#line 2197 "newcParser.tab.c"
     break;
 
   case 18: /* statement: expression_statement  */
-#line 149 "newcParser.y"
+#line 150 "newcParser.y"
                           {
                             (yyval.tree_node) = create_node1("expression_statement", (yyvsp[0].tree_node));
                           }
-#line 2204 "newcParser.tab.c"
+#line 2205 "newcParser.tab.c"
     break;
 
   case 19: /* statement: ret_st  */
-#line 152 "newcParser.y"
+#line 153 "newcParser.y"
                           {
                             (yyval.tree_node) = create_node1("ret_st", (yyvsp[0].tree_node));
                           }
-#line 2212 "newcParser.tab.c"
+#line 2213 "newcParser.tab.c"
     break;
 
   case 20: /* statement: var_dec  */
-#line 155 "newcParser.y"
+#line 156 "newcParser.y"
                           {
                             (yyval.tree_node) = create_node1("var_dec", (yyvsp[0].tree_node));
                           }
-#line 2220 "newcParser.tab.c"
+#line 2221 "newcParser.tab.c"
     break;
 
   case 21: /* statement: io_ops  */
-#line 158 "newcParser.y"
+#line 159 "newcParser.y"
                           {
                             (yyval.tree_node) = create_node1("io_ops", (yyvsp[0].tree_node));
                           }
-#line 2228 "newcParser.tab.c"
+#line 2229 "newcParser.tab.c"
     break;
 
   case 22: /* statement: basic_ops  */
-#line 161 "newcParser.y"
+#line 162 "newcParser.y"
                           {
                             (yyval.tree_node) = create_node1("basic_ops", (yyvsp[0].tree_node));
                           }
-#line 2236 "newcParser.tab.c"
+#line 2237 "newcParser.tab.c"
     break;
 
   case 23: /* expression_statement: expression SEMIC  */
-#line 167 "newcParser.y"
+#line 168 "newcParser.y"
                           {
                             (yyval.tree_node) = create_node1("expression SEMIC", (yyvsp[-1].tree_node));
                           }
-#line 2244 "newcParser.tab.c"
+#line 2245 "newcParser.tab.c"
     break;
 
   case 24: /* basic_ops: if_ops  */
-#line 173 "newcParser.y"
+#line 174 "newcParser.y"
                                                                   {
                                                                     (yyval.tree_node) = create_node1("if_ops", (yyvsp[0].tree_node));
                                                                   }
-#line 2252 "newcParser.tab.c"
+#line 2253 "newcParser.tab.c"
     break;
 
   case 25: /* basic_ops: FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC  */
-#line 176 "newcParser.y"
+#line 177 "newcParser.y"
                                                                   {
                                                                     (yyval.tree_node) = create_node3("FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC", create_node0((yyvsp[-6].str)), (yyvsp[-4].tree_node), (yyvsp[-1].tree_node));
                                                                   }
-#line 2260 "newcParser.tab.c"
+#line 2261 "newcParser.tab.c"
     break;
 
   case 26: /* basic_ops: FORALL PARENL in_set PARENR set_op SEMIC  */
-#line 179 "newcParser.y"
+#line 180 "newcParser.y"
                                                                   {
                                                                     (yyval.tree_node) = create_node3("FORALL PARENL in_set PARENR set_op SEMIC ", create_node0((yyvsp[-5].str)), (yyvsp[-3].tree_node), (yyvsp[-1].tree_node));
                                                                   }
-#line 2268 "newcParser.tab.c"
+#line 2269 "newcParser.tab.c"
     break;
 
   case 27: /* basic_ops: FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC  */
-#line 182 "newcParser.y"
+#line 183 "newcParser.y"
                                                                   {
                                                                     (yyval.tree_node) = create_node3("FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC", create_node0((yyvsp[-6].str)), (yyvsp[-4].tree_node), (yyvsp[-1].tree_node));
                                                                   }
-#line 2276 "newcParser.tab.c"
+#line 2277 "newcParser.tab.c"
     break;
 
   case 28: /* for_body: expression_statement expression_statement expression  */
-#line 188 "newcParser.y"
+#line 189 "newcParser.y"
                                                                   {
                                                                     (yyval.tree_node) = create_node3("expression_statement expression_statement expression", (yyvsp[-2].tree_node), (yyvsp[-1].tree_node), (yyvsp[0].tree_node));
                                                                   }
-#line 2284 "newcParser.tab.c"
+#line 2285 "newcParser.tab.c"
     break;
 
   case 29: /* for_body: SEMIC expression_statement expression  */
-#line 191 "newcParser.y"
+#line 192 "newcParser.y"
                                                                   {
                                                                     (yyval.tree_node) = create_node2("SEMIC expression_statement expression", (yyvsp[-1].tree_node), (yyvsp[0].tree_node));
                                                                   }
-#line 2292 "newcParser.tab.c"
+#line 2293 "newcParser.tab.c"
     break;
 
   case 30: /* if_ops: IF PARENL operation PARENR STFUNC statement_list ENDFUNC  */
-#line 197 "newcParser.y"
+#line 198 "newcParser.y"
                                                                                                         {
                                                                                                           (yyval.tree_node) = create_node3("IF PARENL operation PARENR STFUNC statement_list ENDFUNC", create_node0((yyvsp[-6].str)), (yyvsp[-4].tree_node), (yyvsp[-1].tree_node));
                                                                                                         }
-#line 2300 "newcParser.tab.c"
+#line 2301 "newcParser.tab.c"
     break;
 
   case 31: /* if_ops: IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC  */
-#line 200 "newcParser.y"
+#line 201 "newcParser.y"
                                                                                                         {
                                                                                                           (yyval.tree_node) = create_node5("IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC", create_node0((yyvsp[-10].str)), (yyvsp[-8].tree_node), (yyvsp[-5].tree_node), create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
                                                                                                         }
-#line 2308 "newcParser.tab.c"
+#line 2309 "newcParser.tab.c"
     break;
 
   case 32: /* ret_st: RETURN expression SEMIC  */
-#line 206 "newcParser.y"
+#line 207 "newcParser.y"
                                     {
                                       (yyval.tree_node) = create_node2("RETURN expression SEMIC", create_node0((yyvsp[-2].str)), (yyvsp[-1].tree_node));
                                     }
-#line 2316 "newcParser.tab.c"
+#line 2317 "newcParser.tab.c"
     break;
 
   case 33: /* var_dec: TYPE ID SEMIC  */
-#line 212 "newcParser.y"
+#line 213 "newcParser.y"
                     {
                       add_symbol(symbolIdCounter, (yyvsp[-1].str), "var");
                       symbolIdCounter++;
                       (yyval.tree_node) = create_node2("TYPE ID SEMIC", create_node0((yyvsp[-2].str)), create_node0((yyvsp[-1].str)));
                     }
-#line 2326 "newcParser.tab.c"
+#line 2327 "newcParser.tab.c"
     break;
 
   case 34: /* io_ops: READ PARENL PARENR SEMIC  */
-#line 220 "newcParser.y"
+#line 221 "newcParser.y"
                                             {
                                               (yyval.tree_node) = create_node1("READ PARENL PARENR SEMIC", create_node0((yyvsp[-3].str)));
                                             }
-#line 2334 "newcParser.tab.c"
+#line 2335 "newcParser.tab.c"
     break;
 
   case 35: /* io_ops: READ PARENL expression PARENR SEMIC  */
-#line 223 "newcParser.y"
+#line 224 "newcParser.y"
                                             {
                                               (yyval.tree_node) = create_node2("READ PARENL expression PARENR SEMIC", create_node0((yyvsp[-4].str)), (yyvsp[-2].tree_node));
                                             }
-#line 2342 "newcParser.tab.c"
+#line 2343 "newcParser.tab.c"
     break;
 
   case 36: /* io_ops: WRITE PARENL expression PARENR SEMIC  */
-#line 226 "newcParser.y"
+#line 227 "newcParser.y"
                                             {
                                               (yyval.tree_node) = create_node2("WRITE PARENL expression PARENR SEMIC", create_node0((yyvsp[-4].str)), (yyvsp[-2].tree_node));
                                             }
-#line 2350 "newcParser.tab.c"
+#line 2351 "newcParser.tab.c"
     break;
 
   case 37: /* io_ops: WRITELN PARENL expression PARENR SEMIC  */
-#line 229 "newcParser.y"
+#line 230 "newcParser.y"
                                             {
                                               (yyval.tree_node) = create_node2("WRITELN PARENL expression PARENR SEMIC", create_node0((yyvsp[-4].str)), (yyvsp[-2].tree_node));
                                             }
-#line 2358 "newcParser.tab.c"
+#line 2359 "newcParser.tab.c"
     break;
 
   case 38: /* expression: set_op  */
-#line 235 "newcParser.y"
+#line 236 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node1("set_op", (yyvsp[0].tree_node));
                                   }
-#line 2366 "newcParser.tab.c"
+#line 2367 "newcParser.tab.c"
     break;
 
   case 39: /* expression: operation  */
-#line 238 "newcParser.y"
+#line 239 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node1("operation", (yyvsp[0].tree_node));
                                   }
-#line 2374 "newcParser.tab.c"
+#line 2375 "newcParser.tab.c"
     break;
 
   case 40: /* expression: func_call  */
-#line 241 "newcParser.y"
+#line 242 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node1("func_call", (yyvsp[0].tree_node));
                                   }
-#line 2382 "newcParser.tab.c"
+#line 2383 "newcParser.tab.c"
     break;
 
   case 41: /* expression: assign_value  */
-#line 244 "newcParser.y"
+#line 245 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node1("assign_value", (yyvsp[0].tree_node));
                                   }
-#line 2390 "newcParser.tab.c"
+#line 2391 "newcParser.tab.c"
     break;
 
   case 42: /* term: ID  */
-#line 250 "newcParser.y"
+#line 251 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node1("ID", create_node0((yyvsp[0].str)));
                                   }
-#line 2398 "newcParser.tab.c"
+#line 2399 "newcParser.tab.c"
     break;
 
   case 43: /* term: INTEGER  */
-#line 253 "newcParser.y"
+#line 254 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node1("INTEGER", create_node0_int((yyvsp[0].integer), 'i'));
                                   }
-#line 2406 "newcParser.tab.c"
+#line 2407 "newcParser.tab.c"
     break;
 
   case 44: /* term: DECIMAL  */
-#line 256 "newcParser.y"
+#line 257 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node1("DECIMAL", create_node0_dec((yyvsp[0].dec), 'd'));
                                   }
-#line 2414 "newcParser.tab.c"
+#line 2415 "newcParser.tab.c"
     break;
 
   case 45: /* term: CHAR  */
-#line 259 "newcParser.y"
+#line 260 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node1("CHAR", create_node0_char((yyvsp[0].character), 'c'));
                                   }
-#line 2422 "newcParser.tab.c"
+#line 2423 "newcParser.tab.c"
     break;
 
   case 46: /* term: STRING  */
-#line 262 "newcParser.y"
+#line 263 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node1("STRING", create_node0((yyvsp[0].str)));
                                   }
-#line 2430 "newcParser.tab.c"
+#line 2431 "newcParser.tab.c"
     break;
 
   case 47: /* term: EMPTY  */
-#line 265 "newcParser.y"
+#line 266 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node1("EMPTY", create_node0((yyvsp[0].str)));
                                   }
-#line 2438 "newcParser.tab.c"
+#line 2439 "newcParser.tab.c"
     break;
 
   case 48: /* term: PARENL expression PARENR  */
-#line 268 "newcParser.y"
+#line 269 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node1("PARENL expression PARENR", (yyvsp[-1].tree_node));
                                   }
-#line 2446 "newcParser.tab.c"
+#line 2447 "newcParser.tab.c"
     break;
 
   case 49: /* math_op: term DIV expression  */
-#line 274 "newcParser.y"
+#line 275 "newcParser.y"
                                 {
                                   (yyval.tree_node) = create_node3("term DIV expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                 }
-#line 2454 "newcParser.tab.c"
+#line 2455 "newcParser.tab.c"
     break;
 
   case 50: /* math_op: term MULT expression  */
-#line 277 "newcParser.y"
+#line 278 "newcParser.y"
                                 {
                                   (yyval.tree_node) = create_node3("term MULT expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                 }
-#line 2462 "newcParser.tab.c"
+#line 2463 "newcParser.tab.c"
     break;
 
   case 51: /* math_op: term ADD expression  */
-#line 280 "newcParser.y"
+#line 281 "newcParser.y"
                                 {
                                   (yyval.tree_node) = create_node3("term ADD expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                 }
-#line 2470 "newcParser.tab.c"
+#line 2471 "newcParser.tab.c"
     break;
 
   case 52: /* math_op: term SUB expression  */
-#line 283 "newcParser.y"
+#line 284 "newcParser.y"
                                 {
                                   (yyval.tree_node) = create_node3("term SUB expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                 }
-#line 2478 "newcParser.tab.c"
+#line 2479 "newcParser.tab.c"
     break;
 
   case 53: /* math_op: term  */
-#line 286 "newcParser.y"
+#line 287 "newcParser.y"
                                 {
                                   (yyval.tree_node) = create_node1("term", (yyvsp[0].tree_node));
                                 }
-#line 2486 "newcParser.tab.c"
+#line 2487 "newcParser.tab.c"
     break;
 
   case 54: /* set_op: ADDSET PARENL in_set PARENR  */
-#line 292 "newcParser.y"
+#line 293 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node2("ADDSET PARENL in_set PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
                                         }
-#line 2494 "newcParser.tab.c"
+#line 2495 "newcParser.tab.c"
     break;
 
   case 55: /* set_op: REMOVE PARENL in_set PARENR  */
-#line 295 "newcParser.y"
+#line 296 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node2("REMOVE PARENL in_set PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
                                         }
-#line 2502 "newcParser.tab.c"
+#line 2503 "newcParser.tab.c"
     break;
 
   case 56: /* set_op: EXISTS PARENL in_set PARENR  */
-#line 298 "newcParser.y"
+#line 299 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node2("EXISTS PARENL in_set PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
                                         }
-#line 2510 "newcParser.tab.c"
+#line 2511 "newcParser.tab.c"
     break;
 
   case 57: /* operation: math_op  */
-#line 304 "newcParser.y"
+#line 305 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node1("math_op", (yyvsp[0].tree_node));
                                         }
-#line 2518 "newcParser.tab.c"
+#line 2519 "newcParser.tab.c"
     break;
 
   case 58: /* operation: in_set  */
-#line 307 "newcParser.y"
+#line 308 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node1("in_set", (yyvsp[0].tree_node));
                                         }
-#line 2526 "newcParser.tab.c"
+#line 2527 "newcParser.tab.c"
     break;
 
   case 59: /* operation: ISTYPE PARENL expression PARENR  */
-#line 310 "newcParser.y"
+#line 311 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node2("ISTYPE PARENL expression PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
                                         }
-#line 2534 "newcParser.tab.c"
+#line 2535 "newcParser.tab.c"
     break;
 
   case 60: /* operation: term SMALLER expression  */
-#line 313 "newcParser.y"
+#line 314 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node3("term SMALLER expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                         }
-#line 2542 "newcParser.tab.c"
+#line 2543 "newcParser.tab.c"
     break;
 
   case 61: /* operation: term GREATER expression  */
-#line 316 "newcParser.y"
+#line 317 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node3("term GREATER expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                         }
-#line 2550 "newcParser.tab.c"
+#line 2551 "newcParser.tab.c"
     break;
 
   case 62: /* operation: term SMALLEQ expression  */
-#line 319 "newcParser.y"
+#line 320 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node3("term SMALLEQ expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                         }
-#line 2558 "newcParser.tab.c"
+#line 2559 "newcParser.tab.c"
     break;
 
   case 63: /* operation: term GREATEQ expression  */
-#line 322 "newcParser.y"
+#line 323 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node3("term GREATEQ expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                         }
-#line 2566 "newcParser.tab.c"
+#line 2567 "newcParser.tab.c"
     break;
 
   case 64: /* operation: term EQUALS expression  */
-#line 325 "newcParser.y"
+#line 326 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node3("term EQUALS expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                         }
-#line 2574 "newcParser.tab.c"
+#line 2575 "newcParser.tab.c"
     break;
 
   case 65: /* operation: term DIFFERENT expression  */
-#line 328 "newcParser.y"
+#line 329 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node3("term DIFFERENT expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                         }
-#line 2582 "newcParser.tab.c"
+#line 2583 "newcParser.tab.c"
     break;
 
   case 66: /* operation: term OR expression  */
-#line 331 "newcParser.y"
+#line 332 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node3("term OR expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                         }
-#line 2590 "newcParser.tab.c"
+#line 2591 "newcParser.tab.c"
     break;
 
   case 67: /* operation: term AND expression  */
-#line 334 "newcParser.y"
+#line 335 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node3("term AND expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                         }
-#line 2598 "newcParser.tab.c"
+#line 2599 "newcParser.tab.c"
     break;
 
   case 68: /* operation: NEG expression  */
-#line 337 "newcParser.y"
+#line 338 "newcParser.y"
                                         {
                                           (yyval.tree_node) = create_node2("NEG expression", create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                         }
-#line 2606 "newcParser.tab.c"
+#line 2607 "newcParser.tab.c"
     break;
 
   case 69: /* func_call: ID PARENL args_list PARENR  */
-#line 343 "newcParser.y"
+#line 344 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node2("ID PARENL args_list PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
                                   }
-#line 2614 "newcParser.tab.c"
+#line 2615 "newcParser.tab.c"
     break;
 
   case 70: /* in_set: term IN expression  */
-#line 349 "newcParser.y"
+#line 350 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node3("term IN expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                   }
-#line 2622 "newcParser.tab.c"
+#line 2623 "newcParser.tab.c"
     break;
 
   case 71: /* args_list: args_list COMMA term  */
-#line 355 "newcParser.y"
+#line 356 "newcParser.y"
                                       {
                                         (yyval.tree_node) = create_node2("args_list COMMA term", (yyvsp[-2].tree_node), (yyvsp[0].tree_node));
                                       }
-#line 2630 "newcParser.tab.c"
+#line 2631 "newcParser.tab.c"
     break;
 
   case 72: /* args_list: term  */
-#line 358 "newcParser.y"
+#line 359 "newcParser.y"
                                       {
                                         (yyval.tree_node) = create_node1("term", (yyvsp[0].tree_node));
                                       }
-#line 2638 "newcParser.tab.c"
+#line 2639 "newcParser.tab.c"
     break;
 
   case 73: /* args_list: %empty  */
-#line 361 "newcParser.y"
+#line 362 "newcParser.y"
                                       {
                                         (yyval.tree_node) = create_node0("vazio");
                                       }
-#line 2646 "newcParser.tab.c"
+#line 2647 "newcParser.tab.c"
     break;
 
   case 74: /* assign_value: ID ASSIGN expression  */
-#line 368 "newcParser.y"
+#line 369 "newcParser.y"
                               {
                                 (yyval.tree_node) = create_node3("ID ASSIGN expression", create_node0((yyvsp[-2].str)), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                               }
-#line 2654 "newcParser.tab.c"
+#line 2655 "newcParser.tab.c"
     break;
 
 
-#line 2658 "newcParser.tab.c"
+#line 2659 "newcParser.tab.c"
 
       default: break;
     }
@@ -2884,7 +2885,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 375 "newcParser.y"
+#line 376 "newcParser.y"
 
 
 int main(int argc, char *argv[]) {
@@ -2893,16 +2894,14 @@ int main(int argc, char *argv[]) {
 
   printf("\n\n#### INICIO DA ÁRVORE SINTÁTICA ####\n\n");
 
-  FILE *file;
-
-  file = fopen(argv[1], "r");
+  yyin = fopen(argv[1], "r");
 
   yyparse();
 
   print_tree(ast_tree);
   yylex_destroy();
 
-  fclose(file);
+  fclose(yyin);
 
   printf("\n\n#### FIM DA ÁRVORE SINTÁTICA ####\n\n");
 
