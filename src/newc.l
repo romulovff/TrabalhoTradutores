@@ -2,6 +2,8 @@
   #include <stdio.h>
   #include <string.h>
   #include <math.h>
+  #include "newcParser.tab.h"
+  #include "newc.h"
 
   int line = 1;
   int word_position = 1;
@@ -20,11 +22,11 @@ letter    [a-zA-Z]
 digit     [0-9]
 empty     "EMPTY"
 id        {letter}+({letter}|{digit}|_|-)*
-integer   {digit}+
-decimal   {digit}*[.]{digit}+
+integer   -?{digit}+
+decimal   -?{digit}*[.]{digit}+
 elem      {integer}|{decimal}
 set       "{"({elem}","?)*"}"
-char      '{letter}'
+char      (\'([^(\"\')])+\')
 string    \"(\\.|[^"\\])*\"
 type      "int"|"float"|"set"|"elem"
 comment   "//".*
@@ -48,7 +50,7 @@ and       "&&"
 smaller   [<]
 greater   [>]
 assign    [=]
-smalleq    "<="
+smalleq   "<="
 greateq   ">="
 equals    "=="
 diff      "!="
@@ -65,7 +67,7 @@ write     "write"
 writeln   "writeln"
 
 inkey     "in"
-istype    "is_"{type}
+istype    "is_set"
 addset    "add"
 rmset     "remove"
 exists    "exists"
@@ -74,38 +76,45 @@ forall    "forall"
 %%
 
 {semic}   {
-            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return SEMIC;
           }
 
 {comma}   {
-            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return COMMA;
           }
 
 {add}     {
-            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return ADD;
           }
 
 {sub}     {
-            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return SUB;
           }
 
 {mult}    {
-            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return MULT;
           }
 
 {div}     {
-            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return DIV;
           }
 
 {negate}  {
-            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return NEG;
           }
 
 {tab}     {
@@ -122,43 +131,51 @@ forall    "forall"
           }
 
 {type}    {
-            printf("Type: '%s' on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return TYPE;
           }
 
 {main}    {
-            printf("Main: '%s' on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return MAIN;
           }
 
 {stfunc}  {
-            printf("'%s' on line: %d, column: %d\n", yytext, line, word_position);
+            yylval.str = (char *) strdup(yytext);
             word_position += yyleng;
+            return STFUNC;
           }
 
 {endfunc} {
-            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
+            yylval.str = (char *) strdup(yytext);
             word_position += yyleng;
+            return ENDFUNC;
           }
 
 {parenl}  {
-            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
+            yylval.str = (char *) strdup(yytext);
             word_position += yyleng;
+            return PARENL;
           }
 
 {parenr}  {
-            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
+            yylval.str = (char *) strdup(yytext);
             word_position += yyleng;
+            return PARENR;
           }
 
 {empty}   {
-            printf("Constant: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return EMPTY;
           }
 
 {assign}  {
-            printf("'%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return ASSIGN;
           }
 
 {comment} {
@@ -166,133 +183,159 @@ forall    "forall"
           }
 
 {and}     {
-            printf("OP [AND]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return AND;
           }
 
 {or}      {
-            printf("OP [OR]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return OR;
           }
 
 {smaller} {
-            printf("OP [SMALLER THAN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return SMALLER;
           }
 
 {greater} {
-            printf("OP [GREATER THAN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return GREATER;
           }
 
 {smalleq} {
-            printf("OP [SMALLER THAN OR EQUAL]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return SMALLEQ;
           }
 
 {greateq} {
-            printf("OP [GREATER THAN OR EQUAL]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return GREATEQ;
           }
 
 {equals}  {
-            printf("OP [EQUALS]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return EQUALS;
           }
 
 {diff}    {
-            printf("OP [IS DIFFERENT]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return DIFFERENT;
           }
 
 {if}      {
-            printf("Keyword [IF]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return IF;
           }
 
 {else}    {
-            printf("Keyword [ELSE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return ELSE;
           }
 
 {for}     {
-            printf("Keyword [FOR]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return FOR;
           }
 
 {return}  {
-            printf("Keyword [RETURN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return RETURN;
           }
 
 {read}    {
-            printf("Keyword [READ]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return READ;
           }
 
 {write}   {
-            printf("Keyword [WRITE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return WRITE;
           }
 
 {writeln} {
-            printf("Keyword [WRITELN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return WRITELN;
           }
 
 {inkey}   {
-            printf("Keyword [IN]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return IN;
           }
 
 {istype}  {
-            printf("Keyword [IS_TYPE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return ISTYPE;
           }
 
 {addset}  {
-            printf("Keyword [ADD]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return ADDSET;
           }
 
 {rmset}   {
-            printf("Keyword [REMOVE]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return REMOVE;
           }
 
 {exists}  {
-            printf("Keyword [EXISTS]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return EXISTS;
           }
 
 {forall}  {
-            printf("Keyword [FORALL]: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return FORALL;
           }
 
 {decimal} {
-            printf("Decimal: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.dec = atof(yytext);
+            return DECIMAL;
           }
 
 {integer}  {
-            printf("Integer: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.integer = atoi(yytext);
+            return INTEGER;
           }
 
 {id}      {
-            printf("Id: '%s' at line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return ID;
           }
 
 {char}    {
-            printf("Char: %s on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return CHAR;
           }
 
 {string}  {
-            printf("String: %s on line: %d, column: %d\n", yytext, line, word_position);
             word_position += yyleng;
+            yylval.str = (char *) strdup(yytext);
+            return STRING;
           }
 
 .         {
@@ -302,18 +345,3 @@ forall    "forall"
           }
 
 %%
-
-int main(int argc, char *argv[]) {
-  printf("\n\n#### INICIANDO TESTE ####\n\n");
-
-  yyin = fopen(argv[1], "r");
-  yylex();
-
-  fclose(yyin);
-
-  yylex_destroy();
-
-  printf("\n\n#### FIM DO ARQUIVO ####\n\n");
-
-  return 0;
-}

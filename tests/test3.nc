@@ -11,12 +11,14 @@ int main() {
     possibleSums = EMPTY;
     int x;
 
+    read(var);
+
     forall (x in s) {
         set sumsWithX;
         sumsWithX = EMPTY;
         int val;
         forall (val in possibleSums) add((x + val) in sumsWithX);
         forall (val in sumsWithX) add (val in possibleSums);
-        if (13 in possibleSums) writeln('y'); else writeln('n');
+        if (13 in possibleSums) { writeln('y'); } else { writeln('n'); }
     }
 }

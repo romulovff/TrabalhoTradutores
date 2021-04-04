@@ -1,0 +1,4123 @@
+Grammar
+
+    0 $accept: program $end
+
+    1 program: declarations_list
+
+    2 declarations_list: declarations_list declaration
+    3                  | declaration
+    4                  | error
+
+    5 declaration: var_dec
+    6            | func_dec
+
+    7 func_dec: TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+    8         | TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC
+
+    9 params_list: params_list COMMA parameter
+   10            | parameter
+   11            | %empty
+   12            | error
+
+   13 parameter: TYPE ID
+
+   14 statement_list: statement_list statement
+   15               | %empty
+   16               | error
+
+   17 statement: expression_statement
+   18          | ret_st
+   19          | var_dec
+   20          | io_ops
+   21          | basic_ops
+
+   22 expression_statement: expression SEMIC
+
+   23 basic_ops: if_ops
+   24          | FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC
+   25          | FORALL PARENL in_set PARENR set_op SEMIC
+   26          | FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC
+
+   27 for_body: expression_statement expression_statement expression
+   28         | SEMIC expression_statement expression
+
+   29 if_ops: IF PARENL operation PARENR STFUNC statement_list ENDFUNC
+   30       | IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC
+
+   31 ret_st: RETURN expression SEMIC
+
+   32 var_dec: TYPE ID SEMIC
+
+   33 io_ops: READ PARENL PARENR SEMIC
+   34       | READ PARENL expression PARENR SEMIC
+   35       | WRITE PARENL expression PARENR SEMIC
+   36       | WRITELN PARENL expression PARENR SEMIC
+
+   37 expression: set_op
+   38           | operation
+   39           | func_call
+   40           | assign_value
+
+   41 term: ID
+   42     | INTEGER
+   43     | DECIMAL
+   44     | CHAR
+   45     | STRING
+   46     | EMPTY
+   47     | PARENL expression PARENR
+
+   48 math_op: term DIV expression
+   49        | term MULT expression
+   50        | term ADD expression
+   51        | term SUB expression
+   52        | term
+
+   53 set_op: ADDSET PARENL in_set PARENR
+   54       | REMOVE PARENL in_set PARENR
+   55       | EXISTS PARENL in_set PARENR
+
+   56 operation: math_op
+   57          | in_set
+   58          | ISTYPE PARENL expression PARENR
+   59          | term SMALLER expression
+   60          | term GREATER expression
+   61          | term SMALLEQ expression
+   62          | term GREATEQ expression
+   63          | term EQUALS expression
+   64          | term DIFFERENT expression
+   65          | term OR expression
+   66          | term AND expression
+   67          | NEG expression
+
+   68 func_call: ID PARENL args_list PARENR
+
+   69 in_set: term IN expression
+
+   70 args_list: args_list COMMA term
+   71          | term
+   72          | %empty
+
+   73 assign_value: ID ASSIGN expression
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error <tree_node> (256) 4 12 16
+    ID <str> (258) 7 13 32 41 68 73
+    TYPE <str> (259) 7 8 13 32
+    STRING <str> (260) 45
+    CHAR <str> (261) 44
+    EMPTY <str> (262) 46
+    MAIN <str> (263) 8
+    INTEGER <integer> (264) 42
+    DECIMAL <dec> (265) 43
+    ADD <str> (266) 50
+    SUB <str> (267) 51
+    MULT <str> (268) 49
+    DIV <str> (269) 48
+    OR <str> (270) 65
+    AND <str> (271) 66
+    SMALLER <str> (272) 59
+    GREATER <str> (273) 60
+    SMALLEQ <str> (274) 61
+    GREATEQ <str> (275) 62
+    EQUALS <str> (276) 63
+    DIFFERENT <str> (277) 64
+    ASSIGN <str> (278) 73
+    NEG <str> (279) 67
+    IF <str> (280) 29 30
+    ELSE <str> (281) 30
+    FOR <str> (282) 24
+    READ <str> (283) 33 34
+    WRITE <str> (284) 35
+    WRITELN <str> (285) 36
+    RETURN <str> (286) 31
+    IN <str> (287) 69
+    ISTYPE <str> (288) 58
+    ADDSET <str> (289) 53
+    REMOVE <str> (290) 54
+    EXISTS <str> (291) 55
+    FORALL <str> (292) 25 26
+    COMMA <str> (293) 9 70
+    STFUNC <str> (294) 7 8 24 26 29 30
+    ENDFUNC <str> (295) 7 8 24 26 29 30
+    PARENL <str> (296) 7 8 24 25 26 29 30 33 34 35 36 47 53 54 55 58 68
+    PARENR <str> (297) 7 8 24 25 26 29 30 33 34 35 36 47 53 54 55 58 68
+    SEMIC <str> (298) 22 25 28 31 32 33 34 35 36
+
+
+Nonterminals, with rules where they appear
+
+    $accept (44)
+        on left: 0
+    program <tree_node> (45)
+        on left: 1
+        on right: 0
+    declarations_list <tree_node> (46)
+        on left: 2 3 4
+        on right: 1 2
+    declaration <tree_node> (47)
+        on left: 5 6
+        on right: 2 3
+    func_dec <tree_node> (48)
+        on left: 7 8
+        on right: 6
+    params_list <tree_node> (49)
+        on left: 9 10 11 12
+        on right: 7 8 9
+    parameter <tree_node> (50)
+        on left: 13
+        on right: 9 10
+    statement_list <tree_node> (51)
+        on left: 14 15 16
+        on right: 7 8 14 24 26 29 30
+    statement <tree_node> (52)
+        on left: 17 18 19 20 21
+        on right: 14
+    expression_statement <tree_node> (53)
+        on left: 22
+        on right: 17 27 28
+    basic_ops <tree_node> (54)
+        on left: 23 24 25 26
+        on right: 21
+    for_body <tree_node> (55)
+        on left: 27 28
+        on right: 24
+    if_ops <tree_node> (56)
+        on left: 29 30
+        on right: 23
+    ret_st <tree_node> (57)
+        on left: 31
+        on right: 18
+    var_dec <tree_node> (58)
+        on left: 32
+        on right: 5 19
+    io_ops <tree_node> (59)
+        on left: 33 34 35 36
+        on right: 20
+    expression <tree_node> (60)
+        on left: 37 38 39 40
+        on right: 22 27 28 31 34 35 36 47 48 49 50 51 58 59 60 61 62 63 64 65 66 67 69 73
+    term <tree_node> (61)
+        on left: 41 42 43 44 45 46 47
+        on right: 48 49 50 51 52 59 60 61 62 63 64 65 66 69 70 71
+    math_op <tree_node> (62)
+        on left: 48 49 50 51 52
+        on right: 56
+    set_op <tree_node> (63)
+        on left: 53 54 55
+        on right: 25 37
+    operation <tree_node> (64)
+        on left: 56 57 58 59 60 61 62 63 64 65 66 67
+        on right: 29 30 38
+    func_call <tree_node> (65)
+        on left: 68
+        on right: 39
+    in_set <tree_node> (66)
+        on left: 69
+        on right: 25 26 53 54 55 57
+    args_list <tree_node> (67)
+        on left: 70 71 72
+        on right: 68 70
+    assign_value <tree_node> (68)
+        on left: 73
+        on right: 40
+
+
+State 0
+
+    0 $accept: • program $end
+
+    error  shift, and go to state 1
+    TYPE   shift, and go to state 2
+
+    program            go to state 3
+    declarations_list  go to state 4
+    declaration        go to state 5
+    func_dec           go to state 6
+    var_dec            go to state 7
+
+
+State 1
+
+    4 declarations_list: error •
+
+    $end  reduce using rule 4 (declarations_list)
+    TYPE  reduce using rule 4 (declarations_list)
+
+
+State 2
+
+    7 func_dec: TYPE • ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+    8         | TYPE • MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC
+   32 var_dec: TYPE • ID SEMIC
+
+    ID    shift, and go to state 8
+    MAIN  shift, and go to state 9
+
+
+State 3
+
+    0 $accept: program • $end
+
+    $end  shift, and go to state 10
+
+
+State 4
+
+    1 program: declarations_list •
+    2 declarations_list: declarations_list • declaration
+
+    TYPE  shift, and go to state 2
+
+    $end  reduce using rule 1 (program)
+
+    declaration  go to state 11
+    func_dec     go to state 6
+    var_dec      go to state 7
+
+
+State 5
+
+    3 declarations_list: declaration •
+
+    $end  reduce using rule 3 (declarations_list)
+    TYPE  reduce using rule 3 (declarations_list)
+
+
+State 6
+
+    6 declaration: func_dec •
+
+    $end  reduce using rule 6 (declaration)
+    TYPE  reduce using rule 6 (declaration)
+
+
+State 7
+
+    5 declaration: var_dec •
+
+    $end  reduce using rule 5 (declaration)
+    TYPE  reduce using rule 5 (declaration)
+
+
+State 8
+
+    7 func_dec: TYPE ID • PARENL params_list PARENR STFUNC statement_list ENDFUNC
+   32 var_dec: TYPE ID • SEMIC
+
+    PARENL  shift, and go to state 12
+    SEMIC   shift, and go to state 13
+
+
+State 9
+
+    8 func_dec: TYPE MAIN • PARENL params_list PARENR STFUNC statement_list ENDFUNC
+
+    PARENL  shift, and go to state 14
+
+
+State 10
+
+    0 $accept: program $end •
+
+    $default  accept
+
+
+State 11
+
+    2 declarations_list: declarations_list declaration •
+
+    $end  reduce using rule 2 (declarations_list)
+    TYPE  reduce using rule 2 (declarations_list)
+
+
+State 12
+
+    7 func_dec: TYPE ID PARENL • params_list PARENR STFUNC statement_list ENDFUNC
+
+    error  shift, and go to state 15
+    TYPE   shift, and go to state 16
+
+    COMMA   reduce using rule 11 (params_list)
+    PARENR  reduce using rule 11 (params_list)
+
+    params_list  go to state 17
+    parameter    go to state 18
+
+
+State 13
+
+   32 var_dec: TYPE ID SEMIC •
+
+    $end  reduce using rule 32 (var_dec)
+    TYPE  reduce using rule 32 (var_dec)
+
+
+State 14
+
+    8 func_dec: TYPE MAIN PARENL • params_list PARENR STFUNC statement_list ENDFUNC
+
+    error  shift, and go to state 15
+    TYPE   shift, and go to state 16
+
+    COMMA   reduce using rule 11 (params_list)
+    PARENR  reduce using rule 11 (params_list)
+
+    params_list  go to state 19
+    parameter    go to state 18
+
+
+State 15
+
+   12 params_list: error •
+
+    COMMA   reduce using rule 12 (params_list)
+    PARENR  reduce using rule 12 (params_list)
+
+
+State 16
+
+   13 parameter: TYPE • ID
+
+    ID  shift, and go to state 20
+
+
+State 17
+
+    7 func_dec: TYPE ID PARENL params_list • PARENR STFUNC statement_list ENDFUNC
+    9 params_list: params_list • COMMA parameter
+
+    COMMA   shift, and go to state 21
+    PARENR  shift, and go to state 22
+
+
+State 18
+
+   10 params_list: parameter •
+
+    COMMA   reduce using rule 10 (params_list)
+    PARENR  reduce using rule 10 (params_list)
+
+
+State 19
+
+    8 func_dec: TYPE MAIN PARENL params_list • PARENR STFUNC statement_list ENDFUNC
+    9 params_list: params_list • COMMA parameter
+
+    COMMA   shift, and go to state 21
+    PARENR  shift, and go to state 23
+
+
+State 20
+
+   13 parameter: TYPE ID •
+
+    COMMA   reduce using rule 13 (parameter)
+    PARENR  reduce using rule 13 (parameter)
+
+
+State 21
+
+    9 params_list: params_list COMMA • parameter
+
+    TYPE  shift, and go to state 16
+
+    parameter  go to state 24
+
+
+State 22
+
+    7 func_dec: TYPE ID PARENL params_list PARENR • STFUNC statement_list ENDFUNC
+
+    STFUNC  shift, and go to state 25
+
+
+State 23
+
+    8 func_dec: TYPE MAIN PARENL params_list PARENR • STFUNC statement_list ENDFUNC
+
+    STFUNC  shift, and go to state 26
+
+
+State 24
+
+    9 params_list: params_list COMMA parameter •
+
+    COMMA   reduce using rule 9 (params_list)
+    PARENR  reduce using rule 9 (params_list)
+
+
+State 25
+
+    7 func_dec: TYPE ID PARENL params_list PARENR STFUNC • statement_list ENDFUNC
+
+    error  shift, and go to state 27
+
+    ID       reduce using rule 15 (statement_list)
+    TYPE     reduce using rule 15 (statement_list)
+    STRING   reduce using rule 15 (statement_list)
+    CHAR     reduce using rule 15 (statement_list)
+    EMPTY    reduce using rule 15 (statement_list)
+    INTEGER  reduce using rule 15 (statement_list)
+    DECIMAL  reduce using rule 15 (statement_list)
+    NEG      reduce using rule 15 (statement_list)
+    IF       reduce using rule 15 (statement_list)
+    FOR      reduce using rule 15 (statement_list)
+    READ     reduce using rule 15 (statement_list)
+    WRITE    reduce using rule 15 (statement_list)
+    WRITELN  reduce using rule 15 (statement_list)
+    RETURN   reduce using rule 15 (statement_list)
+    ISTYPE   reduce using rule 15 (statement_list)
+    ADDSET   reduce using rule 15 (statement_list)
+    REMOVE   reduce using rule 15 (statement_list)
+    EXISTS   reduce using rule 15 (statement_list)
+    FORALL   reduce using rule 15 (statement_list)
+    ENDFUNC  reduce using rule 15 (statement_list)
+    PARENL   reduce using rule 15 (statement_list)
+
+    statement_list  go to state 28
+
+
+State 26
+
+    8 func_dec: TYPE MAIN PARENL params_list PARENR STFUNC • statement_list ENDFUNC
+
+    error  shift, and go to state 27
+
+    ID       reduce using rule 15 (statement_list)
+    TYPE     reduce using rule 15 (statement_list)
+    STRING   reduce using rule 15 (statement_list)
+    CHAR     reduce using rule 15 (statement_list)
+    EMPTY    reduce using rule 15 (statement_list)
+    INTEGER  reduce using rule 15 (statement_list)
+    DECIMAL  reduce using rule 15 (statement_list)
+    NEG      reduce using rule 15 (statement_list)
+    IF       reduce using rule 15 (statement_list)
+    FOR      reduce using rule 15 (statement_list)
+    READ     reduce using rule 15 (statement_list)
+    WRITE    reduce using rule 15 (statement_list)
+    WRITELN  reduce using rule 15 (statement_list)
+    RETURN   reduce using rule 15 (statement_list)
+    ISTYPE   reduce using rule 15 (statement_list)
+    ADDSET   reduce using rule 15 (statement_list)
+    REMOVE   reduce using rule 15 (statement_list)
+    EXISTS   reduce using rule 15 (statement_list)
+    FORALL   reduce using rule 15 (statement_list)
+    ENDFUNC  reduce using rule 15 (statement_list)
+    PARENL   reduce using rule 15 (statement_list)
+
+    statement_list  go to state 29
+
+
+State 27
+
+   16 statement_list: error •
+
+    ID       reduce using rule 16 (statement_list)
+    TYPE     reduce using rule 16 (statement_list)
+    STRING   reduce using rule 16 (statement_list)
+    CHAR     reduce using rule 16 (statement_list)
+    EMPTY    reduce using rule 16 (statement_list)
+    INTEGER  reduce using rule 16 (statement_list)
+    DECIMAL  reduce using rule 16 (statement_list)
+    NEG      reduce using rule 16 (statement_list)
+    IF       reduce using rule 16 (statement_list)
+    FOR      reduce using rule 16 (statement_list)
+    READ     reduce using rule 16 (statement_list)
+    WRITE    reduce using rule 16 (statement_list)
+    WRITELN  reduce using rule 16 (statement_list)
+    RETURN   reduce using rule 16 (statement_list)
+    ISTYPE   reduce using rule 16 (statement_list)
+    ADDSET   reduce using rule 16 (statement_list)
+    REMOVE   reduce using rule 16 (statement_list)
+    EXISTS   reduce using rule 16 (statement_list)
+    FORALL   reduce using rule 16 (statement_list)
+    ENDFUNC  reduce using rule 16 (statement_list)
+    PARENL   reduce using rule 16 (statement_list)
+
+
+State 28
+
+    7 func_dec: TYPE ID PARENL params_list PARENR STFUNC statement_list • ENDFUNC
+   14 statement_list: statement_list • statement
+
+    ID       shift, and go to state 30
+    TYPE     shift, and go to state 31
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    IF       shift, and go to state 38
+    FOR      shift, and go to state 39
+    READ     shift, and go to state 40
+    WRITE    shift, and go to state 41
+    WRITELN  shift, and go to state 42
+    RETURN   shift, and go to state 43
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    FORALL   shift, and go to state 48
+    ENDFUNC  shift, and go to state 49
+    PARENL   shift, and go to state 50
+
+    statement             go to state 51
+    expression_statement  go to state 52
+    basic_ops             go to state 53
+    if_ops                go to state 54
+    ret_st                go to state 55
+    var_dec               go to state 56
+    io_ops                go to state 57
+    expression            go to state 58
+    term                  go to state 59
+    math_op               go to state 60
+    set_op                go to state 61
+    operation             go to state 62
+    func_call             go to state 63
+    in_set                go to state 64
+    assign_value          go to state 65
+
+
+State 29
+
+    8 func_dec: TYPE MAIN PARENL params_list PARENR STFUNC statement_list • ENDFUNC
+   14 statement_list: statement_list • statement
+
+    ID       shift, and go to state 30
+    TYPE     shift, and go to state 31
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    IF       shift, and go to state 38
+    FOR      shift, and go to state 39
+    READ     shift, and go to state 40
+    WRITE    shift, and go to state 41
+    WRITELN  shift, and go to state 42
+    RETURN   shift, and go to state 43
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    FORALL   shift, and go to state 48
+    ENDFUNC  shift, and go to state 66
+    PARENL   shift, and go to state 50
+
+    statement             go to state 51
+    expression_statement  go to state 52
+    basic_ops             go to state 53
+    if_ops                go to state 54
+    ret_st                go to state 55
+    var_dec               go to state 56
+    io_ops                go to state 57
+    expression            go to state 58
+    term                  go to state 59
+    math_op               go to state 60
+    set_op                go to state 61
+    operation             go to state 62
+    func_call             go to state 63
+    in_set                go to state 64
+    assign_value          go to state 65
+
+
+State 30
+
+   41 term: ID •
+   68 func_call: ID • PARENL args_list PARENR
+   73 assign_value: ID • ASSIGN expression
+
+    ASSIGN  shift, and go to state 67
+    PARENL  shift, and go to state 68
+
+    ADD        reduce using rule 41 (term)
+    SUB        reduce using rule 41 (term)
+    MULT       reduce using rule 41 (term)
+    DIV        reduce using rule 41 (term)
+    OR         reduce using rule 41 (term)
+    AND        reduce using rule 41 (term)
+    SMALLER    reduce using rule 41 (term)
+    GREATER    reduce using rule 41 (term)
+    SMALLEQ    reduce using rule 41 (term)
+    GREATEQ    reduce using rule 41 (term)
+    EQUALS     reduce using rule 41 (term)
+    DIFFERENT  reduce using rule 41 (term)
+    IN         reduce using rule 41 (term)
+    SEMIC      reduce using rule 41 (term)
+
+
+State 31
+
+   32 var_dec: TYPE • ID SEMIC
+
+    ID  shift, and go to state 69
+
+
+State 32
+
+   45 term: STRING •
+
+    ADD        reduce using rule 45 (term)
+    SUB        reduce using rule 45 (term)
+    MULT       reduce using rule 45 (term)
+    DIV        reduce using rule 45 (term)
+    OR         reduce using rule 45 (term)
+    AND        reduce using rule 45 (term)
+    SMALLER    reduce using rule 45 (term)
+    GREATER    reduce using rule 45 (term)
+    SMALLEQ    reduce using rule 45 (term)
+    GREATEQ    reduce using rule 45 (term)
+    EQUALS     reduce using rule 45 (term)
+    DIFFERENT  reduce using rule 45 (term)
+    IN         reduce using rule 45 (term)
+    SEMIC      reduce using rule 45 (term)
+
+
+State 33
+
+   44 term: CHAR •
+
+    ADD        reduce using rule 44 (term)
+    SUB        reduce using rule 44 (term)
+    MULT       reduce using rule 44 (term)
+    DIV        reduce using rule 44 (term)
+    OR         reduce using rule 44 (term)
+    AND        reduce using rule 44 (term)
+    SMALLER    reduce using rule 44 (term)
+    GREATER    reduce using rule 44 (term)
+    SMALLEQ    reduce using rule 44 (term)
+    GREATEQ    reduce using rule 44 (term)
+    EQUALS     reduce using rule 44 (term)
+    DIFFERENT  reduce using rule 44 (term)
+    IN         reduce using rule 44 (term)
+    SEMIC      reduce using rule 44 (term)
+
+
+State 34
+
+   46 term: EMPTY •
+
+    ADD        reduce using rule 46 (term)
+    SUB        reduce using rule 46 (term)
+    MULT       reduce using rule 46 (term)
+    DIV        reduce using rule 46 (term)
+    OR         reduce using rule 46 (term)
+    AND        reduce using rule 46 (term)
+    SMALLER    reduce using rule 46 (term)
+    GREATER    reduce using rule 46 (term)
+    SMALLEQ    reduce using rule 46 (term)
+    GREATEQ    reduce using rule 46 (term)
+    EQUALS     reduce using rule 46 (term)
+    DIFFERENT  reduce using rule 46 (term)
+    IN         reduce using rule 46 (term)
+    SEMIC      reduce using rule 46 (term)
+
+
+State 35
+
+   42 term: INTEGER •
+
+    ADD        reduce using rule 42 (term)
+    SUB        reduce using rule 42 (term)
+    MULT       reduce using rule 42 (term)
+    DIV        reduce using rule 42 (term)
+    OR         reduce using rule 42 (term)
+    AND        reduce using rule 42 (term)
+    SMALLER    reduce using rule 42 (term)
+    GREATER    reduce using rule 42 (term)
+    SMALLEQ    reduce using rule 42 (term)
+    GREATEQ    reduce using rule 42 (term)
+    EQUALS     reduce using rule 42 (term)
+    DIFFERENT  reduce using rule 42 (term)
+    IN         reduce using rule 42 (term)
+    SEMIC      reduce using rule 42 (term)
+
+
+State 36
+
+   43 term: DECIMAL •
+
+    ADD        reduce using rule 43 (term)
+    SUB        reduce using rule 43 (term)
+    MULT       reduce using rule 43 (term)
+    DIV        reduce using rule 43 (term)
+    OR         reduce using rule 43 (term)
+    AND        reduce using rule 43 (term)
+    SMALLER    reduce using rule 43 (term)
+    GREATER    reduce using rule 43 (term)
+    SMALLEQ    reduce using rule 43 (term)
+    GREATEQ    reduce using rule 43 (term)
+    EQUALS     reduce using rule 43 (term)
+    DIFFERENT  reduce using rule 43 (term)
+    IN         reduce using rule 43 (term)
+    SEMIC      reduce using rule 43 (term)
+
+
+State 37
+
+   67 operation: NEG • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 70
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 38
+
+   29 if_ops: IF • PARENL operation PARENR STFUNC statement_list ENDFUNC
+   30       | IF • PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC
+
+    PARENL  shift, and go to state 71
+
+
+State 39
+
+   24 basic_ops: FOR • PARENL for_body PARENR STFUNC statement_list ENDFUNC
+
+    PARENL  shift, and go to state 72
+
+
+State 40
+
+   33 io_ops: READ • PARENL PARENR SEMIC
+   34       | READ • PARENL expression PARENR SEMIC
+
+    PARENL  shift, and go to state 73
+
+
+State 41
+
+   35 io_ops: WRITE • PARENL expression PARENR SEMIC
+
+    PARENL  shift, and go to state 74
+
+
+State 42
+
+   36 io_ops: WRITELN • PARENL expression PARENR SEMIC
+
+    PARENL  shift, and go to state 75
+
+
+State 43
+
+   31 ret_st: RETURN • expression SEMIC
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 76
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 44
+
+   58 operation: ISTYPE • PARENL expression PARENR
+
+    PARENL  shift, and go to state 77
+
+
+State 45
+
+   53 set_op: ADDSET • PARENL in_set PARENR
+
+    PARENL  shift, and go to state 78
+
+
+State 46
+
+   54 set_op: REMOVE • PARENL in_set PARENR
+
+    PARENL  shift, and go to state 79
+
+
+State 47
+
+   55 set_op: EXISTS • PARENL in_set PARENR
+
+    PARENL  shift, and go to state 80
+
+
+State 48
+
+   25 basic_ops: FORALL • PARENL in_set PARENR set_op SEMIC
+   26          | FORALL • PARENL in_set PARENR STFUNC statement_list ENDFUNC
+
+    PARENL  shift, and go to state 81
+
+
+State 49
+
+    7 func_dec: TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC •
+
+    $end  reduce using rule 7 (func_dec)
+    TYPE  reduce using rule 7 (func_dec)
+
+
+State 50
+
+   47 term: PARENL • expression PARENR
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 82
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 51
+
+   14 statement_list: statement_list statement •
+
+    ID       reduce using rule 14 (statement_list)
+    TYPE     reduce using rule 14 (statement_list)
+    STRING   reduce using rule 14 (statement_list)
+    CHAR     reduce using rule 14 (statement_list)
+    EMPTY    reduce using rule 14 (statement_list)
+    INTEGER  reduce using rule 14 (statement_list)
+    DECIMAL  reduce using rule 14 (statement_list)
+    NEG      reduce using rule 14 (statement_list)
+    IF       reduce using rule 14 (statement_list)
+    FOR      reduce using rule 14 (statement_list)
+    READ     reduce using rule 14 (statement_list)
+    WRITE    reduce using rule 14 (statement_list)
+    WRITELN  reduce using rule 14 (statement_list)
+    RETURN   reduce using rule 14 (statement_list)
+    ISTYPE   reduce using rule 14 (statement_list)
+    ADDSET   reduce using rule 14 (statement_list)
+    REMOVE   reduce using rule 14 (statement_list)
+    EXISTS   reduce using rule 14 (statement_list)
+    FORALL   reduce using rule 14 (statement_list)
+    ENDFUNC  reduce using rule 14 (statement_list)
+    PARENL   reduce using rule 14 (statement_list)
+
+
+State 52
+
+   17 statement: expression_statement •
+
+    ID       reduce using rule 17 (statement)
+    TYPE     reduce using rule 17 (statement)
+    STRING   reduce using rule 17 (statement)
+    CHAR     reduce using rule 17 (statement)
+    EMPTY    reduce using rule 17 (statement)
+    INTEGER  reduce using rule 17 (statement)
+    DECIMAL  reduce using rule 17 (statement)
+    NEG      reduce using rule 17 (statement)
+    IF       reduce using rule 17 (statement)
+    FOR      reduce using rule 17 (statement)
+    READ     reduce using rule 17 (statement)
+    WRITE    reduce using rule 17 (statement)
+    WRITELN  reduce using rule 17 (statement)
+    RETURN   reduce using rule 17 (statement)
+    ISTYPE   reduce using rule 17 (statement)
+    ADDSET   reduce using rule 17 (statement)
+    REMOVE   reduce using rule 17 (statement)
+    EXISTS   reduce using rule 17 (statement)
+    FORALL   reduce using rule 17 (statement)
+    ENDFUNC  reduce using rule 17 (statement)
+    PARENL   reduce using rule 17 (statement)
+
+
+State 53
+
+   21 statement: basic_ops •
+
+    ID       reduce using rule 21 (statement)
+    TYPE     reduce using rule 21 (statement)
+    STRING   reduce using rule 21 (statement)
+    CHAR     reduce using rule 21 (statement)
+    EMPTY    reduce using rule 21 (statement)
+    INTEGER  reduce using rule 21 (statement)
+    DECIMAL  reduce using rule 21 (statement)
+    NEG      reduce using rule 21 (statement)
+    IF       reduce using rule 21 (statement)
+    FOR      reduce using rule 21 (statement)
+    READ     reduce using rule 21 (statement)
+    WRITE    reduce using rule 21 (statement)
+    WRITELN  reduce using rule 21 (statement)
+    RETURN   reduce using rule 21 (statement)
+    ISTYPE   reduce using rule 21 (statement)
+    ADDSET   reduce using rule 21 (statement)
+    REMOVE   reduce using rule 21 (statement)
+    EXISTS   reduce using rule 21 (statement)
+    FORALL   reduce using rule 21 (statement)
+    ENDFUNC  reduce using rule 21 (statement)
+    PARENL   reduce using rule 21 (statement)
+
+
+State 54
+
+   23 basic_ops: if_ops •
+
+    ID       reduce using rule 23 (basic_ops)
+    TYPE     reduce using rule 23 (basic_ops)
+    STRING   reduce using rule 23 (basic_ops)
+    CHAR     reduce using rule 23 (basic_ops)
+    EMPTY    reduce using rule 23 (basic_ops)
+    INTEGER  reduce using rule 23 (basic_ops)
+    DECIMAL  reduce using rule 23 (basic_ops)
+    NEG      reduce using rule 23 (basic_ops)
+    IF       reduce using rule 23 (basic_ops)
+    FOR      reduce using rule 23 (basic_ops)
+    READ     reduce using rule 23 (basic_ops)
+    WRITE    reduce using rule 23 (basic_ops)
+    WRITELN  reduce using rule 23 (basic_ops)
+    RETURN   reduce using rule 23 (basic_ops)
+    ISTYPE   reduce using rule 23 (basic_ops)
+    ADDSET   reduce using rule 23 (basic_ops)
+    REMOVE   reduce using rule 23 (basic_ops)
+    EXISTS   reduce using rule 23 (basic_ops)
+    FORALL   reduce using rule 23 (basic_ops)
+    ENDFUNC  reduce using rule 23 (basic_ops)
+    PARENL   reduce using rule 23 (basic_ops)
+
+
+State 55
+
+   18 statement: ret_st •
+
+    ID       reduce using rule 18 (statement)
+    TYPE     reduce using rule 18 (statement)
+    STRING   reduce using rule 18 (statement)
+    CHAR     reduce using rule 18 (statement)
+    EMPTY    reduce using rule 18 (statement)
+    INTEGER  reduce using rule 18 (statement)
+    DECIMAL  reduce using rule 18 (statement)
+    NEG      reduce using rule 18 (statement)
+    IF       reduce using rule 18 (statement)
+    FOR      reduce using rule 18 (statement)
+    READ     reduce using rule 18 (statement)
+    WRITE    reduce using rule 18 (statement)
+    WRITELN  reduce using rule 18 (statement)
+    RETURN   reduce using rule 18 (statement)
+    ISTYPE   reduce using rule 18 (statement)
+    ADDSET   reduce using rule 18 (statement)
+    REMOVE   reduce using rule 18 (statement)
+    EXISTS   reduce using rule 18 (statement)
+    FORALL   reduce using rule 18 (statement)
+    ENDFUNC  reduce using rule 18 (statement)
+    PARENL   reduce using rule 18 (statement)
+
+
+State 56
+
+   19 statement: var_dec •
+
+    ID       reduce using rule 19 (statement)
+    TYPE     reduce using rule 19 (statement)
+    STRING   reduce using rule 19 (statement)
+    CHAR     reduce using rule 19 (statement)
+    EMPTY    reduce using rule 19 (statement)
+    INTEGER  reduce using rule 19 (statement)
+    DECIMAL  reduce using rule 19 (statement)
+    NEG      reduce using rule 19 (statement)
+    IF       reduce using rule 19 (statement)
+    FOR      reduce using rule 19 (statement)
+    READ     reduce using rule 19 (statement)
+    WRITE    reduce using rule 19 (statement)
+    WRITELN  reduce using rule 19 (statement)
+    RETURN   reduce using rule 19 (statement)
+    ISTYPE   reduce using rule 19 (statement)
+    ADDSET   reduce using rule 19 (statement)
+    REMOVE   reduce using rule 19 (statement)
+    EXISTS   reduce using rule 19 (statement)
+    FORALL   reduce using rule 19 (statement)
+    ENDFUNC  reduce using rule 19 (statement)
+    PARENL   reduce using rule 19 (statement)
+
+
+State 57
+
+   20 statement: io_ops •
+
+    ID       reduce using rule 20 (statement)
+    TYPE     reduce using rule 20 (statement)
+    STRING   reduce using rule 20 (statement)
+    CHAR     reduce using rule 20 (statement)
+    EMPTY    reduce using rule 20 (statement)
+    INTEGER  reduce using rule 20 (statement)
+    DECIMAL  reduce using rule 20 (statement)
+    NEG      reduce using rule 20 (statement)
+    IF       reduce using rule 20 (statement)
+    FOR      reduce using rule 20 (statement)
+    READ     reduce using rule 20 (statement)
+    WRITE    reduce using rule 20 (statement)
+    WRITELN  reduce using rule 20 (statement)
+    RETURN   reduce using rule 20 (statement)
+    ISTYPE   reduce using rule 20 (statement)
+    ADDSET   reduce using rule 20 (statement)
+    REMOVE   reduce using rule 20 (statement)
+    EXISTS   reduce using rule 20 (statement)
+    FORALL   reduce using rule 20 (statement)
+    ENDFUNC  reduce using rule 20 (statement)
+    PARENL   reduce using rule 20 (statement)
+
+
+State 58
+
+   22 expression_statement: expression • SEMIC
+
+    SEMIC  shift, and go to state 83
+
+
+State 59
+
+   48 math_op: term • DIV expression
+   49        | term • MULT expression
+   50        | term • ADD expression
+   51        | term • SUB expression
+   52        | term •
+   59 operation: term • SMALLER expression
+   60          | term • GREATER expression
+   61          | term • SMALLEQ expression
+   62          | term • GREATEQ expression
+   63          | term • EQUALS expression
+   64          | term • DIFFERENT expression
+   65          | term • OR expression
+   66          | term • AND expression
+   69 in_set: term • IN expression
+
+    ADD        shift, and go to state 84
+    SUB        shift, and go to state 85
+    MULT       shift, and go to state 86
+    DIV        shift, and go to state 87
+    OR         shift, and go to state 88
+    AND        shift, and go to state 89
+    SMALLER    shift, and go to state 90
+    GREATER    shift, and go to state 91
+    SMALLEQ    shift, and go to state 92
+    GREATEQ    shift, and go to state 93
+    EQUALS     shift, and go to state 94
+    DIFFERENT  shift, and go to state 95
+    IN         shift, and go to state 96
+
+    SEMIC  reduce using rule 52 (math_op)
+
+
+State 60
+
+   56 operation: math_op •
+
+    SEMIC  reduce using rule 56 (operation)
+
+
+State 61
+
+   37 expression: set_op •
+
+    SEMIC  reduce using rule 37 (expression)
+
+
+State 62
+
+   38 expression: operation •
+
+    SEMIC  reduce using rule 38 (expression)
+
+
+State 63
+
+   39 expression: func_call •
+
+    SEMIC  reduce using rule 39 (expression)
+
+
+State 64
+
+   57 operation: in_set •
+
+    SEMIC  reduce using rule 57 (operation)
+
+
+State 65
+
+   40 expression: assign_value •
+
+    SEMIC  reduce using rule 40 (expression)
+
+
+State 66
+
+    8 func_dec: TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC •
+
+    $end  reduce using rule 8 (func_dec)
+    TYPE  reduce using rule 8 (func_dec)
+
+
+State 67
+
+   73 assign_value: ID ASSIGN • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 97
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 68
+
+   68 func_call: ID PARENL • args_list PARENR
+
+    ID       shift, and go to state 98
+    STRING   shift, and go to state 185
+    CHAR     shift, and go to state 186
+    EMPTY    shift, and go to state 187
+    INTEGER  shift, and go to state 188
+    DECIMAL  shift, and go to state 189
+    PARENL   shift, and go to state 190
+
+    COMMA   reduce using rule 72 (args_list)
+    PARENR  reduce using rule 72 (args_list)
+
+    term       go to state 99
+    args_list  go to state 100
+
+
+State 69
+
+   32 var_dec: TYPE ID • SEMIC
+
+    SEMIC  shift, and go to state 191
+
+
+State 70
+
+   67 operation: NEG expression •
+
+    SEMIC  reduce using rule 67 (operation)
+
+
+State 71
+
+   29 if_ops: IF PARENL • operation PARENR STFUNC statement_list ENDFUNC
+   30       | IF PARENL • operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC
+
+    ID       shift, and go to state 192
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    PARENL   shift, and go to state 177
+
+    term       go to state 178
+    math_op    go to state 179
+    operation  go to state 101
+    in_set     go to state 183
+
+
+State 72
+
+   24 basic_ops: FOR PARENL • for_body PARENR STFUNC statement_list ENDFUNC
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+    SEMIC    shift, and go to state 102
+
+    expression_statement  go to state 103
+    for_body              go to state 104
+    expression            go to state 193
+    term                  go to state 59
+    math_op               go to state 60
+    set_op                go to state 61
+    operation             go to state 62
+    func_call             go to state 63
+    in_set                go to state 64
+    assign_value          go to state 65
+
+
+State 73
+
+   33 io_ops: READ PARENL • PARENR SEMIC
+   34       | READ PARENL • expression PARENR SEMIC
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+    PARENR   shift, and go to state 105
+
+    expression    go to state 106
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 74
+
+   35 io_ops: WRITE PARENL • expression PARENR SEMIC
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 107
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 75
+
+   36 io_ops: WRITELN PARENL • expression PARENR SEMIC
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 108
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 76
+
+   31 ret_st: RETURN expression • SEMIC
+
+    SEMIC  shift, and go to state 109
+
+
+State 77
+
+   58 operation: ISTYPE PARENL • expression PARENR
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 110
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 78
+
+   53 set_op: ADDSET PARENL • in_set PARENR
+
+    ID       shift, and go to state 194
+    STRING   shift, and go to state 195
+    CHAR     shift, and go to state 196
+    EMPTY    shift, and go to state 197
+    INTEGER  shift, and go to state 198
+    DECIMAL  shift, and go to state 199
+    PARENL   shift, and go to state 200
+
+    term    go to state 111
+    in_set  go to state 112
+
+
+State 79
+
+   54 set_op: REMOVE PARENL • in_set PARENR
+
+    ID       shift, and go to state 194
+    STRING   shift, and go to state 195
+    CHAR     shift, and go to state 196
+    EMPTY    shift, and go to state 197
+    INTEGER  shift, and go to state 198
+    DECIMAL  shift, and go to state 199
+    PARENL   shift, and go to state 200
+
+    term    go to state 111
+    in_set  go to state 113
+
+
+State 80
+
+   55 set_op: EXISTS PARENL • in_set PARENR
+
+    ID       shift, and go to state 194
+    STRING   shift, and go to state 195
+    CHAR     shift, and go to state 196
+    EMPTY    shift, and go to state 197
+    INTEGER  shift, and go to state 198
+    DECIMAL  shift, and go to state 199
+    PARENL   shift, and go to state 200
+
+    term    go to state 111
+    in_set  go to state 114
+
+
+State 81
+
+   25 basic_ops: FORALL PARENL • in_set PARENR set_op SEMIC
+   26          | FORALL PARENL • in_set PARENR STFUNC statement_list ENDFUNC
+
+    ID       shift, and go to state 194
+    STRING   shift, and go to state 195
+    CHAR     shift, and go to state 196
+    EMPTY    shift, and go to state 197
+    INTEGER  shift, and go to state 198
+    DECIMAL  shift, and go to state 199
+    PARENL   shift, and go to state 200
+
+    term    go to state 111
+    in_set  go to state 115
+
+
+State 82
+
+   47 term: PARENL expression • PARENR
+
+    PARENR  shift, and go to state 116
+
+
+State 83
+
+   22 expression_statement: expression SEMIC •
+
+    ID       reduce using rule 22 (expression_statement)
+    TYPE     reduce using rule 22 (expression_statement)
+    STRING   reduce using rule 22 (expression_statement)
+    CHAR     reduce using rule 22 (expression_statement)
+    EMPTY    reduce using rule 22 (expression_statement)
+    INTEGER  reduce using rule 22 (expression_statement)
+    DECIMAL  reduce using rule 22 (expression_statement)
+    NEG      reduce using rule 22 (expression_statement)
+    IF       reduce using rule 22 (expression_statement)
+    FOR      reduce using rule 22 (expression_statement)
+    READ     reduce using rule 22 (expression_statement)
+    WRITE    reduce using rule 22 (expression_statement)
+    WRITELN  reduce using rule 22 (expression_statement)
+    RETURN   reduce using rule 22 (expression_statement)
+    ISTYPE   reduce using rule 22 (expression_statement)
+    ADDSET   reduce using rule 22 (expression_statement)
+    REMOVE   reduce using rule 22 (expression_statement)
+    EXISTS   reduce using rule 22 (expression_statement)
+    FORALL   reduce using rule 22 (expression_statement)
+    ENDFUNC  reduce using rule 22 (expression_statement)
+    PARENL   reduce using rule 22 (expression_statement)
+
+
+State 84
+
+   50 math_op: term ADD • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 117
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 85
+
+   51 math_op: term SUB • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 118
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 86
+
+   49 math_op: term MULT • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 119
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 87
+
+   48 math_op: term DIV • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 120
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 88
+
+   65 operation: term OR • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 121
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 89
+
+   66 operation: term AND • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 122
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 90
+
+   59 operation: term SMALLER • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 123
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 91
+
+   60 operation: term GREATER • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 124
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 92
+
+   61 operation: term SMALLEQ • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 125
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 93
+
+   62 operation: term GREATEQ • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 126
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 94
+
+   63 operation: term EQUALS • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 127
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 95
+
+   64 operation: term DIFFERENT • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 128
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 96
+
+   69 in_set: term IN • expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression    go to state 129
+    term          go to state 59
+    math_op       go to state 60
+    set_op        go to state 61
+    operation     go to state 62
+    func_call     go to state 63
+    in_set        go to state 64
+    assign_value  go to state 65
+
+
+State 97
+
+   73 assign_value: ID ASSIGN expression •
+
+    SEMIC  reduce using rule 73 (assign_value)
+
+
+State 98
+
+   41 term: ID •
+
+    COMMA   reduce using rule 41 (term)
+    PARENR  reduce using rule 41 (term)
+
+
+State 99
+
+   71 args_list: term •
+
+    COMMA   reduce using rule 71 (args_list)
+    PARENR  reduce using rule 71 (args_list)
+
+
+State 100
+
+   68 func_call: ID PARENL args_list • PARENR
+   70 args_list: args_list • COMMA term
+
+    COMMA   shift, and go to state 130
+    PARENR  shift, and go to state 131
+
+
+State 101
+
+   29 if_ops: IF PARENL operation • PARENR STFUNC statement_list ENDFUNC
+   30       | IF PARENL operation • PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC
+
+    PARENR  shift, and go to state 132
+
+
+State 102
+
+   28 for_body: SEMIC • expression_statement expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression_statement  go to state 133
+    expression            go to state 193
+    term                  go to state 59
+    math_op               go to state 60
+    set_op                go to state 61
+    operation             go to state 62
+    func_call             go to state 63
+    in_set                go to state 64
+    assign_value          go to state 65
+
+
+State 103
+
+   27 for_body: expression_statement • expression_statement expression
+
+    ID       shift, and go to state 30
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    PARENL   shift, and go to state 50
+
+    expression_statement  go to state 134
+    expression            go to state 193
+    term                  go to state 59
+    math_op               go to state 60
+    set_op                go to state 61
+    operation             go to state 62
+    func_call             go to state 63
+    in_set                go to state 64
+    assign_value          go to state 65
+
+
+State 104
+
+   24 basic_ops: FOR PARENL for_body • PARENR STFUNC statement_list ENDFUNC
+
+    PARENR  shift, and go to state 135
+
+
+State 105
+
+   33 io_ops: READ PARENL PARENR • SEMIC
+
+    SEMIC  shift, and go to state 136
+
+
+State 106
+
+   34 io_ops: READ PARENL expression • PARENR SEMIC
+
+    PARENR  shift, and go to state 137
+
+
+State 107
+
+   35 io_ops: WRITE PARENL expression • PARENR SEMIC
+
+    PARENR  shift, and go to state 138
+
+
+State 108
+
+   36 io_ops: WRITELN PARENL expression • PARENR SEMIC
+
+    PARENR  shift, and go to state 139
+
+
+State 109
+
+   31 ret_st: RETURN expression SEMIC •
+
+    ID       reduce using rule 31 (ret_st)
+    TYPE     reduce using rule 31 (ret_st)
+    STRING   reduce using rule 31 (ret_st)
+    CHAR     reduce using rule 31 (ret_st)
+    EMPTY    reduce using rule 31 (ret_st)
+    INTEGER  reduce using rule 31 (ret_st)
+    DECIMAL  reduce using rule 31 (ret_st)
+    NEG      reduce using rule 31 (ret_st)
+    IF       reduce using rule 31 (ret_st)
+    FOR      reduce using rule 31 (ret_st)
+    READ     reduce using rule 31 (ret_st)
+    WRITE    reduce using rule 31 (ret_st)
+    WRITELN  reduce using rule 31 (ret_st)
+    RETURN   reduce using rule 31 (ret_st)
+    ISTYPE   reduce using rule 31 (ret_st)
+    ADDSET   reduce using rule 31 (ret_st)
+    REMOVE   reduce using rule 31 (ret_st)
+    EXISTS   reduce using rule 31 (ret_st)
+    FORALL   reduce using rule 31 (ret_st)
+    ENDFUNC  reduce using rule 31 (ret_st)
+    PARENL   reduce using rule 31 (ret_st)
+
+
+State 110
+
+   58 operation: ISTYPE PARENL expression • PARENR
+
+    PARENR  shift, and go to state 140
+
+
+State 111
+
+   69 in_set: term • IN expression
+
+    IN  shift, and go to state 201
+
+
+State 112
+
+   53 set_op: ADDSET PARENL in_set • PARENR
+
+    PARENR  shift, and go to state 141
+
+
+State 113
+
+   54 set_op: REMOVE PARENL in_set • PARENR
+
+    PARENR  shift, and go to state 142
+
+
+State 114
+
+   55 set_op: EXISTS PARENL in_set • PARENR
+
+    PARENR  shift, and go to state 143
+
+
+State 115
+
+   25 basic_ops: FORALL PARENL in_set • PARENR set_op SEMIC
+   26          | FORALL PARENL in_set • PARENR STFUNC statement_list ENDFUNC
+
+    PARENR  shift, and go to state 144
+
+
+State 116
+
+   47 term: PARENL expression PARENR •
+
+    ADD        reduce using rule 47 (term)
+    SUB        reduce using rule 47 (term)
+    MULT       reduce using rule 47 (term)
+    DIV        reduce using rule 47 (term)
+    OR         reduce using rule 47 (term)
+    AND        reduce using rule 47 (term)
+    SMALLER    reduce using rule 47 (term)
+    GREATER    reduce using rule 47 (term)
+    SMALLEQ    reduce using rule 47 (term)
+    GREATEQ    reduce using rule 47 (term)
+    EQUALS     reduce using rule 47 (term)
+    DIFFERENT  reduce using rule 47 (term)
+    IN         reduce using rule 47 (term)
+    SEMIC      reduce using rule 47 (term)
+
+
+State 117
+
+   50 math_op: term ADD expression •
+
+    SEMIC  reduce using rule 50 (math_op)
+
+
+State 118
+
+   51 math_op: term SUB expression •
+
+    SEMIC  reduce using rule 51 (math_op)
+
+
+State 119
+
+   49 math_op: term MULT expression •
+
+    SEMIC  reduce using rule 49 (math_op)
+
+
+State 120
+
+   48 math_op: term DIV expression •
+
+    SEMIC  reduce using rule 48 (math_op)
+
+
+State 121
+
+   65 operation: term OR expression •
+
+    SEMIC  reduce using rule 65 (operation)
+
+
+State 122
+
+   66 operation: term AND expression •
+
+    SEMIC  reduce using rule 66 (operation)
+
+
+State 123
+
+   59 operation: term SMALLER expression •
+
+    SEMIC  reduce using rule 59 (operation)
+
+
+State 124
+
+   60 operation: term GREATER expression •
+
+    SEMIC  reduce using rule 60 (operation)
+
+
+State 125
+
+   61 operation: term SMALLEQ expression •
+
+    SEMIC  reduce using rule 61 (operation)
+
+
+State 126
+
+   62 operation: term GREATEQ expression •
+
+    SEMIC  reduce using rule 62 (operation)
+
+
+State 127
+
+   63 operation: term EQUALS expression •
+
+    SEMIC  reduce using rule 63 (operation)
+
+
+State 128
+
+   64 operation: term DIFFERENT expression •
+
+    SEMIC  reduce using rule 64 (operation)
+
+
+State 129
+
+   69 in_set: term IN expression •
+
+    SEMIC  reduce using rule 69 (in_set)
+
+
+State 130
+
+   70 args_list: args_list COMMA • term
+
+    ID       shift, and go to state 98
+    STRING   shift, and go to state 185
+    CHAR     shift, and go to state 186
+    EMPTY    shift, and go to state 187
+    INTEGER  shift, and go to state 188
+    DECIMAL  shift, and go to state 189
+    PARENL   shift, and go to state 190
+
+    term  go to state 145
+
+
+State 131
+
+   68 func_call: ID PARENL args_list PARENR •
+
+    SEMIC  reduce using rule 68 (func_call)
+
+
+State 132
+
+   29 if_ops: IF PARENL operation PARENR • STFUNC statement_list ENDFUNC
+   30       | IF PARENL operation PARENR • STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC
+
+    STFUNC  shift, and go to state 146
+
+
+State 133
+
+   28 for_body: SEMIC expression_statement • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 147
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 134
+
+   27 for_body: expression_statement expression_statement • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 148
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 135
+
+   24 basic_ops: FOR PARENL for_body PARENR • STFUNC statement_list ENDFUNC
+
+    STFUNC  shift, and go to state 149
+
+
+State 136
+
+   33 io_ops: READ PARENL PARENR SEMIC •
+
+    ID       reduce using rule 33 (io_ops)
+    TYPE     reduce using rule 33 (io_ops)
+    STRING   reduce using rule 33 (io_ops)
+    CHAR     reduce using rule 33 (io_ops)
+    EMPTY    reduce using rule 33 (io_ops)
+    INTEGER  reduce using rule 33 (io_ops)
+    DECIMAL  reduce using rule 33 (io_ops)
+    NEG      reduce using rule 33 (io_ops)
+    IF       reduce using rule 33 (io_ops)
+    FOR      reduce using rule 33 (io_ops)
+    READ     reduce using rule 33 (io_ops)
+    WRITE    reduce using rule 33 (io_ops)
+    WRITELN  reduce using rule 33 (io_ops)
+    RETURN   reduce using rule 33 (io_ops)
+    ISTYPE   reduce using rule 33 (io_ops)
+    ADDSET   reduce using rule 33 (io_ops)
+    REMOVE   reduce using rule 33 (io_ops)
+    EXISTS   reduce using rule 33 (io_ops)
+    FORALL   reduce using rule 33 (io_ops)
+    ENDFUNC  reduce using rule 33 (io_ops)
+    PARENL   reduce using rule 33 (io_ops)
+
+
+State 137
+
+   34 io_ops: READ PARENL expression PARENR • SEMIC
+
+    SEMIC  shift, and go to state 150
+
+
+State 138
+
+   35 io_ops: WRITE PARENL expression PARENR • SEMIC
+
+    SEMIC  shift, and go to state 151
+
+
+State 139
+
+   36 io_ops: WRITELN PARENL expression PARENR • SEMIC
+
+    SEMIC  shift, and go to state 152
+
+
+State 140
+
+   58 operation: ISTYPE PARENL expression PARENR •
+
+    SEMIC  reduce using rule 58 (operation)
+
+
+State 141
+
+   53 set_op: ADDSET PARENL in_set PARENR •
+
+    SEMIC  reduce using rule 53 (set_op)
+
+
+State 142
+
+   54 set_op: REMOVE PARENL in_set PARENR •
+
+    SEMIC  reduce using rule 54 (set_op)
+
+
+State 143
+
+   55 set_op: EXISTS PARENL in_set PARENR •
+
+    SEMIC  reduce using rule 55 (set_op)
+
+
+State 144
+
+   25 basic_ops: FORALL PARENL in_set PARENR • set_op SEMIC
+   26          | FORALL PARENL in_set PARENR • STFUNC statement_list ENDFUNC
+
+    ADDSET  shift, and go to state 45
+    REMOVE  shift, and go to state 46
+    EXISTS  shift, and go to state 47
+    STFUNC  shift, and go to state 153
+
+    set_op  go to state 154
+
+
+State 145
+
+   70 args_list: args_list COMMA term •
+
+    COMMA   reduce using rule 70 (args_list)
+    PARENR  reduce using rule 70 (args_list)
+
+
+State 146
+
+   29 if_ops: IF PARENL operation PARENR STFUNC • statement_list ENDFUNC
+   30       | IF PARENL operation PARENR STFUNC • statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC
+
+    error  shift, and go to state 27
+
+    ID       reduce using rule 15 (statement_list)
+    TYPE     reduce using rule 15 (statement_list)
+    STRING   reduce using rule 15 (statement_list)
+    CHAR     reduce using rule 15 (statement_list)
+    EMPTY    reduce using rule 15 (statement_list)
+    INTEGER  reduce using rule 15 (statement_list)
+    DECIMAL  reduce using rule 15 (statement_list)
+    NEG      reduce using rule 15 (statement_list)
+    IF       reduce using rule 15 (statement_list)
+    FOR      reduce using rule 15 (statement_list)
+    READ     reduce using rule 15 (statement_list)
+    WRITE    reduce using rule 15 (statement_list)
+    WRITELN  reduce using rule 15 (statement_list)
+    RETURN   reduce using rule 15 (statement_list)
+    ISTYPE   reduce using rule 15 (statement_list)
+    ADDSET   reduce using rule 15 (statement_list)
+    REMOVE   reduce using rule 15 (statement_list)
+    EXISTS   reduce using rule 15 (statement_list)
+    FORALL   reduce using rule 15 (statement_list)
+    ENDFUNC  reduce using rule 15 (statement_list)
+    PARENL   reduce using rule 15 (statement_list)
+
+    statement_list  go to state 155
+
+
+State 147
+
+   28 for_body: SEMIC expression_statement expression •
+
+    PARENR  reduce using rule 28 (for_body)
+
+
+State 148
+
+   27 for_body: expression_statement expression_statement expression •
+
+    PARENR  reduce using rule 27 (for_body)
+
+
+State 149
+
+   24 basic_ops: FOR PARENL for_body PARENR STFUNC • statement_list ENDFUNC
+
+    error  shift, and go to state 27
+
+    ID       reduce using rule 15 (statement_list)
+    TYPE     reduce using rule 15 (statement_list)
+    STRING   reduce using rule 15 (statement_list)
+    CHAR     reduce using rule 15 (statement_list)
+    EMPTY    reduce using rule 15 (statement_list)
+    INTEGER  reduce using rule 15 (statement_list)
+    DECIMAL  reduce using rule 15 (statement_list)
+    NEG      reduce using rule 15 (statement_list)
+    IF       reduce using rule 15 (statement_list)
+    FOR      reduce using rule 15 (statement_list)
+    READ     reduce using rule 15 (statement_list)
+    WRITE    reduce using rule 15 (statement_list)
+    WRITELN  reduce using rule 15 (statement_list)
+    RETURN   reduce using rule 15 (statement_list)
+    ISTYPE   reduce using rule 15 (statement_list)
+    ADDSET   reduce using rule 15 (statement_list)
+    REMOVE   reduce using rule 15 (statement_list)
+    EXISTS   reduce using rule 15 (statement_list)
+    FORALL   reduce using rule 15 (statement_list)
+    ENDFUNC  reduce using rule 15 (statement_list)
+    PARENL   reduce using rule 15 (statement_list)
+
+    statement_list  go to state 156
+
+
+State 150
+
+   34 io_ops: READ PARENL expression PARENR SEMIC •
+
+    ID       reduce using rule 34 (io_ops)
+    TYPE     reduce using rule 34 (io_ops)
+    STRING   reduce using rule 34 (io_ops)
+    CHAR     reduce using rule 34 (io_ops)
+    EMPTY    reduce using rule 34 (io_ops)
+    INTEGER  reduce using rule 34 (io_ops)
+    DECIMAL  reduce using rule 34 (io_ops)
+    NEG      reduce using rule 34 (io_ops)
+    IF       reduce using rule 34 (io_ops)
+    FOR      reduce using rule 34 (io_ops)
+    READ     reduce using rule 34 (io_ops)
+    WRITE    reduce using rule 34 (io_ops)
+    WRITELN  reduce using rule 34 (io_ops)
+    RETURN   reduce using rule 34 (io_ops)
+    ISTYPE   reduce using rule 34 (io_ops)
+    ADDSET   reduce using rule 34 (io_ops)
+    REMOVE   reduce using rule 34 (io_ops)
+    EXISTS   reduce using rule 34 (io_ops)
+    FORALL   reduce using rule 34 (io_ops)
+    ENDFUNC  reduce using rule 34 (io_ops)
+    PARENL   reduce using rule 34 (io_ops)
+
+
+State 151
+
+   35 io_ops: WRITE PARENL expression PARENR SEMIC •
+
+    ID       reduce using rule 35 (io_ops)
+    TYPE     reduce using rule 35 (io_ops)
+    STRING   reduce using rule 35 (io_ops)
+    CHAR     reduce using rule 35 (io_ops)
+    EMPTY    reduce using rule 35 (io_ops)
+    INTEGER  reduce using rule 35 (io_ops)
+    DECIMAL  reduce using rule 35 (io_ops)
+    NEG      reduce using rule 35 (io_ops)
+    IF       reduce using rule 35 (io_ops)
+    FOR      reduce using rule 35 (io_ops)
+    READ     reduce using rule 35 (io_ops)
+    WRITE    reduce using rule 35 (io_ops)
+    WRITELN  reduce using rule 35 (io_ops)
+    RETURN   reduce using rule 35 (io_ops)
+    ISTYPE   reduce using rule 35 (io_ops)
+    ADDSET   reduce using rule 35 (io_ops)
+    REMOVE   reduce using rule 35 (io_ops)
+    EXISTS   reduce using rule 35 (io_ops)
+    FORALL   reduce using rule 35 (io_ops)
+    ENDFUNC  reduce using rule 35 (io_ops)
+    PARENL   reduce using rule 35 (io_ops)
+
+
+State 152
+
+   36 io_ops: WRITELN PARENL expression PARENR SEMIC •
+
+    ID       reduce using rule 36 (io_ops)
+    TYPE     reduce using rule 36 (io_ops)
+    STRING   reduce using rule 36 (io_ops)
+    CHAR     reduce using rule 36 (io_ops)
+    EMPTY    reduce using rule 36 (io_ops)
+    INTEGER  reduce using rule 36 (io_ops)
+    DECIMAL  reduce using rule 36 (io_ops)
+    NEG      reduce using rule 36 (io_ops)
+    IF       reduce using rule 36 (io_ops)
+    FOR      reduce using rule 36 (io_ops)
+    READ     reduce using rule 36 (io_ops)
+    WRITE    reduce using rule 36 (io_ops)
+    WRITELN  reduce using rule 36 (io_ops)
+    RETURN   reduce using rule 36 (io_ops)
+    ISTYPE   reduce using rule 36 (io_ops)
+    ADDSET   reduce using rule 36 (io_ops)
+    REMOVE   reduce using rule 36 (io_ops)
+    EXISTS   reduce using rule 36 (io_ops)
+    FORALL   reduce using rule 36 (io_ops)
+    ENDFUNC  reduce using rule 36 (io_ops)
+    PARENL   reduce using rule 36 (io_ops)
+
+
+State 153
+
+   26 basic_ops: FORALL PARENL in_set PARENR STFUNC • statement_list ENDFUNC
+
+    error  shift, and go to state 27
+
+    ID       reduce using rule 15 (statement_list)
+    TYPE     reduce using rule 15 (statement_list)
+    STRING   reduce using rule 15 (statement_list)
+    CHAR     reduce using rule 15 (statement_list)
+    EMPTY    reduce using rule 15 (statement_list)
+    INTEGER  reduce using rule 15 (statement_list)
+    DECIMAL  reduce using rule 15 (statement_list)
+    NEG      reduce using rule 15 (statement_list)
+    IF       reduce using rule 15 (statement_list)
+    FOR      reduce using rule 15 (statement_list)
+    READ     reduce using rule 15 (statement_list)
+    WRITE    reduce using rule 15 (statement_list)
+    WRITELN  reduce using rule 15 (statement_list)
+    RETURN   reduce using rule 15 (statement_list)
+    ISTYPE   reduce using rule 15 (statement_list)
+    ADDSET   reduce using rule 15 (statement_list)
+    REMOVE   reduce using rule 15 (statement_list)
+    EXISTS   reduce using rule 15 (statement_list)
+    FORALL   reduce using rule 15 (statement_list)
+    ENDFUNC  reduce using rule 15 (statement_list)
+    PARENL   reduce using rule 15 (statement_list)
+
+    statement_list  go to state 157
+
+
+State 154
+
+   25 basic_ops: FORALL PARENL in_set PARENR set_op • SEMIC
+
+    SEMIC  shift, and go to state 158
+
+
+State 155
+
+   14 statement_list: statement_list • statement
+   29 if_ops: IF PARENL operation PARENR STFUNC statement_list • ENDFUNC
+   30       | IF PARENL operation PARENR STFUNC statement_list • ENDFUNC ELSE STFUNC statement_list ENDFUNC
+
+    ID       shift, and go to state 30
+    TYPE     shift, and go to state 31
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    IF       shift, and go to state 38
+    FOR      shift, and go to state 39
+    READ     shift, and go to state 40
+    WRITE    shift, and go to state 41
+    WRITELN  shift, and go to state 42
+    RETURN   shift, and go to state 43
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    FORALL   shift, and go to state 48
+    ENDFUNC  shift, and go to state 159
+    PARENL   shift, and go to state 50
+
+    statement             go to state 51
+    expression_statement  go to state 52
+    basic_ops             go to state 53
+    if_ops                go to state 54
+    ret_st                go to state 55
+    var_dec               go to state 56
+    io_ops                go to state 57
+    expression            go to state 58
+    term                  go to state 59
+    math_op               go to state 60
+    set_op                go to state 61
+    operation             go to state 62
+    func_call             go to state 63
+    in_set                go to state 64
+    assign_value          go to state 65
+
+
+State 156
+
+   14 statement_list: statement_list • statement
+   24 basic_ops: FOR PARENL for_body PARENR STFUNC statement_list • ENDFUNC
+
+    ID       shift, and go to state 30
+    TYPE     shift, and go to state 31
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    IF       shift, and go to state 38
+    FOR      shift, and go to state 39
+    READ     shift, and go to state 40
+    WRITE    shift, and go to state 41
+    WRITELN  shift, and go to state 42
+    RETURN   shift, and go to state 43
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    FORALL   shift, and go to state 48
+    ENDFUNC  shift, and go to state 160
+    PARENL   shift, and go to state 50
+
+    statement             go to state 51
+    expression_statement  go to state 52
+    basic_ops             go to state 53
+    if_ops                go to state 54
+    ret_st                go to state 55
+    var_dec               go to state 56
+    io_ops                go to state 57
+    expression            go to state 58
+    term                  go to state 59
+    math_op               go to state 60
+    set_op                go to state 61
+    operation             go to state 62
+    func_call             go to state 63
+    in_set                go to state 64
+    assign_value          go to state 65
+
+
+State 157
+
+   14 statement_list: statement_list • statement
+   26 basic_ops: FORALL PARENL in_set PARENR STFUNC statement_list • ENDFUNC
+
+    ID       shift, and go to state 30
+    TYPE     shift, and go to state 31
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    IF       shift, and go to state 38
+    FOR      shift, and go to state 39
+    READ     shift, and go to state 40
+    WRITE    shift, and go to state 41
+    WRITELN  shift, and go to state 42
+    RETURN   shift, and go to state 43
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    FORALL   shift, and go to state 48
+    ENDFUNC  shift, and go to state 161
+    PARENL   shift, and go to state 50
+
+    statement             go to state 51
+    expression_statement  go to state 52
+    basic_ops             go to state 53
+    if_ops                go to state 54
+    ret_st                go to state 55
+    var_dec               go to state 56
+    io_ops                go to state 57
+    expression            go to state 58
+    term                  go to state 59
+    math_op               go to state 60
+    set_op                go to state 61
+    operation             go to state 62
+    func_call             go to state 63
+    in_set                go to state 64
+    assign_value          go to state 65
+
+
+State 158
+
+   25 basic_ops: FORALL PARENL in_set PARENR set_op SEMIC •
+
+    ID       reduce using rule 25 (basic_ops)
+    TYPE     reduce using rule 25 (basic_ops)
+    STRING   reduce using rule 25 (basic_ops)
+    CHAR     reduce using rule 25 (basic_ops)
+    EMPTY    reduce using rule 25 (basic_ops)
+    INTEGER  reduce using rule 25 (basic_ops)
+    DECIMAL  reduce using rule 25 (basic_ops)
+    NEG      reduce using rule 25 (basic_ops)
+    IF       reduce using rule 25 (basic_ops)
+    FOR      reduce using rule 25 (basic_ops)
+    READ     reduce using rule 25 (basic_ops)
+    WRITE    reduce using rule 25 (basic_ops)
+    WRITELN  reduce using rule 25 (basic_ops)
+    RETURN   reduce using rule 25 (basic_ops)
+    ISTYPE   reduce using rule 25 (basic_ops)
+    ADDSET   reduce using rule 25 (basic_ops)
+    REMOVE   reduce using rule 25 (basic_ops)
+    EXISTS   reduce using rule 25 (basic_ops)
+    FORALL   reduce using rule 25 (basic_ops)
+    ENDFUNC  reduce using rule 25 (basic_ops)
+    PARENL   reduce using rule 25 (basic_ops)
+
+
+State 159
+
+   29 if_ops: IF PARENL operation PARENR STFUNC statement_list ENDFUNC •
+   30       | IF PARENL operation PARENR STFUNC statement_list ENDFUNC • ELSE STFUNC statement_list ENDFUNC
+
+    ELSE  shift, and go to state 162
+
+    ID       reduce using rule 29 (if_ops)
+    TYPE     reduce using rule 29 (if_ops)
+    STRING   reduce using rule 29 (if_ops)
+    CHAR     reduce using rule 29 (if_ops)
+    EMPTY    reduce using rule 29 (if_ops)
+    INTEGER  reduce using rule 29 (if_ops)
+    DECIMAL  reduce using rule 29 (if_ops)
+    NEG      reduce using rule 29 (if_ops)
+    IF       reduce using rule 29 (if_ops)
+    FOR      reduce using rule 29 (if_ops)
+    READ     reduce using rule 29 (if_ops)
+    WRITE    reduce using rule 29 (if_ops)
+    WRITELN  reduce using rule 29 (if_ops)
+    RETURN   reduce using rule 29 (if_ops)
+    ISTYPE   reduce using rule 29 (if_ops)
+    ADDSET   reduce using rule 29 (if_ops)
+    REMOVE   reduce using rule 29 (if_ops)
+    EXISTS   reduce using rule 29 (if_ops)
+    FORALL   reduce using rule 29 (if_ops)
+    ENDFUNC  reduce using rule 29 (if_ops)
+    PARENL   reduce using rule 29 (if_ops)
+
+
+State 160
+
+   24 basic_ops: FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC •
+
+    ID       reduce using rule 24 (basic_ops)
+    TYPE     reduce using rule 24 (basic_ops)
+    STRING   reduce using rule 24 (basic_ops)
+    CHAR     reduce using rule 24 (basic_ops)
+    EMPTY    reduce using rule 24 (basic_ops)
+    INTEGER  reduce using rule 24 (basic_ops)
+    DECIMAL  reduce using rule 24 (basic_ops)
+    NEG      reduce using rule 24 (basic_ops)
+    IF       reduce using rule 24 (basic_ops)
+    FOR      reduce using rule 24 (basic_ops)
+    READ     reduce using rule 24 (basic_ops)
+    WRITE    reduce using rule 24 (basic_ops)
+    WRITELN  reduce using rule 24 (basic_ops)
+    RETURN   reduce using rule 24 (basic_ops)
+    ISTYPE   reduce using rule 24 (basic_ops)
+    ADDSET   reduce using rule 24 (basic_ops)
+    REMOVE   reduce using rule 24 (basic_ops)
+    EXISTS   reduce using rule 24 (basic_ops)
+    FORALL   reduce using rule 24 (basic_ops)
+    ENDFUNC  reduce using rule 24 (basic_ops)
+    PARENL   reduce using rule 24 (basic_ops)
+
+
+State 161
+
+   26 basic_ops: FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC •
+
+    ID       reduce using rule 26 (basic_ops)
+    TYPE     reduce using rule 26 (basic_ops)
+    STRING   reduce using rule 26 (basic_ops)
+    CHAR     reduce using rule 26 (basic_ops)
+    EMPTY    reduce using rule 26 (basic_ops)
+    INTEGER  reduce using rule 26 (basic_ops)
+    DECIMAL  reduce using rule 26 (basic_ops)
+    NEG      reduce using rule 26 (basic_ops)
+    IF       reduce using rule 26 (basic_ops)
+    FOR      reduce using rule 26 (basic_ops)
+    READ     reduce using rule 26 (basic_ops)
+    WRITE    reduce using rule 26 (basic_ops)
+    WRITELN  reduce using rule 26 (basic_ops)
+    RETURN   reduce using rule 26 (basic_ops)
+    ISTYPE   reduce using rule 26 (basic_ops)
+    ADDSET   reduce using rule 26 (basic_ops)
+    REMOVE   reduce using rule 26 (basic_ops)
+    EXISTS   reduce using rule 26 (basic_ops)
+    FORALL   reduce using rule 26 (basic_ops)
+    ENDFUNC  reduce using rule 26 (basic_ops)
+    PARENL   reduce using rule 26 (basic_ops)
+
+
+State 162
+
+   30 if_ops: IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE • STFUNC statement_list ENDFUNC
+
+    STFUNC  shift, and go to state 163
+
+
+State 163
+
+   30 if_ops: IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC • statement_list ENDFUNC
+
+    error  shift, and go to state 27
+
+    ID       reduce using rule 15 (statement_list)
+    TYPE     reduce using rule 15 (statement_list)
+    STRING   reduce using rule 15 (statement_list)
+    CHAR     reduce using rule 15 (statement_list)
+    EMPTY    reduce using rule 15 (statement_list)
+    INTEGER  reduce using rule 15 (statement_list)
+    DECIMAL  reduce using rule 15 (statement_list)
+    NEG      reduce using rule 15 (statement_list)
+    IF       reduce using rule 15 (statement_list)
+    FOR      reduce using rule 15 (statement_list)
+    READ     reduce using rule 15 (statement_list)
+    WRITE    reduce using rule 15 (statement_list)
+    WRITELN  reduce using rule 15 (statement_list)
+    RETURN   reduce using rule 15 (statement_list)
+    ISTYPE   reduce using rule 15 (statement_list)
+    ADDSET   reduce using rule 15 (statement_list)
+    REMOVE   reduce using rule 15 (statement_list)
+    EXISTS   reduce using rule 15 (statement_list)
+    FORALL   reduce using rule 15 (statement_list)
+    ENDFUNC  reduce using rule 15 (statement_list)
+    PARENL   reduce using rule 15 (statement_list)
+
+    statement_list  go to state 164
+
+
+State 164
+
+   14 statement_list: statement_list • statement
+   30 if_ops: IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list • ENDFUNC
+
+    ID       shift, and go to state 30
+    TYPE     shift, and go to state 31
+    STRING   shift, and go to state 32
+    CHAR     shift, and go to state 33
+    EMPTY    shift, and go to state 34
+    INTEGER  shift, and go to state 35
+    DECIMAL  shift, and go to state 36
+    NEG      shift, and go to state 37
+    IF       shift, and go to state 38
+    FOR      shift, and go to state 39
+    READ     shift, and go to state 40
+    WRITE    shift, and go to state 41
+    WRITELN  shift, and go to state 42
+    RETURN   shift, and go to state 43
+    ISTYPE   shift, and go to state 44
+    ADDSET   shift, and go to state 45
+    REMOVE   shift, and go to state 46
+    EXISTS   shift, and go to state 47
+    FORALL   shift, and go to state 48
+    ENDFUNC  shift, and go to state 165
+    PARENL   shift, and go to state 50
+
+    statement             go to state 51
+    expression_statement  go to state 52
+    basic_ops             go to state 53
+    if_ops                go to state 54
+    ret_st                go to state 55
+    var_dec               go to state 56
+    io_ops                go to state 57
+    expression            go to state 58
+    term                  go to state 59
+    math_op               go to state 60
+    set_op                go to state 61
+    operation             go to state 62
+    func_call             go to state 63
+    in_set                go to state 64
+    assign_value          go to state 65
+
+
+State 165
+
+   30 if_ops: IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC •
+
+    ID       reduce using rule 30 (if_ops)
+    TYPE     reduce using rule 30 (if_ops)
+    STRING   reduce using rule 30 (if_ops)
+    CHAR     reduce using rule 30 (if_ops)
+    EMPTY    reduce using rule 30 (if_ops)
+    INTEGER  reduce using rule 30 (if_ops)
+    DECIMAL  reduce using rule 30 (if_ops)
+    NEG      reduce using rule 30 (if_ops)
+    IF       reduce using rule 30 (if_ops)
+    FOR      reduce using rule 30 (if_ops)
+    READ     reduce using rule 30 (if_ops)
+    WRITE    reduce using rule 30 (if_ops)
+    WRITELN  reduce using rule 30 (if_ops)
+    RETURN   reduce using rule 30 (if_ops)
+    ISTYPE   reduce using rule 30 (if_ops)
+    ADDSET   reduce using rule 30 (if_ops)
+    REMOVE   reduce using rule 30 (if_ops)
+    EXISTS   reduce using rule 30 (if_ops)
+    FORALL   reduce using rule 30 (if_ops)
+    ENDFUNC  reduce using rule 30 (if_ops)
+    PARENL   reduce using rule 30 (if_ops)
+
+
+State 166
+
+   41 term: ID •
+   68 func_call: ID • PARENL args_list PARENR
+   73 assign_value: ID • ASSIGN expression
+
+    ASSIGN  shift, and go to state 202
+    PARENL  shift, and go to state 203
+
+    ADD        reduce using rule 41 (term)
+    SUB        reduce using rule 41 (term)
+    MULT       reduce using rule 41 (term)
+    DIV        reduce using rule 41 (term)
+    OR         reduce using rule 41 (term)
+    AND        reduce using rule 41 (term)
+    SMALLER    reduce using rule 41 (term)
+    GREATER    reduce using rule 41 (term)
+    SMALLEQ    reduce using rule 41 (term)
+    GREATEQ    reduce using rule 41 (term)
+    EQUALS     reduce using rule 41 (term)
+    DIFFERENT  reduce using rule 41 (term)
+    IN         reduce using rule 41 (term)
+    PARENR     reduce using rule 41 (term)
+
+
+State 167
+
+   45 term: STRING •
+
+    ADD        reduce using rule 45 (term)
+    SUB        reduce using rule 45 (term)
+    MULT       reduce using rule 45 (term)
+    DIV        reduce using rule 45 (term)
+    OR         reduce using rule 45 (term)
+    AND        reduce using rule 45 (term)
+    SMALLER    reduce using rule 45 (term)
+    GREATER    reduce using rule 45 (term)
+    SMALLEQ    reduce using rule 45 (term)
+    GREATEQ    reduce using rule 45 (term)
+    EQUALS     reduce using rule 45 (term)
+    DIFFERENT  reduce using rule 45 (term)
+    IN         reduce using rule 45 (term)
+    PARENR     reduce using rule 45 (term)
+
+
+State 168
+
+   44 term: CHAR •
+
+    ADD        reduce using rule 44 (term)
+    SUB        reduce using rule 44 (term)
+    MULT       reduce using rule 44 (term)
+    DIV        reduce using rule 44 (term)
+    OR         reduce using rule 44 (term)
+    AND        reduce using rule 44 (term)
+    SMALLER    reduce using rule 44 (term)
+    GREATER    reduce using rule 44 (term)
+    SMALLEQ    reduce using rule 44 (term)
+    GREATEQ    reduce using rule 44 (term)
+    EQUALS     reduce using rule 44 (term)
+    DIFFERENT  reduce using rule 44 (term)
+    IN         reduce using rule 44 (term)
+    PARENR     reduce using rule 44 (term)
+
+
+State 169
+
+   46 term: EMPTY •
+
+    ADD        reduce using rule 46 (term)
+    SUB        reduce using rule 46 (term)
+    MULT       reduce using rule 46 (term)
+    DIV        reduce using rule 46 (term)
+    OR         reduce using rule 46 (term)
+    AND        reduce using rule 46 (term)
+    SMALLER    reduce using rule 46 (term)
+    GREATER    reduce using rule 46 (term)
+    SMALLEQ    reduce using rule 46 (term)
+    GREATEQ    reduce using rule 46 (term)
+    EQUALS     reduce using rule 46 (term)
+    DIFFERENT  reduce using rule 46 (term)
+    IN         reduce using rule 46 (term)
+    PARENR     reduce using rule 46 (term)
+
+
+State 170
+
+   42 term: INTEGER •
+
+    ADD        reduce using rule 42 (term)
+    SUB        reduce using rule 42 (term)
+    MULT       reduce using rule 42 (term)
+    DIV        reduce using rule 42 (term)
+    OR         reduce using rule 42 (term)
+    AND        reduce using rule 42 (term)
+    SMALLER    reduce using rule 42 (term)
+    GREATER    reduce using rule 42 (term)
+    SMALLEQ    reduce using rule 42 (term)
+    GREATEQ    reduce using rule 42 (term)
+    EQUALS     reduce using rule 42 (term)
+    DIFFERENT  reduce using rule 42 (term)
+    IN         reduce using rule 42 (term)
+    PARENR     reduce using rule 42 (term)
+
+
+State 171
+
+   43 term: DECIMAL •
+
+    ADD        reduce using rule 43 (term)
+    SUB        reduce using rule 43 (term)
+    MULT       reduce using rule 43 (term)
+    DIV        reduce using rule 43 (term)
+    OR         reduce using rule 43 (term)
+    AND        reduce using rule 43 (term)
+    SMALLER    reduce using rule 43 (term)
+    GREATER    reduce using rule 43 (term)
+    SMALLEQ    reduce using rule 43 (term)
+    GREATEQ    reduce using rule 43 (term)
+    EQUALS     reduce using rule 43 (term)
+    DIFFERENT  reduce using rule 43 (term)
+    IN         reduce using rule 43 (term)
+    PARENR     reduce using rule 43 (term)
+
+
+State 172
+
+   67 operation: NEG • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 204
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 173
+
+   58 operation: ISTYPE • PARENL expression PARENR
+
+    PARENL  shift, and go to state 205
+
+
+State 174
+
+   53 set_op: ADDSET • PARENL in_set PARENR
+
+    PARENL  shift, and go to state 206
+
+
+State 175
+
+   54 set_op: REMOVE • PARENL in_set PARENR
+
+    PARENL  shift, and go to state 207
+
+
+State 176
+
+   55 set_op: EXISTS • PARENL in_set PARENR
+
+    PARENL  shift, and go to state 208
+
+
+State 177
+
+   47 term: PARENL • expression PARENR
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 209
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 178
+
+   48 math_op: term • DIV expression
+   49        | term • MULT expression
+   50        | term • ADD expression
+   51        | term • SUB expression
+   52        | term •
+   59 operation: term • SMALLER expression
+   60          | term • GREATER expression
+   61          | term • SMALLEQ expression
+   62          | term • GREATEQ expression
+   63          | term • EQUALS expression
+   64          | term • DIFFERENT expression
+   65          | term • OR expression
+   66          | term • AND expression
+   69 in_set: term • IN expression
+
+    ADD        shift, and go to state 210
+    SUB        shift, and go to state 211
+    MULT       shift, and go to state 212
+    DIV        shift, and go to state 213
+    OR         shift, and go to state 214
+    AND        shift, and go to state 215
+    SMALLER    shift, and go to state 216
+    GREATER    shift, and go to state 217
+    SMALLEQ    shift, and go to state 218
+    GREATEQ    shift, and go to state 219
+    EQUALS     shift, and go to state 220
+    DIFFERENT  shift, and go to state 221
+    IN         shift, and go to state 201
+
+    PARENR  reduce using rule 52 (math_op)
+
+
+State 179
+
+   56 operation: math_op •
+
+    PARENR  reduce using rule 56 (operation)
+
+
+State 180
+
+   37 expression: set_op •
+
+    PARENR  reduce using rule 37 (expression)
+
+
+State 181
+
+   38 expression: operation •
+
+    PARENR  reduce using rule 38 (expression)
+
+
+State 182
+
+   39 expression: func_call •
+
+    PARENR  reduce using rule 39 (expression)
+
+
+State 183
+
+   57 operation: in_set •
+
+    PARENR  reduce using rule 57 (operation)
+
+
+State 184
+
+   40 expression: assign_value •
+
+    PARENR  reduce using rule 40 (expression)
+
+
+State 185
+
+   45 term: STRING •
+
+    COMMA   reduce using rule 45 (term)
+    PARENR  reduce using rule 45 (term)
+
+
+State 186
+
+   44 term: CHAR •
+
+    COMMA   reduce using rule 44 (term)
+    PARENR  reduce using rule 44 (term)
+
+
+State 187
+
+   46 term: EMPTY •
+
+    COMMA   reduce using rule 46 (term)
+    PARENR  reduce using rule 46 (term)
+
+
+State 188
+
+   42 term: INTEGER •
+
+    COMMA   reduce using rule 42 (term)
+    PARENR  reduce using rule 42 (term)
+
+
+State 189
+
+   43 term: DECIMAL •
+
+    COMMA   reduce using rule 43 (term)
+    PARENR  reduce using rule 43 (term)
+
+
+State 190
+
+   47 term: PARENL • expression PARENR
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 222
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 191
+
+   32 var_dec: TYPE ID SEMIC •
+
+    ID       reduce using rule 32 (var_dec)
+    TYPE     reduce using rule 32 (var_dec)
+    STRING   reduce using rule 32 (var_dec)
+    CHAR     reduce using rule 32 (var_dec)
+    EMPTY    reduce using rule 32 (var_dec)
+    INTEGER  reduce using rule 32 (var_dec)
+    DECIMAL  reduce using rule 32 (var_dec)
+    NEG      reduce using rule 32 (var_dec)
+    IF       reduce using rule 32 (var_dec)
+    FOR      reduce using rule 32 (var_dec)
+    READ     reduce using rule 32 (var_dec)
+    WRITE    reduce using rule 32 (var_dec)
+    WRITELN  reduce using rule 32 (var_dec)
+    RETURN   reduce using rule 32 (var_dec)
+    ISTYPE   reduce using rule 32 (var_dec)
+    ADDSET   reduce using rule 32 (var_dec)
+    REMOVE   reduce using rule 32 (var_dec)
+    EXISTS   reduce using rule 32 (var_dec)
+    FORALL   reduce using rule 32 (var_dec)
+    ENDFUNC  reduce using rule 32 (var_dec)
+    PARENL   reduce using rule 32 (var_dec)
+
+
+State 192
+
+   41 term: ID •
+
+    ADD        reduce using rule 41 (term)
+    SUB        reduce using rule 41 (term)
+    MULT       reduce using rule 41 (term)
+    DIV        reduce using rule 41 (term)
+    OR         reduce using rule 41 (term)
+    AND        reduce using rule 41 (term)
+    SMALLER    reduce using rule 41 (term)
+    GREATER    reduce using rule 41 (term)
+    SMALLEQ    reduce using rule 41 (term)
+    GREATEQ    reduce using rule 41 (term)
+    EQUALS     reduce using rule 41 (term)
+    DIFFERENT  reduce using rule 41 (term)
+    IN         reduce using rule 41 (term)
+    PARENR     reduce using rule 41 (term)
+
+
+State 193
+
+   22 expression_statement: expression • SEMIC
+
+    SEMIC  shift, and go to state 223
+
+
+State 194
+
+   41 term: ID •
+
+    IN  reduce using rule 41 (term)
+
+
+State 195
+
+   45 term: STRING •
+
+    IN  reduce using rule 45 (term)
+
+
+State 196
+
+   44 term: CHAR •
+
+    IN  reduce using rule 44 (term)
+
+
+State 197
+
+   46 term: EMPTY •
+
+    IN  reduce using rule 46 (term)
+
+
+State 198
+
+   42 term: INTEGER •
+
+    IN  reduce using rule 42 (term)
+
+
+State 199
+
+   43 term: DECIMAL •
+
+    IN  reduce using rule 43 (term)
+
+
+State 200
+
+   47 term: PARENL • expression PARENR
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 224
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 201
+
+   69 in_set: term IN • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 225
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 202
+
+   73 assign_value: ID ASSIGN • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 226
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 203
+
+   68 func_call: ID PARENL • args_list PARENR
+
+    ID       shift, and go to state 98
+    STRING   shift, and go to state 185
+    CHAR     shift, and go to state 186
+    EMPTY    shift, and go to state 187
+    INTEGER  shift, and go to state 188
+    DECIMAL  shift, and go to state 189
+    PARENL   shift, and go to state 190
+
+    COMMA   reduce using rule 72 (args_list)
+    PARENR  reduce using rule 72 (args_list)
+
+    term       go to state 99
+    args_list  go to state 227
+
+
+State 204
+
+   67 operation: NEG expression •
+
+    PARENR  reduce using rule 67 (operation)
+
+
+State 205
+
+   58 operation: ISTYPE PARENL • expression PARENR
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 228
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 206
+
+   53 set_op: ADDSET PARENL • in_set PARENR
+
+    ID       shift, and go to state 194
+    STRING   shift, and go to state 195
+    CHAR     shift, and go to state 196
+    EMPTY    shift, and go to state 197
+    INTEGER  shift, and go to state 198
+    DECIMAL  shift, and go to state 199
+    PARENL   shift, and go to state 200
+
+    term    go to state 111
+    in_set  go to state 229
+
+
+State 207
+
+   54 set_op: REMOVE PARENL • in_set PARENR
+
+    ID       shift, and go to state 194
+    STRING   shift, and go to state 195
+    CHAR     shift, and go to state 196
+    EMPTY    shift, and go to state 197
+    INTEGER  shift, and go to state 198
+    DECIMAL  shift, and go to state 199
+    PARENL   shift, and go to state 200
+
+    term    go to state 111
+    in_set  go to state 230
+
+
+State 208
+
+   55 set_op: EXISTS PARENL • in_set PARENR
+
+    ID       shift, and go to state 194
+    STRING   shift, and go to state 195
+    CHAR     shift, and go to state 196
+    EMPTY    shift, and go to state 197
+    INTEGER  shift, and go to state 198
+    DECIMAL  shift, and go to state 199
+    PARENL   shift, and go to state 200
+
+    term    go to state 111
+    in_set  go to state 231
+
+
+State 209
+
+   47 term: PARENL expression • PARENR
+
+    PARENR  shift, and go to state 232
+
+
+State 210
+
+   50 math_op: term ADD • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 233
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 211
+
+   51 math_op: term SUB • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 234
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 212
+
+   49 math_op: term MULT • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 235
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 213
+
+   48 math_op: term DIV • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 236
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 214
+
+   65 operation: term OR • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 237
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 215
+
+   66 operation: term AND • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 238
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 216
+
+   59 operation: term SMALLER • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 239
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 217
+
+   60 operation: term GREATER • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 240
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 218
+
+   61 operation: term SMALLEQ • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 241
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 219
+
+   62 operation: term GREATEQ • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 242
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 220
+
+   63 operation: term EQUALS • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 243
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 221
+
+   64 operation: term DIFFERENT • expression
+
+    ID       shift, and go to state 166
+    STRING   shift, and go to state 167
+    CHAR     shift, and go to state 168
+    EMPTY    shift, and go to state 169
+    INTEGER  shift, and go to state 170
+    DECIMAL  shift, and go to state 171
+    NEG      shift, and go to state 172
+    ISTYPE   shift, and go to state 173
+    ADDSET   shift, and go to state 174
+    REMOVE   shift, and go to state 175
+    EXISTS   shift, and go to state 176
+    PARENL   shift, and go to state 177
+
+    expression    go to state 244
+    term          go to state 178
+    math_op       go to state 179
+    set_op        go to state 180
+    operation     go to state 181
+    func_call     go to state 182
+    in_set        go to state 183
+    assign_value  go to state 184
+
+
+State 222
+
+   47 term: PARENL expression • PARENR
+
+    PARENR  shift, and go to state 245
+
+
+State 223
+
+   22 expression_statement: expression SEMIC •
+
+    ID       reduce using rule 22 (expression_statement)
+    STRING   reduce using rule 22 (expression_statement)
+    CHAR     reduce using rule 22 (expression_statement)
+    EMPTY    reduce using rule 22 (expression_statement)
+    INTEGER  reduce using rule 22 (expression_statement)
+    DECIMAL  reduce using rule 22 (expression_statement)
+    NEG      reduce using rule 22 (expression_statement)
+    ISTYPE   reduce using rule 22 (expression_statement)
+    ADDSET   reduce using rule 22 (expression_statement)
+    REMOVE   reduce using rule 22 (expression_statement)
+    EXISTS   reduce using rule 22 (expression_statement)
+    PARENL   reduce using rule 22 (expression_statement)
+
+
+State 224
+
+   47 term: PARENL expression • PARENR
+
+    PARENR  shift, and go to state 246
+
+
+State 225
+
+   69 in_set: term IN expression •
+
+    PARENR  reduce using rule 69 (in_set)
+
+
+State 226
+
+   73 assign_value: ID ASSIGN expression •
+
+    PARENR  reduce using rule 73 (assign_value)
+
+
+State 227
+
+   68 func_call: ID PARENL args_list • PARENR
+   70 args_list: args_list • COMMA term
+
+    COMMA   shift, and go to state 130
+    PARENR  shift, and go to state 247
+
+
+State 228
+
+   58 operation: ISTYPE PARENL expression • PARENR
+
+    PARENR  shift, and go to state 248
+
+
+State 229
+
+   53 set_op: ADDSET PARENL in_set • PARENR
+
+    PARENR  shift, and go to state 249
+
+
+State 230
+
+   54 set_op: REMOVE PARENL in_set • PARENR
+
+    PARENR  shift, and go to state 250
+
+
+State 231
+
+   55 set_op: EXISTS PARENL in_set • PARENR
+
+    PARENR  shift, and go to state 251
+
+
+State 232
+
+   47 term: PARENL expression PARENR •
+
+    ADD        reduce using rule 47 (term)
+    SUB        reduce using rule 47 (term)
+    MULT       reduce using rule 47 (term)
+    DIV        reduce using rule 47 (term)
+    OR         reduce using rule 47 (term)
+    AND        reduce using rule 47 (term)
+    SMALLER    reduce using rule 47 (term)
+    GREATER    reduce using rule 47 (term)
+    SMALLEQ    reduce using rule 47 (term)
+    GREATEQ    reduce using rule 47 (term)
+    EQUALS     reduce using rule 47 (term)
+    DIFFERENT  reduce using rule 47 (term)
+    IN         reduce using rule 47 (term)
+    PARENR     reduce using rule 47 (term)
+
+
+State 233
+
+   50 math_op: term ADD expression •
+
+    PARENR  reduce using rule 50 (math_op)
+
+
+State 234
+
+   51 math_op: term SUB expression •
+
+    PARENR  reduce using rule 51 (math_op)
+
+
+State 235
+
+   49 math_op: term MULT expression •
+
+    PARENR  reduce using rule 49 (math_op)
+
+
+State 236
+
+   48 math_op: term DIV expression •
+
+    PARENR  reduce using rule 48 (math_op)
+
+
+State 237
+
+   65 operation: term OR expression •
+
+    PARENR  reduce using rule 65 (operation)
+
+
+State 238
+
+   66 operation: term AND expression •
+
+    PARENR  reduce using rule 66 (operation)
+
+
+State 239
+
+   59 operation: term SMALLER expression •
+
+    PARENR  reduce using rule 59 (operation)
+
+
+State 240
+
+   60 operation: term GREATER expression •
+
+    PARENR  reduce using rule 60 (operation)
+
+
+State 241
+
+   61 operation: term SMALLEQ expression •
+
+    PARENR  reduce using rule 61 (operation)
+
+
+State 242
+
+   62 operation: term GREATEQ expression •
+
+    PARENR  reduce using rule 62 (operation)
+
+
+State 243
+
+   63 operation: term EQUALS expression •
+
+    PARENR  reduce using rule 63 (operation)
+
+
+State 244
+
+   64 operation: term DIFFERENT expression •
+
+    PARENR  reduce using rule 64 (operation)
+
+
+State 245
+
+   47 term: PARENL expression PARENR •
+
+    COMMA   reduce using rule 47 (term)
+    PARENR  reduce using rule 47 (term)
+
+
+State 246
+
+   47 term: PARENL expression PARENR •
+
+    IN  reduce using rule 47 (term)
+
+
+State 247
+
+   68 func_call: ID PARENL args_list PARENR •
+
+    PARENR  reduce using rule 68 (func_call)
+
+
+State 248
+
+   58 operation: ISTYPE PARENL expression PARENR •
+
+    PARENR  reduce using rule 58 (operation)
+
+
+State 249
+
+   53 set_op: ADDSET PARENL in_set PARENR •
+
+    PARENR  reduce using rule 53 (set_op)
+
+
+State 250
+
+   54 set_op: REMOVE PARENL in_set PARENR •
+
+    PARENR  reduce using rule 54 (set_op)
+
+
+State 251
+
+   55 set_op: EXISTS PARENL in_set PARENR •
+
+    PARENR  reduce using rule 55 (set_op)
