@@ -14,6 +14,20 @@ typedef struct node {
   struct node *right;
 }Node;
 
+Node* create_node_empty() {
+  Node *node = (Node *)calloc(1, sizeof(Node));
+
+  node -> value = NULL;
+  node -> type = 'e';
+  node -> left = NULL;
+  node -> middle0 = NULL;
+  node -> middle1 = NULL;
+  node -> middle2 = NULL;
+  node -> right = NULL;
+
+  return node;
+}
+
 Node* create_node0(char *value) {
   Node *node = (Node *)calloc(1, sizeof(Node));
 
@@ -56,10 +70,10 @@ Node* create_node0_dec(float value, char type) {
   return node;
 }
 
-Node* create_node0_char(char value, char type) {
+Node* create_node0_char(char *value, char type) {
   Node *node = (Node *)calloc(1, sizeof(Node));
 
-  node -> character = value;
+  node -> value = value;
   node -> type = type;
   node -> left = NULL;
   node -> middle0 = NULL;
@@ -152,7 +166,7 @@ void print_tree(Node *node) {
   if(node -> type == 'd')
     printf("%f\n", node -> decimal);
   if(node -> type == 'c')
-    printf("%c\n", node -> character);
+    printf("%s\n", node -> value);
   
   print_tree(node -> left);
   print_tree(node -> middle0);

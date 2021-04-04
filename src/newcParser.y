@@ -43,7 +43,7 @@ extern FILE *yyin;
 %token<str> ID
 %token<str> TYPE
 %token<str> STRING
-%token<character> CHAR
+%token<str> CHAR
 %token<str> EMPTY
 %token<str> MAIN
 %token<integer> INTEGER
@@ -85,7 +85,7 @@ declarations_list:
                                         $$ = create_node1("declaration", $1);
                                       }
   | error                             {
-                                        $$ = create_node0("ERRO!!!!");
+                                        $$ = create_node_empty();
                                         yyerror(yymsg);
                                       }
   ;
@@ -101,7 +101,7 @@ declaration:
 
 func_dec:
     TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC     {
-                                                                          add_symbol(symbolIdCounter, $2, "func");
+                                                                          add_symbol(symbolIdCounter, $2, "func", $1);
                                                                           symbolIdCounter++;
                                                                           $$ = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $4, $7);
                                                                         }
@@ -122,7 +122,7 @@ params_list:
                                     $$ = create_node0("vazio");
                                   }
   | error                         {
-                                    $$ = create_node0("ERRO!!!!");
+                                    $$ = create_node_empty();
                                     yyerror(yymsg);
                                   }
   ;
@@ -141,8 +141,7 @@ statement_list:
                                     $$ = create_node0("vazio");
                                   }
   | error                         {
-                                    $$ = create_node0("ERRO!!!!");
-                                    yyerror(yymsg);
+                                    $$ = create_node_empty();
                                   }
   ;
 
@@ -211,7 +210,7 @@ ret_st:
 
 var_dec:
     TYPE ID SEMIC   {
-                      add_symbol(symbolIdCounter, $2, "var");
+                      add_symbol(symbolIdCounter, $2, "var", $1);
                       symbolIdCounter++;
                       $$ = create_node2("TYPE ID SEMIC", create_node0($1), create_node0($2));
                     }
@@ -386,13 +385,13 @@ int main(int argc, char *argv[]) {
   yyparse();
 
   print_tree(ast_tree);
-  yylex_destroy();
-
-  fclose(yyin);
 
   printf("\n\n#### FIM DA ÁRVORE SINTÁTICA ####\n\n");
 
   print_symbols();
+  yylex_destroy();
+
+  fclose(yyin);
 
   return 0;
 }

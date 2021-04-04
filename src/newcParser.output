@@ -107,7 +107,7 @@ Terminals, with rules where they appear
     ID <str> (258) 7 13 32 41 68 73
     TYPE <str> (259) 7 8 13 32
     STRING <str> (260) 45
-    CHAR <character> (261) 44
+    CHAR <str> (261) 44
     EMPTY <str> (262) 46
     MAIN <str> (263) 8
     INTEGER <integer> (264) 42

@@ -26,7 +26,7 @@ integer   -?{digit}+
 decimal   -?{digit}*[.]{digit}+
 elem      {integer}|{decimal}
 set       "{"({elem}","?)*"}"
-char      '{letter}'
+char      (\'([^(\"\')])+\')
 string    \"(\\.|[^"\\])*\"
 type      "int"|"float"|"set"|"elem"
 comment   "//".*
