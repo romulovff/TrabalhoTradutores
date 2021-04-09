@@ -24,7 +24,7 @@ void yyerror (const char *msg) {
   printf("\nERRO DE SINTAXE\n");
   printf ("%s, linha: %d, coluna: %d\n", msg,line,word_position);
   errors += 1;
-} 
+}
 void yyerror(const char* msg);
 extern int yylex_destroy(void);
 extern FILE *yyin;
@@ -378,20 +378,23 @@ int main(int argc, char *argv[]) {
 
   ast_tree = NULL;
 
-  printf("\n\n#### INICIO DA ÁRVORE SINTÁTICA ####\n\n");
-
   yyin = fopen(argv[1], "r");
 
   yyparse();
+
+  print_symbols();
+
+  printf("\n\n#### INICIO DA ÁRVORE SINTÁTICA ####\n\n");
 
   print_tree(ast_tree);
 
   printf("\n\n#### FIM DA ÁRVORE SINTÁTICA ####\n\n");
 
-  print_symbols();
-  yylex_destroy();
+  free_symbol_table();
 
   fclose(yyin);
+
+  yylex_destroy();
 
   return 0;
 }

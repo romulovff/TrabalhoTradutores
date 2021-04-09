@@ -1,0 +1,28 @@
+
+ERROR!!
+@ at line: 4, column: 7
+
+
+ERRO DE SINTAXE
+syntax error, unexpected SEMIC, expecting ID, linha: 4, coluna: 9
+
+ERROR!!
+@ at line: 6, column: 9
+
+****************************************** TABELA DE SIMBOLOS *******************************************
+|   ID   |    Valor             Tipo do símbolo             Tipo do retorno da função ou tipo da variável
+*********************************************************************************************************
+
+
+#### INICIO DA ÁRVORE SINTÁTICA ####
+
+declaration
+func_dec
+TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC
+int
+main
+vazio
+
+
+#### FIM DA ÁRVORE SINTÁTICA ####
+

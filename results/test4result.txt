@@ -1,0 +1,107 @@
+****************************************** TABELA DE SIMBOLOS *******************************************
+|   ID   |    Valor             Tipo do símbolo             Tipo do retorno da função ou tipo da variável
+|   0    |    n                 var                   int
+|   1    |    r                 var                   int
+|   2    |    sum                 var                   int
+|   3    |    temp                 var                   int
+*********************************************************************************************************
+
+
+#### INICIO DA ÁRVORE SINTÁTICA ####
+
+declaration
+func_dec
+TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC
+int
+main
+vazio
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+vazio
+var_dec
+TYPE ID SEMIC
+int
+n
+var_dec
+TYPE ID SEMIC
+int
+r
+var_dec
+TYPE ID SEMIC
+int
+sum
+var_dec
+TYPE ID SEMIC
+int
+temp
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term
+STRING
+"enter the number="
+expression_statement
+expression SEMIC
+assign_value
+ID ASSIGN expression
+temp
+=
+operation
+math_op
+term
+ID
+n
+basic_ops
+if_ops
+IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC
+if
+term EQUALS expression
+ID
+temp
+==
+operation
+math_op
+term
+ID
+sum
+statement_list statement
+vazio
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term
+STRING
+"palindrome number "
+else
+statement_list statement
+vazio
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term
+STRING
+"not palindrome"
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+INTEGER
+0
+
+
+#### FIM DA ÁRVORE SINTÁTICA ####
+

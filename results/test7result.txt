@@ -1,0 +1,328 @@
+
+ERRO DE SINTAXE
+syntax error, unexpected FOR, linha: 14, coluna: 11
+
+ERRO DE SINTAXE
+syntax error, unexpected PARENR, linha: 14, coluna: 16
+
+ERRO DE SINTAXE
+syntax error, unexpected INTEGER, linha: 15, coluna: 20
+
+ERRO DE SINTAXE
+syntax error, unexpected PARENR, linha: 15, coluna: 28
+****************************************** TABELA DE SIMBOLOS *******************************************
+|   ID   |    Valor             Tipo do símbolo             Tipo do retorno da função ou tipo da variável
+|   0    |    first_thing                 var                   float
+|   1    |    add_float                 func                   set
+|   2    |    second_thing                 var                   float
+|   3    |    another_thing                 var                   int
+|   4    |    add_set                 func                   set
+|   5    |    zero                 var                   set
+|   6    |    one                 var                   set
+|   7    |    two                 var                   set
+|   8    |    three                 var                   set
+|   9    |    subsum                 func                   set
+|   10    |    test_return                 func                   set
+*********************************************************************************************************
+
+
+#### INICIO DA ÁRVORE SINTÁTICA ####
+
+declarations_list declaration
+declarations_list declaration
+declarations_list declaration
+declarations_list declaration
+declarations_list declaration
+declaration
+var_dec
+TYPE ID SEMIC
+float
+first_thing
+func_dec
+TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+set
+add_float
+vazio
+statement_list statement
+statement_list statement
+statement_list statement
+vazio
+io_ops
+READ PARENL PARENR SEMIC
+read
+io_ops
+READ PARENL PARENR SEMIC
+read
+io_ops
+WRITE PARENL expression PARENR SEMIC
+write
+operation
+math_op
+term
+INTEGER
+10
+var_dec
+TYPE ID SEMIC
+float
+second_thing
+func_dec
+TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+set
+add_set
+vazio
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term ADD expression
+INTEGER
+20
++
+operation
+math_op
+term
+INTEGER
+50
+io_ops
+WRITE PARENL expression PARENR SEMIC
+write
+operation
+math_op
+term
+EMPTY
+EMPTY
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term
+EMPTY
+EMPTY
+io_ops
+WRITE PARENL expression PARENR SEMIC
+write
+operation
+math_op
+term
+STRING
+"a string example"
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term
+STRING
+"a string example"
+io_ops
+WRITE PARENL expression PARENR SEMIC
+write
+operation
+math_op
+term
+CHAR
+'A'
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+operation
+math_op
+term
+CHAR
+'A'
+func_dec
+TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+set
+subsum
+params_list COMMA parameter
+params_list COMMA parameter
+params_list COMMA parameter
+parameter
+TYPE ID
+set
+s
+TYPE ID
+int
+target
+TYPE ID
+int
+cur_sum
+TYPE ID
+set
+ans
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+vazio
+var_dec
+TYPE ID SEMIC
+set
+zero
+var_dec
+TYPE ID SEMIC
+set
+one
+var_dec
+TYPE ID SEMIC
+set
+two
+var_dec
+TYPE ID SEMIC
+set
+three
+expression_statement
+expression SEMIC
+assign_value
+ID ASSIGN expression
+zero
+=
+operation
+math_op
+term
+EMPTY
+EMPTY
+expression_statement
+expression SEMIC
+assign_value
+ID ASSIGN expression
+one
+=
+func_call
+ID PARENL args_list PARENR
+succ
+term
+ID
+zero
+io_ops
+WRITE PARENL expression PARENR SEMIC
+write
+func_call
+ID PARENL args_list PARENR
+succ
+args_list COMMA term
+term
+ID
+zero
+ID
+one
+io_ops
+WRITELN PARENL expression PARENR SEMIC
+writeln
+func_call
+ID PARENL args_list PARENR
+succ
+args_list COMMA term
+term
+ID
+zero
+ID
+one
+func_dec
+TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+set
+test_return
+vazio
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+statement_list statement
+vazio
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+INTEGER
+1
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+DECIMAL
+1.300000
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term ADD expression
+INTEGER
+2
++
+operation
+math_op
+term
+INTEGER
+5
+ret_st
+RETURN expression SEMIC
+return
+set_op
+ADDSET PARENL in_set PARENR
+add
+term IN expression
+ID
+x
+in
+operation
+math_op
+term
+ID
+s
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+ID
+ans
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+EMPTY
+EMPTY
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+STRING
+"string"
+ret_st
+RETURN expression SEMIC
+return
+operation
+math_op
+term
+CHAR
+'C'
+
+
+#### FIM DA ÁRVORE SINTÁTICA ####
+

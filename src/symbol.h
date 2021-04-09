@@ -39,3 +39,12 @@ void print_symbols() {
     }
     printf("*********************************************************************************************************\n");
 }
+
+void free_symbol_table() {
+  Symbol *current_symbol, *tmp;
+
+  HASH_ITER(hh, symbol_table, current_symbol, tmp) {
+    HASH_DEL(symbol_table, current_symbol); 
+    free(current_symbol);
+  }
+}

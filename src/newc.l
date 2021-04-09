@@ -77,13 +77,11 @@ forall    "forall"
 
 {semic}   {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return SEMIC;
           }
 
 {comma}   {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return COMMA;
           }
 
@@ -143,25 +141,21 @@ forall    "forall"
           }
 
 {stfunc}  {
-            yylval.str = (char *) strdup(yytext);
             word_position += yyleng;
             return STFUNC;
           }
 
 {endfunc} {
-            yylval.str = (char *) strdup(yytext);
             word_position += yyleng;
             return ENDFUNC;
           }
 
 {parenl}  {
-            yylval.str = (char *) strdup(yytext);
             word_position += yyleng;
             return PARENL;
           }
 
 {parenr}  {
-            yylval.str = (char *) strdup(yytext);
             word_position += yyleng;
             return PARENR;
           }
