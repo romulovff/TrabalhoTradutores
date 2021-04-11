@@ -2946,6 +2946,11 @@ int main(int argc, char *argv[]) {
 
   yyparse();
 
+  if(has_main != 1) {
+    printf("ERRO SEMÂNTICO\n");
+    printf("FUNÇÃO MAIN NÃO ENCONTRADA\n\n");
+  }
+
   print_symbols();
 
   printf("\n\n#### INICIO DA ÁRVORE SINTÁTICA ####\n\n");
