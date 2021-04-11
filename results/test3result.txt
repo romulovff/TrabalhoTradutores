@@ -1,11 +1,15 @@
-****************************************** TABELA DE SIMBOLOS *******************************************
-|   ID   |    Valor             Tipo do símbolo             Tipo do retorno da função ou tipo da variável
-|   0    |    s                 var                   set
-|   1    |    possibleSums                 var                   set
-|   2    |    x                 var                   int
-|   3    |    sumsWithX                 var                   set
-|   4    |    val                 var                   int
-*********************************************************************************************************
+ERRO SEMATICO
+VARIAVEL var NAO DECLARADA, linha 14, coluna 14
+
+************************************************************** TABELA DE SIMBOLOS ****************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
+    main                             func                                       int                                 1                     0
+    s                                var                                        set                                 1                     0
+    possibleSums                     var                                        set                                 1                     0
+    x                                var                                        int                                 1                     0
+    sumsWithX                        var                                        set                                 1                     0
+    val                              var                                        int                                 1                     0
+**************************************************************************************************************************************************
 
 
 #### INICIO DA ÁRVORE SINTÁTICA ####
@@ -124,8 +128,6 @@ read
 operation
 math_op
 term
-ID
-var
 basic_ops
 FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC
 forall

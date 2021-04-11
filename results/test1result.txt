@@ -1,13 +1,28 @@
-****************************************** TABELA DE SIMBOLOS *******************************************
-|   ID   |    Valor             Tipo do símbolo             Tipo do retorno da função ou tipo da variável
-|   0    |    add_int                 func                   set
-|   1    |    add_float                 func                   set
-|   2    |    newset                 var                   set
-|   3    |    add_set                 func                   set
-|   4    |    s                 var                   set
-|   5    |    t                 var                   set
-|   6    |    o                 var                   set
-*********************************************************************************************************
+ERRO SEMATICO
+VARIAVEL x NAO DECLARADA, linha 4, coluna 12
+
+ERRO SEMATICO
+VARIAVEL x NAO DECLARADA, linha 4, coluna 15
+
+************************************************************** TABELA DE SIMBOLOS ****************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
+    a                                var                                        int                                 0                     0
+    s                                param                                      set                                 1                     0
+    i                                param                                      set                                 1                     0
+    add_int                          func                                       set                                 1                     0
+    b                                var                                        int                                 0                     0
+    s                                param                                      set                                 2                     0
+    i                                param                                      set                                 2                     0
+    add_float                        func                                       set                                 2                     0
+    c                                var                                        int                                 0                     0
+    s                                param                                      set                                 3                     0
+    add_set                          func                                       set                                 3                     0
+    newset                           var                                        set                                 3                     0
+    main                             func                                       int                                 4                     0
+    s                                var                                        set                                 4                     0
+    t                                var                                        set                                 4                     0
+    o                                var                                        set                                 4                     0
+**************************************************************************************************************************************************
 
 
 #### INICIO DA ÁRVORE SINTÁTICA ####
@@ -15,7 +30,14 @@
 declarations_list declaration
 declarations_list declaration
 declarations_list declaration
+declarations_list declaration
+declarations_list declaration
+declarations_list declaration
 declaration
+var_dec
+TYPE ID SEMIC
+int
+a
 func_dec
 TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 set
@@ -31,7 +53,23 @@ i
 statement_list statement
 statement_list statement
 statement_list statement
+statement_list statement
+statement_list statement
 vazio
+expression_statement
+expression SEMIC
+assign_value
+expression_statement
+expression SEMIC
+assign_value
+ID ASSIGN expression
+a
+=
+operation
+math_op
+term
+INTEGER
+1
 expression_statement
 expression SEMIC
 assign_value
@@ -78,6 +116,10 @@ math_op
 term
 INTEGER
 -2
+var_dec
+TYPE ID SEMIC
+int
+b
 func_dec
 TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 set
@@ -114,6 +156,10 @@ math_op
 term
 ID
 s
+var_dec
+TYPE ID SEMIC
+int
+c
 func_dec
 TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 set
@@ -124,6 +170,21 @@ set
 s
 statement_list statement
 statement_list statement
+statement_list statement
+vazio
+basic_ops
+if_ops
+IF PARENL operation PARENR STFUNC statement_list ENDFUNC
+if
+term SMALLER expression
+INTEGER
+1
+<
+operation
+math_op
+term
+INTEGER
+2
 statement_list statement
 vazio
 var_dec

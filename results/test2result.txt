@@ -1,14 +1,23 @@
-****************************************** TABELA DE SIMBOLOS *******************************************
-|   ID   |    Valor             Tipo do símbolo             Tipo do retorno da função ou tipo da variável
-|   0    |    ans                 var                   set
-|   1    |    copy_set                 func                   set
-|   2    |    next                 var                   set
-|   3    |    succ                 func                   set
-|   4    |    zero                 var                   set
-|   5    |    one                 var                   set
-|   6    |    two                 var                   set
-|   7    |    three                 var                   set
-*********************************************************************************************************
+ERRO SEMATICO
+VARIAVEL x NAO DECLARADA, linha 4, coluna 16
+
+ERRO SEMATICO
+VARIAVEL x NAO DECLARADA, linha 4, coluna 28
+
+************************************************************** TABELA DE SIMBOLOS ****************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
+    s                                param                                      set                                 1                     0
+    copy_set                         func                                       set                                 1                     0
+    ans                              var                                        set                                 1                     0
+    n                                param                                      set                                 2                     0
+    succ                             func                                       set                                 2                     0
+    next                             var                                        set                                 2                     0
+    main                             func                                       int                                 3                     0
+    zero                             var                                        set                                 3                     0
+    one                              var                                        set                                 3                     0
+    two                              var                                        set                                 3                     0
+    three                            var                                        set                                 3                     0
+**************************************************************************************************************************************************
 
 
 #### INICIO DA ÁRVORE SINTÁTICA ####
@@ -48,8 +57,6 @@ basic_ops
 FORALL PARENL in_set PARENR set_op SEMIC 
 forall
 term IN expression
-ID
-x
 in
 operation
 math_op
@@ -59,8 +66,6 @@ s
 ADDSET PARENL in_set PARENR
 add
 term IN expression
-ID
-x
 in
 operation
 math_op

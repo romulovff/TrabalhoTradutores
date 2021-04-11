@@ -1,10 +1,11 @@
-****************************************** TABELA DE SIMBOLOS *******************************************
-|   ID   |    Valor             Tipo do símbolo             Tipo do retorno da função ou tipo da variável
-|   0    |    n                 var                   int
-|   1    |    r                 var                   int
-|   2    |    sum                 var                   int
-|   3    |    temp                 var                   int
-*********************************************************************************************************
+************************************************************** TABELA DE SIMBOLOS ****************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
+    main                             func                                       int                                 1                     0
+    n                                var                                        int                                 1                     0
+    r                                var                                        int                                 1                     0
+    sum                              var                                        int                                 1                     0
+    temp                             var                                        int                                 1                     0
+**************************************************************************************************************************************************
 
 
 #### INICIO DA ÁRVORE SINTÁTICA ####

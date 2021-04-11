@@ -10,20 +10,36 @@ syntax error, unexpected INTEGER, linha: 15, coluna: 20
 
 ERRO DE SINTAXE
 syntax error, unexpected PARENR, linha: 15, coluna: 28
-****************************************** TABELA DE SIMBOLOS *******************************************
-|   ID   |    Valor             Tipo do símbolo             Tipo do retorno da função ou tipo da variável
-|   0    |    first_thing                 var                   float
-|   1    |    add_float                 func                   set
-|   2    |    second_thing                 var                   float
-|   3    |    another_thing                 var                   int
-|   4    |    add_set                 func                   set
-|   5    |    zero                 var                   set
-|   6    |    one                 var                   set
-|   7    |    two                 var                   set
-|   8    |    three                 var                   set
-|   9    |    subsum                 func                   set
-|   10    |    test_return                 func                   set
-*********************************************************************************************************
+ERRO SEMATICO
+VARIAVEL x NAO DECLARADA, linha 37, coluna 20
+
+ERRO SEMATICO
+VARIAVEL s NAO DECLARADA, linha 37, coluna 23
+
+ERRO SEMATICO
+VARIAVEL ans NAO DECLARADA, linha 38, coluna 16
+
+ERRO SEMÂNTICO
+FUNÇÃO MAIN NÃO ENCONTRADA
+
+************************************************************** TABELA DE SIMBOLOS ****************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
+    first_thing                      var                                        float                               0                     0
+    add_float                        func                                       set                                 1                     0
+    second_thing                     var                                        float                               0                     0
+    add_set                          func                                       set                                 2                     0
+    another_thing                    var                                        int                                 2                     0
+    s                                param                                      set                                 3                     0
+    target                           param                                      int                                 3                     0
+    cur_sum                          param                                      int                                 3                     0
+    ans                              param                                      set                                 3                     0
+    subsum                           func                                       set                                 3                     0
+    zero                             var                                        set                                 3                     0
+    one                              var                                        set                                 3                     0
+    two                              var                                        set                                 3                     0
+    three                            var                                        set                                 3                     0
+    test_return                      func                                       set                                 4                     0
+**************************************************************************************************************************************************
 
 
 #### INICIO DA ÁRVORE SINTÁTICA ####
@@ -282,22 +298,16 @@ set_op
 ADDSET PARENL in_set PARENR
 add
 term IN expression
-ID
-x
 in
 operation
 math_op
 term
-ID
-s
 ret_st
 RETURN expression SEMIC
 return
 operation
 math_op
 term
-ID
-ans
 ret_st
 RETURN expression SEMIC
 return

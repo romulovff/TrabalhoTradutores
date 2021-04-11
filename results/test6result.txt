@@ -9,9 +9,10 @@ syntax error, unexpected SEMIC, expecting ID, linha: 4, coluna: 9
 ERROR!!
 @ at line: 6, column: 9
 
-****************************************** TABELA DE SIMBOLOS *******************************************
-|   ID   |    Valor             Tipo do símbolo             Tipo do retorno da função ou tipo da variável
-*********************************************************************************************************
+************************************************************** TABELA DE SIMBOLOS ****************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
+    main                             func                                       int                                 1                     0
+**************************************************************************************************************************************************
 
 
 #### INICIO DA ÁRVORE SINTÁTICA ####

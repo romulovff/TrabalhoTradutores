@@ -17,6 +17,7 @@
 int errors = 0;
 int symbolIdCounter = 0;
 int scope = 0;
+int parent_scope = 0;
 int has_main = 0;
 
 extern Symbol *symbol_table;
@@ -104,14 +105,14 @@ declaration:
   ;
 
 func_dec:
-    TYPE ID PARENL {scope++; push_stack(scope);} params_list PARENR STFUNC {add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value);} statement_list ENDFUNC     {
+    TYPE ID PARENL {parent_scope = STACK_TOP(stack_scope) -> value; scope++; push_stack(scope);} params_list PARENR STFUNC {add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parent_scope);} statement_list ENDFUNC     {
                                                                           $$ = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
                                                                           pop_stack();
                                                                         }
-  | TYPE MAIN PARENL {scope++; push_stack(scope);} params_list PARENR STFUNC {add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value);} statement_list ENDFUNC   {
+  | TYPE MAIN PARENL {parent_scope = STACK_TOP(stack_scope) -> value; scope++; push_stack(scope);} params_list PARENR STFUNC {add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parent_scope);} statement_list ENDFUNC   {
                                                                           symbolIdCounter++;
                                                                           $$ = create_node4("TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
-                                                                          has_main++; 
+                                                                          has_main++;
                                                                           pop_stack();
                                                                         }
   ;
@@ -135,7 +136,7 @@ params_list:
 parameter:
     TYPE ID         {
                       $$ = create_node2("TYPE ID", create_node0($1), create_node0($2));
-                      add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value);
+                      add_symbol($2, "param", $1, STACK_TOP(stack_scope) -> value, parent_scope);
                     }
   ;
 
@@ -216,7 +217,7 @@ ret_st:
 
 var_dec:
     TYPE ID SEMIC   {
-                      add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value);
+                      add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value, parent_scope);
                       $$ = create_node2("TYPE ID SEMIC", create_node0($1), create_node0($2));
                     }
   ;
@@ -253,7 +254,14 @@ expression:
 
 term:
     ID                            {
-                                    $$ = create_node1("ID", create_node0($1));
+                                    if (find_symbol($1, scope, parent_scope) != NULL) {
+                                      $$ = create_node1("ID", create_node0($1));
+                                    }
+                                    else{
+                                      printf("ERRO SEMATICO\n");
+                                      printf("VARIAVEL %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
+                                      $$ = create_node_empty();
+                                    }
                                   }
   | INTEGER                       {
                                     $$ = create_node1("INTEGER", create_node0_int($1, 'i'));
@@ -371,7 +379,13 @@ args_list:
 
 assign_value:
     ID ASSIGN expression      {
-                                $$ = create_node3("ID ASSIGN expression", create_node0($1), create_node0($2), $3);
+                                if (find_symbol($1, scope, parent_scope) != NULL)
+                                  $$ = create_node3("ID ASSIGN expression", create_node0($1), create_node0($2), $3);
+                                else{
+                                  printf("ERRO SEMATICO\n");
+                                  printf("VARIAVEL %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
+                                  $$ = create_node_empty();
+                                }
                               }
   ;
 
