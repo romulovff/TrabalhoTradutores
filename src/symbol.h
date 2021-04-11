@@ -48,7 +48,7 @@ struct symbol *find_symbol(char *name, int scope, int origin_scope) {
     if ((strcmp(s -> name, name) == 0 && s -> scope == scope) && (strcmp(s -> symbolType, "var") == 0 || strcmp(s -> symbolType, "param") == 0)){
       return s;
     } else {
-      if ((strcmp(s -> name, name) == 0 && s -> origin_scope == origin_scope) && strcmp(s -> symbolType, "var") == 0){
+      if ((strcmp(s -> name, name) == 0 && s -> scope == origin_scope) && strcmp(s -> symbolType, "var") == 0){
         return s;
       }
     }

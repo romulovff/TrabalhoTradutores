@@ -1,6 +1,7 @@
 int a;
 
 set add_int(set s, set i) {
+    int l;
     x = x + 1;
     a = 1;
     s = EMPTY;
@@ -9,8 +10,10 @@ set add_int(set s, set i) {
 }
 
 int b;
+int l;
 
 set add_float(set s, set i) {
+    l = 1;
     return add(-5.4 in add(1.5 in s));
 }
 

@@ -1,8 +1,8 @@
 ERRO SEMATICO
-VARIAVEL x NAO DECLARADA, linha 4, coluna 12
+VARIAVEL x NAO DECLARADA, linha 5, coluna 12
 
 ERRO SEMATICO
-VARIAVEL x NAO DECLARADA, linha 4, coluna 15
+VARIAVEL x NAO DECLARADA, linha 5, coluna 15
 
 ************************************************************** TABELA DE SIMBOLOS ****************************************************************
     Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
@@ -10,7 +10,9 @@ VARIAVEL x NAO DECLARADA, linha 4, coluna 15
     s                                param                                      set                                 1                     0
     i                                param                                      set                                 1                     0
     add_int                          func                                       set                                 1                     0
+    l                                var                                        int                                 1                     0
     b                                var                                        int                                 0                     0
+    l                                var                                        int                                 0                     0
     s                                param                                      set                                 2                     0
     i                                param                                      set                                 2                     0
     add_float                        func                                       set                                 2                     0
@@ -27,6 +29,7 @@ VARIAVEL x NAO DECLARADA, linha 4, coluna 15
 
 #### INICIO DA ÁRVORE SINTÁTICA ####
 
+declarations_list declaration
 declarations_list declaration
 declarations_list declaration
 declarations_list declaration
@@ -55,7 +58,12 @@ statement_list statement
 statement_list statement
 statement_list statement
 statement_list statement
+statement_list statement
 vazio
+var_dec
+TYPE ID SEMIC
+int
+l
 expression_statement
 expression SEMIC
 assign_value
@@ -120,6 +128,10 @@ var_dec
 TYPE ID SEMIC
 int
 b
+var_dec
+TYPE ID SEMIC
+int
+l
 func_dec
 TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 set
@@ -133,7 +145,19 @@ TYPE ID
 set
 i
 statement_list statement
+statement_list statement
 vazio
+expression_statement
+expression SEMIC
+assign_value
+ID ASSIGN expression
+l
+=
+operation
+math_op
+term
+INTEGER
+1
 ret_st
 RETURN expression SEMIC
 return
