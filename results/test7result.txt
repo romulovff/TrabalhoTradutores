@@ -11,6 +11,15 @@ syntax error, unexpected INTEGER, linha: 15, coluna: 20
 ERRO DE SINTAXE
 syntax error, unexpected PARENR, linha: 15, coluna: 28
 ERRO SEMATICO
+FUNÇAO succ NAO DECLARADA, linha 28, coluna 22
+
+ERRO SEMATICO
+FUNÇAO succ NAO DECLARADA, linha 29, coluna 27
+
+ERRO SEMATICO
+FUNÇAO succ NAO DECLARADA, linha 30, coluna 29
+
+ERRO SEMATICO
 VARIAVEL x NAO DECLARADA, linha 37, coluna 20
 
 ERRO SEMATICO
@@ -218,35 +227,14 @@ ID ASSIGN expression
 one
 =
 func_call
-ID PARENL args_list PARENR
-succ
-term
-ID
-zero
 io_ops
 WRITE PARENL expression PARENR SEMIC
 write
 func_call
-ID PARENL args_list PARENR
-succ
-args_list COMMA term
-term
-ID
-zero
-ID
-one
 io_ops
 WRITELN PARENL expression PARENR SEMIC
 writeln
 func_call
-ID PARENL args_list PARENR
-succ
-args_list COMMA term
-term
-ID
-zero
-ID
-one
 func_dec
 TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 set

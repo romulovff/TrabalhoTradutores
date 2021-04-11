@@ -4,6 +4,9 @@ VARIAVEL x NAO DECLARADA, linha 5, coluna 12
 ERRO SEMATICO
 VARIAVEL x NAO DECLARADA, linha 5, coluna 15
 
+ERRO SEMATICO
+FUNÇAO funcao NAO DECLARADA, linha 8, coluna 14
+
 ************************************************************** TABELA DE SIMBOLOS ****************************************************************
     Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
     a                                var                                        int                                 0                     0
@@ -59,6 +62,7 @@ statement_list statement
 statement_list statement
 statement_list statement
 statement_list statement
+statement_list statement
 vazio
 var_dec
 TYPE ID SEMIC
@@ -89,6 +93,9 @@ math_op
 term
 EMPTY
 EMPTY
+expression_statement
+expression SEMIC
+func_call
 ret_st
 RETURN expression SEMIC
 return

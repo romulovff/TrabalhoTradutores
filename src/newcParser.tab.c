@@ -582,7 +582,7 @@ static const yytype_int16 yyrline[] =
      232,   235,   241,   244,   247,   250,   256,   266,   269,   272,
      275,   278,   281,   287,   290,   293,   296,   299,   305,   308,
      311,   317,   320,   323,   326,   329,   332,   335,   338,   341,
-     344,   347,   350,   356,   362,   368,   371,   374,   381
+     344,   347,   350,   356,   368,   374,   377,   380,   387
 };
 #endif
 
@@ -2665,45 +2665,51 @@ yyreduce:
   case 73: /* func_call: ID PARENL args_list PARENR  */
 #line 356 "newcParser.y"
                                   {
-                                    (yyval.tree_node) = create_node2("ID PARENL args_list PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
+                                    if (find_symbol_func((yyvsp[-3].str)) != NULL)
+                                      (yyval.tree_node) = create_node2("ID PARENL args_list PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
+                                    else {
+                                      printf("ERRO SEMATICO\n");
+                                      printf("FUNÇAO %s NAO DECLARADA, linha %d, coluna %d\n\n", (yyvsp[-3].str), line, word_position);
+                                      (yyval.tree_node) = create_node_empty();
+                                    }
                                   }
-#line 2671 "newcParser.tab.c"
+#line 2677 "newcParser.tab.c"
     break;
 
   case 74: /* in_set: term IN expression  */
-#line 362 "newcParser.y"
+#line 368 "newcParser.y"
                                   {
                                     (yyval.tree_node) = create_node3("term IN expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
                                   }
-#line 2679 "newcParser.tab.c"
+#line 2685 "newcParser.tab.c"
     break;
 
   case 75: /* args_list: args_list COMMA term  */
-#line 368 "newcParser.y"
+#line 374 "newcParser.y"
                                       {
                                         (yyval.tree_node) = create_node2("args_list COMMA term", (yyvsp[-2].tree_node), (yyvsp[0].tree_node));
                                       }
-#line 2687 "newcParser.tab.c"
+#line 2693 "newcParser.tab.c"
     break;
 
   case 76: /* args_list: term  */
-#line 371 "newcParser.y"
+#line 377 "newcParser.y"
                                       {
                                         (yyval.tree_node) = create_node1("term", (yyvsp[0].tree_node));
                                       }
-#line 2695 "newcParser.tab.c"
+#line 2701 "newcParser.tab.c"
     break;
 
   case 77: /* args_list: %empty  */
-#line 374 "newcParser.y"
+#line 380 "newcParser.y"
                                       {
                                         (yyval.tree_node) = create_node0("vazio");
                                       }
-#line 2703 "newcParser.tab.c"
+#line 2709 "newcParser.tab.c"
     break;
 
   case 78: /* assign_value: ID ASSIGN expression  */
-#line 381 "newcParser.y"
+#line 387 "newcParser.y"
                               {
                                 if (find_symbol((yyvsp[-2].str), scope, parent_scope) != NULL)
                                   (yyval.tree_node) = create_node3("ID ASSIGN expression", create_node0((yyvsp[-2].str)), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
@@ -2713,11 +2719,11 @@ yyreduce:
                                   (yyval.tree_node) = create_node_empty();
                                 }
                               }
-#line 2717 "newcParser.tab.c"
+#line 2723 "newcParser.tab.c"
     break;
 
 
-#line 2721 "newcParser.tab.c"
+#line 2727 "newcParser.tab.c"
 
       default: break;
     }
@@ -2947,7 +2953,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 394 "newcParser.y"
+#line 400 "newcParser.y"
 
 
 int main(int argc, char *argv[]) {

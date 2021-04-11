@@ -354,7 +354,13 @@ operation:
 
 func_call:
     ID PARENL args_list PARENR    {
-                                    $$ = create_node2("ID PARENL args_list PARENR", create_node0($1), $3);
+                                    if (find_symbol_func($1) != NULL)
+                                      $$ = create_node2("ID PARENL args_list PARENR", create_node0($1), $3);
+                                    else {
+                                      printf("ERRO SEMATICO\n");
+                                      printf("FUNÇAO %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
+                                      $$ = create_node_empty();
+                                    }
                                   }
   ;
 

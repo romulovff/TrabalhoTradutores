@@ -56,6 +56,17 @@ struct symbol *find_symbol(char *name, int scope, int origin_scope) {
   return NULL;
 }
 
+struct symbol *find_symbol_func(char *name) {
+  struct symbol *s;
+
+  for (s = symbol_table; s != NULL; s = s -> hh.next){
+    if (strcmp(s -> name, name) == 0 && strcmp(s -> symbolType, "func") == 0){
+      return s;
+    }
+  }
+  return NULL;
+}
+
 void print_symbols() {
     Symbol *s;
 

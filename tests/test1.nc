@@ -5,6 +5,7 @@ set add_int(set s, set i) {
     x = x + 1;
     a = 1;
     s = EMPTY;
+    funcao();
     return add(-2 in add(1 in s));
     2 + -2;
 }
