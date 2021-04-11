@@ -27,7 +27,7 @@ void add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope
     s -> origin_scope = origin_scope;
     HASH_ADD_STR(symbol_table, name, s);
   } else {
-    if (s -> scope != scope) {
+    if (s -> scope != scope || strcmp(s -> returnFuncVarType, returnFuncVarType) != 0) {
       s = (Symbol*)malloc(sizeof(Symbol));
       s -> name = name;
       s -> symbolType = symbolType;
