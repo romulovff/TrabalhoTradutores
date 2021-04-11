@@ -12,12 +12,16 @@
 #include "tree.h"
 #include "symbol.h"
 #include "newc.h"
+#include "stackScope.h"
 
 int errors = 0;
 int symbolIdCounter = 0;
+int scope = 0;
+int has_main = 0;
 
 extern Symbol *symbol_table;
 Node *ast_tree = NULL;
+extern Scope *stack_scope;
 
 int yylex();
 void yyerror (const char *msg) {
@@ -100,14 +104,15 @@ declaration:
   ;
 
 func_dec:
-    TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC     {
-                                                                          add_symbol(symbolIdCounter, $2, "func", $1);
-                                                                          symbolIdCounter++;
-                                                                          $$ = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $4, $7);
+    TYPE ID PARENL {scope++; push_stack(scope);} params_list PARENR STFUNC {add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value);} statement_list ENDFUNC     {
+                                                                          $$ = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
+                                                                          pop_stack();
                                                                         }
-  | TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC   {
+  | TYPE MAIN PARENL {scope++; push_stack(scope);} params_list PARENR STFUNC {add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value);} statement_list ENDFUNC   {
                                                                           symbolIdCounter++;
-                                                                          $$ = create_node4("TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $4, $7);
+                                                                          $$ = create_node4("TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
+                                                                          has_main++; 
+                                                                          pop_stack();
                                                                         }
   ;
 
@@ -130,6 +135,7 @@ params_list:
 parameter:
     TYPE ID         {
                       $$ = create_node2("TYPE ID", create_node0($1), create_node0($2));
+                      add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value);
                     }
   ;
 
@@ -210,8 +216,7 @@ ret_st:
 
 var_dec:
     TYPE ID SEMIC   {
-                      add_symbol(symbolIdCounter, $2, "var", $1);
-                      symbolIdCounter++;
+                      add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value);
                       $$ = create_node2("TYPE ID SEMIC", create_node0($1), create_node0($2));
                     }
   ;
@@ -375,6 +380,8 @@ assign_value:
 %%
 
 int main(int argc, char *argv[]) {
+
+  push_stack(0);
 
   ast_tree = NULL;
 

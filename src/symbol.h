@@ -4,40 +4,56 @@
 #include "uthash.h"
 
 typedef struct symbol {
-  int id;
   char *name;
   char *symbolType;
   char *returnFuncVarType;
+  int scope;
   UT_hash_handle hh;
 }Symbol;
 
 Symbol *symbol_table = NULL;
 
-void add_symbol(int id, char *name, char *symbolType, char *returnFuncVarType) {
+void add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope) {
   struct symbol *s;
 
-  HASH_FIND_INT(symbol_table, &id, s);
+  HASH_FIND_STR(symbol_table, name, s);
   if (s == NULL){
     s = (Symbol*)malloc(sizeof(Symbol));
-    s -> id = id;
     s -> name = name;
     s -> symbolType = symbolType;
     s -> returnFuncVarType = returnFuncVarType;
-    HASH_ADD_INT(symbol_table, id, s);
+    s -> scope = scope;
+    HASH_ADD_STR(symbol_table, name, s);
   } else {
-    printf("NÃO FOI POSSÍVEL ADICIONAR SIMBOLO\n");
+    if (s -> scope != scope) {
+      s = (Symbol*)malloc(sizeof(Symbol));
+      s -> name = name;
+      s -> symbolType = symbolType;
+      s -> returnFuncVarType = returnFuncVarType;
+      s -> scope = scope;
+      HASH_ADD_STR(symbol_table, name, s);
+    }else {
+      printf("NÃO FOI POSSÍVEL ADICIONAR SIMBOLO\n");
+    }
   }
+}
+
+struct symbol *find_symbol(char *name) {
+    struct symbol *s;
+
+    HASH_FIND_STR(symbol_table, name, s);  /* s: output pointer */
+    return s;
 }
 
 void print_symbols() {
     Symbol *s;
 
-    printf("****************************************** TABELA DE SIMBOLOS *******************************************\n");
-    printf("|   ID   |    Valor             Tipo do símbolo             Tipo do retorno da função ou tipo da variável\n");
+    printf("************************************************* TABELA DE SIMBOLOS **************************************************\n");
+    printf("    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo\n");
     for (s = symbol_table; s != NULL; s = s -> hh.next) {
-        printf("|   %d    |    %s                 %s                   %s\n", s -> id, s -> name, s -> symbolType, s -> returnFuncVarType);
+        printf("    %-16s                 %-24s                   %-20s                %d\n", s -> name, s -> symbolType, s -> returnFuncVarType, s -> scope);
     }
-    printf("*********************************************************************************************************\n");
+    printf("***********************************************************************************************************************\n");
 }
 
 void free_symbol_table() {
