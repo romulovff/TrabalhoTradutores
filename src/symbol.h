@@ -36,7 +36,8 @@ void add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope
       s -> origin_scope = origin_scope;
       HASH_ADD_STR(symbol_table, name, s);
     }else {
-      printf("NÃO FOI POSSÍVEL ADICIONAR SIMBOLO\n");
+      printf("ERRO SEMANTICO\n");
+      printf("VARIAVEL OU FUNÇAO JA DECLARADA NESSE ESCOPO\n\n");
     }
   }
 }
