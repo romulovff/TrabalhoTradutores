@@ -71,8 +71,8 @@ extern FILE *yyin;
 
 %start program
 %type<tree_node> program
-%type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement
-%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error if_statement
+%type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement for_statement
+%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error if_statement forall_statement
 
 %%
 
@@ -192,15 +192,36 @@ basic_ops:
     if_ops {
       $$ = create_node1("if_ops", $1);
     }
-  | FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC {
-      $$ = create_node3("FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC", create_node0($1), $3, $6);
+  | for_statement STFUNC statement_list ENDFUNC {
+      pop_stack();
+      $$ = create_node2("FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC", $1, $3);
     }
-  | FORALL PARENL in_set PARENR set_op SEMIC {
-      $$ = create_node3("FORALL PARENL in_set PARENR set_op SEMIC ", create_node0($1), $3, $5);
+  | forall_statement set_op SEMIC {
+      pop_stack();
+      $$ = create_node2("FORALL PARENL in_set PARENR set_op SEMIC ", $1, $2);
     }
-  | FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC {
-      $$ = create_node3("FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC", create_node0($1), $3, $6);
+  | forall_statement STFUNC statement_list ENDFUNC {
+      pop_stack();
+      $$ = create_node2("FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC", $1, $3);
     }
+  ;
+
+for_statement:
+  FOR PARENL for_body PARENR {
+    parent_scope = STACK_TOP(stack_scope) -> value;
+    scope++;
+    push_stack(scope);
+    $$ = create_node2("FOR PARENL for_body PARENR", create_node0($1), $3);
+  }
+  ;
+
+forall_statement:
+  FORALL PARENL in_set PARENR {
+    parent_scope = STACK_TOP(stack_scope) -> value;
+    scope++;
+    push_stack(scope);
+    $$ = create_node2("FORALL PARENL for_body PARENR", create_node0($1), $3);
+  }
   ;
 
 for_body:
@@ -214,12 +235,12 @@ for_body:
 
 if_ops:
     if_statement STFUNC statement_list ENDFUNC {
-      $$ = create_node2("if_statement STFUNC statement_list ENDFUNC", $1, $3);
       pop_stack();
+      $$ = create_node2("if_statement STFUNC statement_list ENDFUNC", $1, $3);
     }
   | if_statement STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC {
-      $$ = create_node4("if_statement STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC", $1, $3, create_node0($5), $7);
       pop_stack();
+      $$ = create_node4("if_statement STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC", $1, $3, create_node0($5), $7);
     }
   ;
 
