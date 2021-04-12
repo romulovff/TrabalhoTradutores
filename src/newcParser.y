@@ -72,7 +72,7 @@ extern FILE *yyin;
 %start program
 %type<tree_node> program
 %type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement
-%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error
+%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error if_statement
 
 %%
 
@@ -105,294 +105,318 @@ declaration:
   ;
 
 func_dec:
-    TYPE ID PARENL {parent_scope = STACK_TOP(stack_scope) -> value; scope++; push_stack(scope);} params_list PARENR STFUNC {add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parent_scope);} statement_list ENDFUNC     {
-                                                                          $$ = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
-                                                                          pop_stack();
-                                                                        }
-  | TYPE MAIN PARENL {parent_scope = STACK_TOP(stack_scope) -> value; scope++; push_stack(scope);} params_list PARENR STFUNC {add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parent_scope);} statement_list ENDFUNC   {
-                                                                          symbolIdCounter++;
-                                                                          $$ = create_node4("TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
-                                                                          has_main++;
-                                                                          pop_stack();
-                                                                        }
+    TYPE ID PARENL {
+      parent_scope = STACK_TOP(stack_scope) -> value;
+      scope++;
+      push_stack(scope);
+    } params_list PARENR STFUNC {
+      add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parent_scope);
+    } statement_list ENDFUNC  {
+      $$ = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
+      pop_stack();
+    }
+  | TYPE MAIN PARENL {
+      parent_scope = STACK_TOP(stack_scope) -> value;
+      scope++;
+      push_stack(scope);
+    } params_list PARENR STFUNC {
+      add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parent_scope);
+    } statement_list ENDFUNC {
+      symbolIdCounter++;
+      $$ = create_node4("TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
+      has_main++;
+      pop_stack();
+    }
   ;
 
 params_list:
-    params_list COMMA parameter   {
-                                    $$ = create_node2("params_list COMMA parameter", $1, $3);
-                                  }
-  | parameter                     {
-                                    $$ = create_node1("parameter", $1);
-                                  }
-  |                               {
-                                    $$ = create_node0("vazio");
-                                  }
-  | error                         {
-                                    $$ = create_node_empty();
-                                    yyerror(yymsg);
-                                  }
+    params_list COMMA parameter {
+      $$ = create_node2("params_list COMMA parameter", $1, $3);
+    }
+  | parameter {
+      $$ = create_node1("parameter", $1);
+    }
+  | {
+      $$ = create_node0("vazio");
+    }
+  | error {
+      $$ = create_node_empty();
+      yyerror(yymsg);
+    }
   ;
 
 parameter:
-    TYPE ID         {
-                      $$ = create_node2("TYPE ID", create_node0($1), create_node0($2));
-                      add_symbol($2, "param", $1, STACK_TOP(stack_scope) -> value, parent_scope);
-                    }
+    TYPE ID {
+      $$ = create_node2("TYPE ID", create_node0($1), create_node0($2));
+      add_symbol($2, "param", $1, STACK_TOP(stack_scope) -> value, parent_scope);
+    }
   ;
 
 statement_list:
-    statement_list statement      {
-                                    $$ = create_node2("statement_list statement", $1, $2);
-                                  }
-  |                               {
-                                    $$ = create_node0("vazio");
-                                  }
-  | error                         {
-                                    $$ = create_node_empty();
-                                  }
+    statement_list statement {
+      $$ = create_node2("statement_list statement", $1, $2);
+    }
+  | {
+      $$ = create_node0("vazio");
+    }
+  | error {
+      $$ = create_node_empty();
+    }
   ;
 
 statement:
-    expression_statement  {
-                            $$ = create_node1("expression_statement", $1);
-                          }
-  | ret_st                {
-                            $$ = create_node1("ret_st", $1);
-                          }
-  | var_dec               {
-                            $$ = create_node1("var_dec", $1);
-                          }
-  | io_ops                {
-                            $$ = create_node1("io_ops", $1);
-                          }
-  | basic_ops             {
-                            $$ = create_node1("basic_ops", $1);
-                          }
+    expression_statement {
+      $$ = create_node1("expression_statement", $1);
+    }
+  | ret_st {
+      $$ = create_node1("ret_st", $1);
+    }
+  | var_dec {
+      $$ = create_node1("var_dec", $1);
+    }
+  | io_ops {
+      $$ = create_node1("io_ops", $1);
+    }
+  | basic_ops {
+      $$ = create_node1("basic_ops", $1);
+    }
   ;
 
 expression_statement:
-    expression SEMIC      {
-                            $$ = create_node1("expression SEMIC", $1);
-                          }
+    expression SEMIC {
+      $$ = create_node1("expression SEMIC", $1);
+    }
   ;
 
 basic_ops:
-    if_ops                                                        {
-                                                                    $$ = create_node1("if_ops", $1);
-                                                                  }
-  | FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC      {
-                                                                    $$ = create_node3("FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC", create_node0($1), $3, $6);
-                                                                  }
-  | FORALL PARENL in_set PARENR set_op SEMIC                      {
-                                                                    $$ = create_node3("FORALL PARENL in_set PARENR set_op SEMIC ", create_node0($1), $3, $5);
-                                                                  }
-  | FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC     {
-                                                                    $$ = create_node3("FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC", create_node0($1), $3, $6);
-                                                                  }
+    if_ops {
+      $$ = create_node1("if_ops", $1);
+    }
+  | FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC {
+      $$ = create_node3("FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC", create_node0($1), $3, $6);
+    }
+  | FORALL PARENL in_set PARENR set_op SEMIC {
+      $$ = create_node3("FORALL PARENL in_set PARENR set_op SEMIC ", create_node0($1), $3, $5);
+    }
+  | FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC {
+      $$ = create_node3("FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC", create_node0($1), $3, $6);
+    }
   ;
 
 for_body:
-    expression_statement expression_statement expression          {
-                                                                    $$ = create_node3("expression_statement expression_statement expression", $1, $2, $3);
-                                                                  }
-  | SEMIC expression_statement expression                         {
-                                                                    $$ = create_node2("SEMIC expression_statement expression", $2, $3);
-                                                                  }
+    expression_statement expression_statement expression {
+      $$ = create_node3("expression_statement expression_statement expression", $1, $2, $3);
+    }
+  | SEMIC expression_statement expression {
+      $$ = create_node2("SEMIC expression_statement expression", $2, $3);
+    }
   ;
 
 if_ops:
-    IF PARENL operation PARENR STFUNC statement_list ENDFUNC                                            {
-                                                                                                          $$ = create_node3("IF PARENL operation PARENR STFUNC statement_list ENDFUNC", create_node0($1), $3, $6);
-                                                                                                        }
-  | IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC         {
-                                                                                                          $$ = create_node5("IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC", create_node0($1), $3, $6, create_node0($8), $10);
-                                                                                                        }
+    if_statement STFUNC statement_list ENDFUNC {
+      $$ = create_node2("if_statement STFUNC statement_list ENDFUNC", $1, $3);
+      pop_stack();
+    }
+  | if_statement STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC {
+      $$ = create_node4("if_statement STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC", $1, $3, create_node0($5), $7);
+      pop_stack();
+    }
   ;
 
+if_statement:
+    IF PARENL operation PARENR {
+      parent_scope = STACK_TOP(stack_scope) -> value;
+      scope++;
+      push_stack(scope);
+      $$ = create_node2("IF PARENL operation PARENR", create_node0($1), $3);
+    }
+  ;
+
+
 ret_st:
-    RETURN expression SEMIC         {
-                                      $$ = create_node2("RETURN expression SEMIC", create_node0($1), $2);
-                                    }
+    RETURN expression SEMIC {
+      $$ = create_node2("RETURN expression SEMIC", create_node0($1), $2);
+    }
   ;
 
 var_dec:
-    TYPE ID SEMIC   {
-                      add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value, parent_scope);
-                      $$ = create_node2("TYPE ID SEMIC", create_node0($1), create_node0($2));
-                    }
+    TYPE ID SEMIC {
+      add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value, parent_scope);
+      $$ = create_node2("TYPE ID SEMIC", create_node0($1), create_node0($2));
+    }
   ;
 
 io_ops:
-    READ PARENL PARENR SEMIC                {
-                                              $$ = create_node1("READ PARENL PARENR SEMIC", create_node0($1));
-                                            }
-  | READ PARENL expression PARENR SEMIC     {
-                                              $$ = create_node2("READ PARENL expression PARENR SEMIC", create_node0($1), $3);
-                                            }
-  | WRITE PARENL expression PARENR SEMIC    {
-                                              $$ = create_node2("WRITE PARENL expression PARENR SEMIC", create_node0($1), $3);
-                                            }
-  | WRITELN PARENL expression PARENR SEMIC  {
-                                              $$ = create_node2("WRITELN PARENL expression PARENR SEMIC", create_node0($1), $3);
-                                            }
+    READ PARENL PARENR SEMIC {
+      $$ = create_node1("READ PARENL PARENR SEMIC", create_node0($1));
+    }
+  | READ PARENL expression PARENR SEMIC {
+      $$ = create_node2("READ PARENL expression PARENR SEMIC", create_node0($1), $3);
+    }
+  | WRITE PARENL expression PARENR SEMIC {
+      $$ = create_node2("WRITE PARENL expression PARENR SEMIC", create_node0($1), $3);
+    }
+  | WRITELN PARENL expression PARENR SEMIC {
+      $$ = create_node2("WRITELN PARENL expression PARENR SEMIC", create_node0($1), $3);
+    }
   ;
 
 expression:
-    set_op                        {
-                                    $$ = create_node1("set_op", $1);
-                                  }
-  | operation                     {
-                                    $$ = create_node1("operation", $1);
-                                  }
-  | func_call                     {
-                                    $$ = create_node1("func_call", $1);
-                                  }
-  | assign_value                  {
-                                    $$ = create_node1("assign_value", $1);
-                                  }
+    set_op {
+      $$ = create_node1("set_op", $1);
+    }
+  | operation {
+      $$ = create_node1("operation", $1);
+    }
+  | func_call {
+      $$ = create_node1("func_call", $1);
+    }
+  | assign_value {
+      $$ = create_node1("assign_value", $1);
+    }
   ;
 
 term:
-    ID                            {
-                                    if (find_symbol($1, scope, parent_scope) != NULL) {
-                                      $$ = create_node1("ID", create_node0($1));
-                                    }
-                                    else{
-                                      printf("ERRO SEMATICO\n");
-                                      printf("VARIAVEL %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
-                                      $$ = create_node_empty();
-                                    }
-                                  }
-  | INTEGER                       {
-                                    $$ = create_node1("INTEGER", create_node0_int($1, 'i'));
-                                  }
-  | DECIMAL                       {
-                                    $$ = create_node1("DECIMAL", create_node0_dec($1, 'd'));
-                                  }
-  | CHAR                          {
-                                    $$ = create_node1("CHAR", create_node0_char($1, 'c'));
-                                  }
-  | STRING                        {
-                                    $$ = create_node1("STRING", create_node0($1));
-                                  }
-  | EMPTY                         {
-                                    $$ = create_node1("EMPTY", create_node0($1));
-                                  }
-  | PARENL expression PARENR      {
-                                    $$ = create_node1("PARENL expression PARENR", $2);
-                                  }
+    ID {
+      if (find_symbol($1, scope, parent_scope) != NULL) {
+        $$ = create_node1("ID", create_node0($1));
+      }
+      else{
+        printf("ERRO SEMATICO\n");
+        printf("VARIAVEL %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
+        $$ = create_node_empty();
+      }
+    }
+  | INTEGER {
+      $$ = create_node1("INTEGER", create_node0_int($1, 'i'));
+    }
+  | DECIMAL {
+      $$ = create_node1("DECIMAL", create_node0_dec($1, 'd'));
+    }
+  | CHAR {
+      $$ = create_node1("CHAR", create_node0_char($1, 'c'));
+    }
+  | STRING {
+      $$ = create_node1("STRING", create_node0($1));
+    }
+  | EMPTY {
+      $$ = create_node1("EMPTY", create_node0($1));
+    }
+  | PARENL expression PARENR {
+      $$ = create_node1("PARENL expression PARENR", $2);
+    }
   ;
 
 math_op:
-    term DIV expression         {
-                                  $$ = create_node3("term DIV expression", $1, create_node0($2), $3);
-                                }
-  | term MULT expression        {
-                                  $$ = create_node3("term MULT expression", $1, create_node0($2), $3);
-                                }
-  | term ADD expression         {
-                                  $$ = create_node3("term ADD expression", $1, create_node0($2), $3);
-                                }
-  | term SUB expression         {
-                                  $$ = create_node3("term SUB expression", $1, create_node0($2), $3);
-                                }
-  | term                        {
-                                  $$ = create_node1("term", $1);
-                                }
+    term DIV expression {
+      $$ = create_node3("term DIV expression", $1, create_node0($2), $3);
+    }
+  | term MULT expression {
+      $$ = create_node3("term MULT expression", $1, create_node0($2), $3);
+    }
+  | term ADD expression {
+      $$ = create_node3("term ADD expression", $1, create_node0($2), $3);
+    }
+  | term SUB expression {
+      $$ = create_node3("term SUB expression", $1, create_node0($2), $3);
+    }
+  | term {
+      $$ = create_node1("term", $1);
+    }
   ;
 
 set_op:
-    ADDSET PARENL in_set PARENR         {
-                                          $$ = create_node2("ADDSET PARENL in_set PARENR", create_node0($1), $3);
-                                        }
-  | REMOVE PARENL in_set PARENR         {
-                                          $$ = create_node2("REMOVE PARENL in_set PARENR", create_node0($1), $3);
-                                        }
-  | EXISTS PARENL in_set PARENR         {
-                                          $$ = create_node2("EXISTS PARENL in_set PARENR", create_node0($1), $3);
-                                        }
+    ADDSET PARENL in_set PARENR {
+      $$ = create_node2("ADDSET PARENL in_set PARENR", create_node0($1), $3);
+    }
+  | REMOVE PARENL in_set PARENR {
+      $$ = create_node2("REMOVE PARENL in_set PARENR", create_node0($1), $3);
+    }
+  | EXISTS PARENL in_set PARENR {
+      $$ = create_node2("EXISTS PARENL in_set PARENR", create_node0($1), $3);
+    }
   ;
 
 operation:
-    math_op                             {
-                                          $$ = create_node1("math_op", $1);
-                                        }
-  | in_set                              {
-                                          $$ = create_node1("in_set", $1);
-                                        }
-  | ISTYPE PARENL expression PARENR     {
-                                          $$ = create_node2("ISTYPE PARENL expression PARENR", create_node0($1), $3);
-                                        }
-  | term SMALLER expression             {
-                                          $$ = create_node3("term SMALLER expression", $1, create_node0($2), $3);
-                                        }
-  | term GREATER expression             {
-                                          $$ = create_node3("term GREATER expression", $1, create_node0($2), $3);
-                                        }
-  | term SMALLEQ expression             {
-                                          $$ = create_node3("term SMALLEQ expression", $1, create_node0($2), $3);
-                                        }
-  | term GREATEQ expression             {
-                                          $$ = create_node3("term GREATEQ expression", $1, create_node0($2), $3);
-                                        }
-  | term EQUALS expression              {
-                                          $$ = create_node3("term EQUALS expression", $1, create_node0($2), $3);
-                                        }
-  | term DIFFERENT expression           {
-                                          $$ = create_node3("term DIFFERENT expression", $1, create_node0($2), $3);
-                                        }
-  | term OR expression                  {
-                                          $$ = create_node3("term OR expression", $1, create_node0($2), $3);
-                                        }
-  | term AND expression                 {
-                                          $$ = create_node3("term AND expression", $1, create_node0($2), $3);
-                                        }
-  | NEG expression                      {
-                                          $$ = create_node2("NEG expression", create_node0($1), $2);
-                                        }
+    math_op {
+      $$ = create_node1("math_op", $1);
+    }
+  | in_set {
+      $$ = create_node1("in_set", $1);
+    }
+  | ISTYPE PARENL expression PARENR {
+      $$ = create_node2("ISTYPE PARENL expression PARENR", create_node0($1), $3);
+    }
+  | term SMALLER expression {
+      $$ = create_node3("term SMALLER expression", $1, create_node0($2), $3);
+    }
+  | term GREATER expression {
+      $$ = create_node3("term GREATER expression", $1, create_node0($2), $3);
+    }
+  | term SMALLEQ expression {
+      $$ = create_node3("term SMALLEQ expression", $1, create_node0($2), $3);
+    }
+  | term GREATEQ expression {
+      $$ = create_node3("term GREATEQ expression", $1, create_node0($2), $3);
+    }
+  | term EQUALS expression {
+      $$ = create_node3("term EQUALS expression", $1, create_node0($2), $3);
+    }
+  | term DIFFERENT expression {
+      $$ = create_node3("term DIFFERENT expression", $1, create_node0($2), $3);
+    }
+  | term OR expression {
+      $$ = create_node3("term OR expression", $1, create_node0($2), $3);
+    }
+  | term AND expression {
+      $$ = create_node3("term AND expression", $1, create_node0($2), $3);
+    }
+  | NEG expression {
+      $$ = create_node2("NEG expression", create_node0($1), $2);
+    }
   ;
 
 func_call:
-    ID PARENL args_list PARENR    {
-                                    if (find_symbol_func($1) != NULL)
-                                      $$ = create_node2("ID PARENL args_list PARENR", create_node0($1), $3);
-                                    else {
-                                      printf("ERRO SEMATICO\n");
-                                      printf("FUNÇAO %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
-                                      $$ = create_node_empty();
-                                    }
-                                  }
+    ID PARENL args_list PARENR {
+      if (find_symbol_func($1) != NULL)
+        $$ = create_node2("ID PARENL args_list PARENR", create_node0($1), $3);
+      else {
+        printf("ERRO SEMATICO\n");
+        printf("FUNÇAO %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
+        $$ = create_node_empty();
+      }
+    }
   ;
 
 in_set:
-    term IN expression            {
-                                    $$ = create_node3("term IN expression", $1, create_node0($2), $3);
-                                  }
+    term IN expression {
+      $$ = create_node3("term IN expression", $1, create_node0($2), $3);
+    }
   ;
 
 args_list:
-    args_list COMMA term              {
-                                        $$ = create_node2("args_list COMMA term", $1, $3);
-                                      }
-  | term                              {
-                                        $$ = create_node1("term", $1);
-                                      }
-  |                                   {
-                                        $$ = create_node0("vazio");
-                                      }
+    args_list COMMA term {
+      $$ = create_node2("args_list COMMA term", $1, $3);
+    }
+  | term {
+      $$ = create_node1("term", $1);
+    }
+  | {
+      $$ = create_node0("vazio");
+    }
   ;
 
 
 assign_value:
-    ID ASSIGN expression      {
-                                if (find_symbol($1, scope, parent_scope) != NULL)
-                                  $$ = create_node3("ID ASSIGN expression", create_node0($1), create_node0($2), $3);
-                                else{
-                                  printf("ERRO SEMATICO\n");
-                                  printf("VARIAVEL %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
-                                  $$ = create_node_empty();
-                                }
-                              }
+    ID ASSIGN expression {
+      if (find_symbol($1, scope, parent_scope) != NULL)
+        $$ = create_node3("ID ASSIGN expression", create_node0($1), create_node0($2), $3);
+      else{
+        printf("ERRO SEMATICO\n");
+        printf("VARIAVEL %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
+        $$ = create_node_empty();
+      }
+    }
   ;
 
 
