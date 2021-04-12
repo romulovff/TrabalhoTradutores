@@ -14,7 +14,7 @@ typedef struct symbol {
 
 Symbol *symbol_table = NULL;
 
-void add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope, int origin_scope) {
+int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope, int origin_scope) {
   struct symbol *s;
 
   HASH_FIND_STR(symbol_table, name, s);
@@ -26,6 +26,7 @@ void add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope
     s -> scope = scope;
     s -> origin_scope = origin_scope;
     HASH_ADD_STR(symbol_table, name, s);
+    return 0;
   } else {
     if (s -> scope != scope) {
       s = (Symbol*)malloc(sizeof(Symbol));
@@ -35,11 +36,14 @@ void add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope
       s -> scope = scope;
       s -> origin_scope = origin_scope;
       HASH_ADD_STR(symbol_table, name, s);
+      return 0;
     }else {
       printf("ERRO SEMANTICO\n");
       printf("VARIAVEL OU FUNÇAO JA DECLARADA NESSE ESCOPO\n\n");
+      return 1;
     }
   }
+  return 1;
 }
 
 struct symbol *find_symbol(char *name, int scope, int origin_scope) {

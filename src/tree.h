@@ -183,11 +183,11 @@ void free_tree(Node *node) {
   if(node == NULL)
     return;
   
-  print_tree(node -> left);
-  print_tree(node -> middle0);
-  print_tree(node -> middle1);
-  print_tree(node -> middle2);
-  print_tree(node -> right);
+  free_tree(node -> left);
+  free_tree(node -> middle0);
+  free_tree(node -> middle1);
+  free_tree(node -> middle2);
+  free_tree(node -> right);
 
   free(node);
 
