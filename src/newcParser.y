@@ -15,8 +15,11 @@
 #include "stackScope.h"
 
 int errors = 0;
+int semanticErrors = 0;
 int symbolIdCounter = 0;
 int scope = 0;
+int parameters = 0;
+int args_params = 0;
 int parent_scope = 0;
 int has_main = 0;
 
@@ -111,7 +114,8 @@ func_dec:
       scope++;
       push_stack(scope);
     } params_list PARENR STFUNC {
-      errors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parent_scope);
+      errors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parent_scope, parameters);
+      parameters = 0;
     } statement_list ENDFUNC  {
       $$ = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
       pop_stack();
@@ -121,7 +125,8 @@ func_dec:
       scope++;
       push_stack(scope);
     } params_list PARENR STFUNC {
-      errors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parent_scope);
+      semanticErrors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parent_scope, parameters);
+      parameters = 0;
     } statement_list ENDFUNC {
       symbolIdCounter++;
       $$ = create_node4("TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
@@ -149,8 +154,9 @@ params_list:
 
 parameter:
     TYPE ID {
+      parameters++;
       $$ = create_node2("TYPE ID", create_node0($1), create_node0($2));
-      errors += add_symbol($2, "param", $1, STACK_TOP(stack_scope) -> value, parent_scope);
+      semanticErrors += add_symbol($2, "param", $1, STACK_TOP(stack_scope) -> value, parent_scope, 0);
     }
   ;
 
@@ -264,7 +270,7 @@ ret_st:
 
 var_dec:
     TYPE ID SEMIC {
-      errors += add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value, parent_scope);
+      semanticErrors += add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value, parent_scope, 0);
       $$ = create_node2("TYPE ID SEMIC", create_node0($1), create_node0($2));
     }
   ;
@@ -307,7 +313,7 @@ term:
       else{
         printf("ERRO SEMATICO\n");
         printf("VARIAVEL %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
-        errors += 1;
+        semanticErrors += 1;
         $$ = create_node_empty();
       }
     }
@@ -402,12 +408,21 @@ operation:
 
 func_call:
     ID PARENL args_list PARENR {
-      if (find_symbol_func($1) != NULL)
-        $$ = create_node2("ID PARENL args_list PARENR", create_node0($1), $3);
-      else {
+      if (find_symbol_func($1) != NULL){
+        if (check_number_of_params(args_params, $1)){
+          $$ = create_node2("ID PARENL args_list PARENR", create_node0($1), $3);
+        }else{
+          printf("ERRO SEMATICO\n");
+          printf("FUNÇAO %s COM NUMERO DE PARAMETROS INVALIDOS NA INVOCAÇÃO, linha %d, coluna %d\n\n", $1, line, word_position);
+          semanticErrors += 1;
+          args_params = 0;
+          $$ = create_node_empty();
+        }
+      }else {
         printf("ERRO SEMATICO\n");
         printf("FUNÇAO %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
-        errors += 1;
+        semanticErrors += 1;
+        args_params = 0;
         $$ = create_node_empty();
       }
     }
@@ -421,9 +436,11 @@ in_set:
 
 args_list:
     args_list COMMA term {
+      args_params++;
       $$ = create_node2("args_list COMMA term", $1, $3);
     }
   | term {
+      args_params++;
       $$ = create_node1("term", $1);
     }
   | {
@@ -439,7 +456,7 @@ assign_value:
       else{
         printf("ERRO SEMATICO\n");
         printf("VARIAVEL %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
-        errors += 1;
+        semanticErrors += 1;
         $$ = create_node_empty();
       }
     }
@@ -459,10 +476,14 @@ int main(int argc, char *argv[]) {
 
   yyparse();
 
-  if(has_main != 1) {
+  if(has_main == 0) {
     printf("ERRO SEMÂNTICO\n");
     printf("FUNÇÃO MAIN NÃO ENCONTRADA\n\n");
-    errors += 1;
+    semanticErrors += 1;
+  } else if (has_main > 1) {
+    printf("ERRO SEMÂNTICO\n");
+    printf("MAIS DE UMA FUNÇÃO MAIN ENCONTRADA\n\n");
+    semanticErrors += 1;
   }
 
   print_symbols();
@@ -471,8 +492,11 @@ int main(int argc, char *argv[]) {
     printf("\n\n#### INICIO DA ÁRVORE SINTÁTICA ####\n\n");
     print_tree(ast_tree);
     printf("\n\n#### FIM DA ÁRVORE SINTÁTICA ####\n\n");
+    if (semanticErrors > 0) {
+      printf("\n\nFORAM ENCONTRADAS %d WARNINGS NO CODIGO\n\n", semanticErrors);
+    }
   } else {
-    printf("\n\nFORAM ENCONTRADOS %d ERROS NO CODIGO\n\n", errors);
+    printf("\n\nFORAM ENCONTRADOS %d ERROS E %d WARNINGS NO CODIGO\n\n", errors, semanticErrors);
     free_tree(ast_tree);
   }
 

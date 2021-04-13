@@ -9,12 +9,13 @@ typedef struct symbol {
   char *returnFuncVarType;
   int scope;
   int origin_scope;
+  int parameters;
   UT_hash_handle hh;
 }Symbol;
 
 Symbol *symbol_table = NULL;
 
-int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope, int origin_scope) {
+int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope, int origin_scope, int parameters) {
   struct symbol *s;
 
   HASH_FIND_STR(symbol_table, name, s);
@@ -24,7 +25,8 @@ int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope,
     s -> symbolType = symbolType;
     s -> returnFuncVarType = returnFuncVarType;
     s -> scope = scope;
-    s -> origin_scope = origin_scope;
+    s -> origin_scope = origin_scope; 
+    s -> parameters = parameters;
     HASH_ADD_STR(symbol_table, name, s);
     return 0;
   } else {
@@ -35,6 +37,7 @@ int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope,
       s -> returnFuncVarType = returnFuncVarType;
       s -> scope = scope;
       s -> origin_scope = origin_scope;
+      s -> parameters = parameters;
       HASH_ADD_STR(symbol_table, name, s);
       return 0;
     }else {
@@ -75,12 +78,12 @@ struct symbol *find_symbol_func(char *name) {
 void print_symbols() {
     Symbol *s;
 
-    printf("************************************************************** TABELA DE SIMBOLOS ****************************************************************\n");
-    printf("    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem\n");
+    printf("************************************************************************ TABELA DE SIMBOLOS **************************************************************************\n");
+    printf("    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem          Parâmetros\n");
     for (s = symbol_table; s != NULL; s = s -> hh.next) {
-        printf("    %-16s                 %-24s                   %-20s                %-3d                   %d\n", s -> name, s -> symbolType, s -> returnFuncVarType, s -> scope, s -> origin_scope);
+        printf("    %-16s                 %-24s                   %-20s                %-3d                 %3d                      %d\n", s -> name, s -> symbolType, s -> returnFuncVarType, s -> scope, s -> origin_scope, s -> parameters);
     }
-    printf("**************************************************************************************************************************************************\n");
+    printf("**********************************************************************************************************************************************************************\n");
 }
 
 void free_symbol_table() {
@@ -90,4 +93,12 @@ void free_symbol_table() {
     HASH_DEL(symbol_table, current_symbol); 
     free(current_symbol);
   }
+}
+
+bool check_number_of_params(int args_params, char* func_name) {
+  struct symbol *s = find_symbol_func(func_name);
+
+  if(s -> parameters == args_params)
+    return true;
+  return false;
 }
