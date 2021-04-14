@@ -4,20 +4,26 @@ VARIAVEL x NAO DECLARADA, linha 4, coluna 16
 ERRO SEMATICO
 VARIAVEL x NAO DECLARADA, linha 4, coluna 28
 
-************************************************************** TABELA DE SIMBOLOS ****************************************************************
-    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
-    s                                param                                      set                                 1                     0
-    copy_set                         func                                       set                                 1                     0
-    ans                              var                                        set                                 1                     0
-    n                                param                                      set                                 2                     0
-    succ                             func                                       set                                 2                     0
-    next                             var                                        set                                 2                     0
-    main                             func                                       int                                 3                     0
-    zero                             var                                        set                                 3                     0
-    one                              var                                        set                                 3                     0
-    two                              var                                        set                                 3                     0
-    three                            var                                        set                                 3                     0
-**************************************************************************************************************************************************
+ERRO SEMATICO
+FUNÇAO succ COM NUMERO DE PARAMETROS INVALIDOS NA INVOCAÇÃO, linha 21, coluna 22
+
+ERRO SEMATICO
+FUNÇAO succ COM NUMERO DE PARAMETROS INVALIDOS NA INVOCAÇÃO, linha 23, coluna 23
+
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    s                                param                                      set                                 1                   0
+    copy_set                         func                                       set                                 1                   1
+    ans                              var                                        set                                 1                   0
+    n                                param                                      set                                 3                   0
+    succ                             func                                       set                                 3                   1
+    next                             var                                        set                                 3                   0
+    main                             func                                       int                                 4                   0
+    zero                             var                                        set                                 4                   0
+    one                              var                                        set                                 4                   0
+    two                              var                                        set                                 4                   0
+    three                            var                                        set                                 4                   0
+**********************************************************************************************************************************************************************
 
 
 #### INICIO DA ÁRVORE SINTÁTICA ####
@@ -55,6 +61,7 @@ EMPTY
 EMPTY
 basic_ops
 FORALL PARENL in_set PARENR set_op SEMIC 
+FORALL PARENL for_body PARENR
 forall
 term IN expression
 in
@@ -171,11 +178,6 @@ ID ASSIGN expression
 one
 =
 func_call
-ID PARENL args_list PARENR
-succ
-term
-ID
-zero
 expression_statement
 expression SEMIC
 assign_value
@@ -195,12 +197,11 @@ ID ASSIGN expression
 three
 =
 func_call
-ID PARENL args_list PARENR
-succ
-term
-ID
-two
 
 
 #### FIM DA ÁRVORE SINTÁTICA ####
+
+
+
+FORAM ENCONTRADAS 4 WARNINGS NO CODIGO
 

@@ -1,3 +1,4 @@
+
 int main() {
     set s;
     s = EMPTY;

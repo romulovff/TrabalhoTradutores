@@ -12,7 +12,6 @@
 #include "tree.h"
 #include "symbol.h"
 #include "newc.h"
-#include "stackScope.h"
 
 int errors = 0;
 int semanticErrors = 0;
@@ -20,7 +19,6 @@ int symbolIdCounter = 0;
 int scope = 0;
 int parameters = 0;
 int args_params = 0;
-int parent_scope = 0;
 int has_main = 0;
 
 extern Symbol *symbol_table;
@@ -110,22 +108,20 @@ declaration:
 
 func_dec:
     TYPE ID PARENL {
-      parent_scope = STACK_TOP(stack_scope) -> value;
       scope++;
       push_stack(scope);
     } params_list PARENR STFUNC {
-      errors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parent_scope, parameters);
+      errors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parameters);
       parameters = 0;
     } statement_list ENDFUNC  {
       $$ = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
       pop_stack();
     }
   | TYPE MAIN PARENL {
-      parent_scope = STACK_TOP(stack_scope) -> value;
       scope++;
       push_stack(scope);
     } params_list PARENR STFUNC {
-      semanticErrors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parent_scope, parameters);
+      semanticErrors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parameters);
       parameters = 0;
     } statement_list ENDFUNC {
       symbolIdCounter++;
@@ -156,7 +152,7 @@ parameter:
     TYPE ID {
       parameters++;
       $$ = create_node2("TYPE ID", create_node0($1), create_node0($2));
-      semanticErrors += add_symbol($2, "param", $1, STACK_TOP(stack_scope) -> value, parent_scope, 0);
+      semanticErrors += add_symbol($2, "param", $1, STACK_TOP(stack_scope) -> value, 0);
     }
   ;
 
@@ -216,7 +212,6 @@ basic_ops:
 
 for_statement:
   FOR PARENL for_body PARENR {
-    parent_scope = STACK_TOP(stack_scope) -> value;
     scope++;
     push_stack(scope);
     $$ = create_node2("FOR PARENL for_body PARENR", create_node0($1), $3);
@@ -225,7 +220,6 @@ for_statement:
 
 forall_statement:
   FORALL PARENL in_set PARENR {
-    parent_scope = STACK_TOP(stack_scope) -> value;
     scope++;
     push_stack(scope);
     $$ = create_node2("FORALL PARENL for_body PARENR", create_node0($1), $3);
@@ -254,7 +248,6 @@ if_ops:
 
 if_statement:
     IF PARENL operation PARENR {
-      parent_scope = STACK_TOP(stack_scope) -> value;
       scope++;
       push_stack(scope);
       $$ = create_node2("IF PARENL operation PARENR", create_node0($1), $3);
@@ -263,7 +256,6 @@ if_statement:
 
 else_statement:
     ELSE {
-      parent_scope = STACK_TOP(stack_scope) -> value;
       scope++;
       push_stack(scope);
     } STFUNC statement_list ENDFUNC {
@@ -281,7 +273,7 @@ ret_st:
 
 var_dec:
     TYPE ID SEMIC {
-      semanticErrors += add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value, parent_scope, 0);
+      semanticErrors += add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value, 0);
       $$ = create_node2("TYPE ID SEMIC", create_node0($1), create_node0($2));
     }
   ;
@@ -318,7 +310,7 @@ expression:
 
 term:
     ID {
-      if (find_symbol($1, scope, parent_scope) != NULL) {
+      if (check_is_in_scope($1, STACK_TOP(stack_scope) -> value)) {
         $$ = create_node1("ID", create_node0($1));
       }
       else{
@@ -462,7 +454,7 @@ args_list:
 
 assign_value:
     ID ASSIGN expression {
-      if (find_symbol($1, scope, parent_scope) != NULL)
+      if (check_is_in_scope($1, STACK_TOP(stack_scope) -> value))
         $$ = create_node3("ID ASSIGN expression", create_node0($1), create_node0($2), $3);
       else{
         printf("ERRO SEMATICO\n");

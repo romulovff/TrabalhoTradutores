@@ -7,27 +7,34 @@ VARIAVEL x NAO DECLARADA, linha 5, coluna 15
 ERRO SEMATICO
 FUNÇAO funcao NAO DECLARADA, linha 8, coluna 14
 
-************************************************************** TABELA DE SIMBOLOS ****************************************************************
-    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
-    a                                var                                        int                                 0                     0
-    s                                param                                      set                                 1                     0
-    i                                param                                      set                                 1                     0
-    add_int                          func                                       set                                 1                     0
-    l                                var                                        int                                 1                     0
-    b                                var                                        int                                 0                     0
-    l                                var                                        int                                 0                     0
-    s                                param                                      set                                 2                     0
-    i                                param                                      set                                 2                     0
-    add_float                        func                                       set                                 2                     0
-    c                                var                                        int                                 0                     0
-    s                                param                                      set                                 3                     0
-    add_set                          func                                       set                                 3                     0
-    newset                           var                                        set                                 3                     0
-    main                             func                                       int                                 4                     0
-    s                                var                                        set                                 4                     0
-    t                                var                                        set                                 4                     0
-    o                                var                                        set                                 4                     0
-**************************************************************************************************************************************************
+ERRO SEMATICO
+FUNÇAO add_set NAO DECLARADA, linha 10, coluna 15
+
+ERRO SEMATICO
+VARIAVEL newset NAO DECLARADA, linha 31, coluna 20
+
+ERRO SEMATICO
+VARIAVEL i NAO DECLARADA, linha 32, coluna 23
+
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    a                                var                                        int                                 0                   0
+    s                                param                                      set                                 1                   0
+    i                                param                                      set                                 1                   0
+    add_int                          func                                       set                                 1                   2
+    l                                var                                        int                                 1                   0
+    b                                var                                        int                                 0                   0
+    l                                var                                        int                                 0                   0
+    s                                param                                      set                                 2                   0
+    i                                param                                      set                                 2                   0
+    add_float                        func                                       set                                 2                   2
+    c                                var                                        int                                 0                   0
+    add_set                          func                                       set                                 3                   0
+    main                             func                                       int                                 6                   0
+    s                                var                                        set                                 6                   0
+    t                                var                                        set                                 6                   0
+    o                                var                                        set                                 6                   0
+**********************************************************************************************************************************************************************
 
 
 #### INICIO DA ÁRVORE SINTÁTICA ####
@@ -56,6 +63,7 @@ s
 TYPE ID
 set
 i
+statement_list statement
 statement_list statement
 statement_list statement
 statement_list statement
@@ -118,6 +126,9 @@ math_op
 term
 ID
 s
+expression_statement
+expression SEMIC
+func_call
 expression_statement
 expression SEMIC
 operation
@@ -195,17 +206,16 @@ func_dec
 TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 set
 add_set
-parameter
-TYPE ID
-set
-s
+vazio
+statement_list statement
 statement_list statement
 statement_list statement
 statement_list statement
 vazio
 basic_ops
 if_ops
-IF PARENL operation PARENR STFUNC statement_list ENDFUNC
+if_statement STFUNC statement_list ENDFUNC
+IF PARENL operation PARENR
 if
 term SMALLER expression
 INTEGER
@@ -218,21 +228,47 @@ INTEGER
 2
 statement_list statement
 vazio
-var_dec
-TYPE ID SEMIC
-set
-newset
+basic_ops
+if_ops
+if_statement STFUNC statement_list ENDFUNC
+IF PARENL operation PARENR
+if
+term GREATER expression
+INTEGER
+1
+>
+operation
+math_op
+term
+INTEGER
+2
+statement_list statement
+vazio
+expression_statement
+expression SEMIC
+func_call
+ID PARENL args_list PARENR
+add_int
+args_list COMMA term
+term
+ID
+a
+ID
+c
 expression_statement
 expression SEMIC
 assign_value
 ID ASSIGN expression
-newset
+b
 =
 operation
 math_op
 term
-EMPTY
-EMPTY
+INTEGER
+1
+expression_statement
+expression SEMIC
+assign_value
 ret_st
 RETURN expression SEMIC
 return
@@ -246,8 +282,6 @@ in
 operation
 math_op
 term
-ID
-s
 func_dec
 TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC
 int
@@ -272,4 +306,8 @@ o
 
 
 #### FIM DA ÁRVORE SINTÁTICA ####
+
+
+
+FORAM ENCONTRADAS 6 WARNINGS NO CODIGO
 

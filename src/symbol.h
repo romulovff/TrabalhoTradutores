@@ -2,20 +2,20 @@
 #include<stdlib.h>
 #include<string.h>
 #include "uthash.h"
+#include "stackScope.h"
 
 typedef struct symbol {
   char *name;
   char *symbolType;
   char *returnFuncVarType;
   int scope;
-  int origin_scope;
   int parameters;
   UT_hash_handle hh;
 }Symbol;
 
 Symbol *symbol_table = NULL;
 
-int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope, int origin_scope, int parameters) {
+int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope, int parameters) {
   struct symbol *s;
 
   HASH_FIND_STR(symbol_table, name, s);
@@ -25,7 +25,6 @@ int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope,
     s -> symbolType = symbolType;
     s -> returnFuncVarType = returnFuncVarType;
     s -> scope = scope;
-    s -> origin_scope = origin_scope; 
     s -> parameters = parameters;
     HASH_ADD_STR(symbol_table, name, s);
     return 0;
@@ -36,7 +35,6 @@ int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope,
       s -> symbolType = symbolType;
       s -> returnFuncVarType = returnFuncVarType;
       s -> scope = scope;
-      s -> origin_scope = origin_scope;
       s -> parameters = parameters;
       HASH_ADD_STR(symbol_table, name, s);
       return 0;
@@ -49,20 +47,20 @@ int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope,
   return 1;
 }
 
-struct symbol *find_symbol(char *name, int scope, int origin_scope) {
-  struct symbol *s;
-
-  for (s = symbol_table; s != NULL; s = s -> hh.next){
-    if ((strcmp(s -> name, name) == 0 && s -> scope == scope) && (strcmp(s -> symbolType, "var") == 0 || strcmp(s -> symbolType, "param") == 0)){
-      return s;
-    } else {
-      if ((strcmp(s -> name, name) == 0 && s -> scope == origin_scope) && strcmp(s -> symbolType, "var") == 0){
-        return s;
-      }
-    }
-  }
-  return NULL;
-}
+// struct symbol *find_symbol(char *name, int scope) {
+//   struct symbol *s;
+//
+//   for (s = symbol_table; s != NULL; s = s -> hh.next){
+//     if ((strcmp(s -> name, name) == 0 && s -> scope == scope) && (strcmp(s -> symbolType, "var") == 0 || strcmp(s -> symbolType, "param") == 0)){
+//       return s;
+//     } else {
+//       if ((strcmp(s -> name, name) == 0 && s -> scope == origin_scope) && strcmp(s -> symbolType, "var") == 0){
+//         return s;
+//       }
+//     }
+//   }
+//   return NULL;
+// }
 
 struct symbol *find_symbol_func(char *name) {
   struct symbol *s;
@@ -79,9 +77,9 @@ void print_symbols() {
     Symbol *s;
 
     printf("************************************************************************ TABELA DE SIMBOLOS **************************************************************************\n");
-    printf("    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem          Parâmetros\n");
+    printf("    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros\n");
     for (s = symbol_table; s != NULL; s = s -> hh.next) {
-        printf("    %-16s                 %-24s                   %-20s                %-3d                 %3d                      %d\n", s -> name, s -> symbolType, s -> returnFuncVarType, s -> scope, s -> origin_scope, s -> parameters);
+        printf("    %-16s                 %-24s                   %-20s                %-3d                 %d\n", s -> name, s -> symbolType, s -> returnFuncVarType, s -> scope, s -> parameters);
     }
     printf("**********************************************************************************************************************************************************************\n");
 }
@@ -90,7 +88,7 @@ void free_symbol_table() {
   Symbol *current_symbol, *tmp;
 
   HASH_ITER(hh, symbol_table, current_symbol, tmp) {
-    HASH_DEL(symbol_table, current_symbol); 
+    HASH_DEL(symbol_table, current_symbol);
     free(current_symbol);
   }
 }
@@ -101,4 +99,21 @@ bool check_number_of_params(int args_params, char* func_name) {
   if(s -> parameters == args_params)
     return true;
   return false;
+}
+
+bool check_is_in_scope(char *name, int num) {
+  struct symbol *s;
+  Scope *scope;
+  Scope *scopeAux = (Scope*)malloc(sizeof(Scope));
+
+  for (scope = stack_scope; !STACK_EMPTY(scope);){
+    for (s = symbol_table; s != NULL; s = s -> hh.next){
+      if (strcmp(s -> name, name) == 0 && s -> scope == scope -> value && (strcmp(s -> symbolType, "var") == 0 || strcmp(s -> symbolType, "param") == 0)){
+        return true;
+      }
+    }
+    STACK_POP(scope, scopeAux);
+  }
+  return false;
+  free(scopeAux);
 }

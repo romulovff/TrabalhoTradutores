@@ -1,15 +1,15 @@
 ERRO SEMATICO
-VARIAVEL var NAO DECLARADA, linha 14, coluna 14
+VARIAVEL var NAO DECLARADA, linha 15, coluna 14
 
-************************************************************** TABELA DE SIMBOLOS ****************************************************************
-    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
-    main                             func                                       int                                 1                     0
-    s                                var                                        set                                 1                     0
-    possibleSums                     var                                        set                                 1                     0
-    x                                var                                        int                                 1                     0
-    sumsWithX                        var                                        set                                 1                     0
-    val                              var                                        int                                 1                     0
-**************************************************************************************************************************************************
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    main                             func                                       int                                 1                   0
+    s                                var                                        set                                 1                   0
+    possibleSums                     var                                        set                                 1                   0
+    x                                var                                        int                                 1                   0
+    sumsWithX                        var                                        set                                 2                   0
+    val                              var                                        int                                 2                   0
+**********************************************************************************************************************************************************************
 
 
 #### INICIO DA ÁRVORE SINTÁTICA ####
@@ -130,6 +130,7 @@ math_op
 term
 basic_ops
 FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC
+FORALL PARENL for_body PARENR
 forall
 term IN expression
 ID
@@ -168,6 +169,7 @@ int
 val
 basic_ops
 FORALL PARENL in_set PARENR set_op SEMIC 
+FORALL PARENL for_body PARENR
 forall
 term IN expression
 ID
@@ -201,6 +203,7 @@ ID
 sumsWithX
 basic_ops
 FORALL PARENL in_set PARENR set_op SEMIC 
+FORALL PARENL for_body PARENR
 forall
 term IN expression
 ID
@@ -224,7 +227,8 @@ ID
 possibleSums
 basic_ops
 if_ops
-IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC
+if_statement STFUNC statement_list ENDFUNC else_statement
+IF PARENL operation PARENR
 if
 in_set
 term IN expression
@@ -246,6 +250,7 @@ math_op
 term
 CHAR
 'y'
+ELSE STFUNC statement_list ENDFUNC
 else
 statement_list statement
 vazio
@@ -260,4 +265,8 @@ CHAR
 
 
 #### FIM DA ÁRVORE SINTÁTICA ####
+
+
+
+FORAM ENCONTRADAS 1 WARNINGS NO CODIGO
 

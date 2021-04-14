@@ -1,11 +1,11 @@
-************************************************************** TABELA DE SIMBOLOS ****************************************************************
-    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
-    main                             func                                       int                                 1                     0
-    n                                var                                        int                                 1                     0
-    r                                var                                        int                                 1                     0
-    sum                              var                                        int                                 1                     0
-    temp                             var                                        int                                 1                     0
-**************************************************************************************************************************************************
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    main                             func                                       int                                 1                   0
+    n                                var                                        int                                 1                   0
+    r                                var                                        int                                 1                   0
+    sum                              var                                        int                                 1                   0
+    temp                             var                                        int                                 1                   0
+**********************************************************************************************************************************************************************
 
 
 #### INICIO DA ÁRVORE SINTÁTICA ####
@@ -62,7 +62,8 @@ ID
 n
 basic_ops
 if_ops
-IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC
+if_statement STFUNC statement_list ENDFUNC else_statement
+IF PARENL operation PARENR
 if
 term EQUALS expression
 ID
@@ -83,6 +84,7 @@ math_op
 term
 STRING
 "palindrome number "
+ELSE STFUNC statement_list ENDFUNC
 else
 statement_list statement
 vazio

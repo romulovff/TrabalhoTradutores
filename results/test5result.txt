@@ -24,21 +24,11 @@ syntax error, unexpected ID, linha: 10, coluna: 11
 
 ERRO DE SINTAXE
 syntax error, unexpected ENDFUNC, expecting end of file or TYPE, linha: 13, coluna: 2
-************************************************************** TABELA DE SIMBOLOS ****************************************************************
-    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
-    main                             func                                       int                                 1                     0
-**************************************************************************************************************************************************
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    main                             func                                       int                                 1                   0
+**********************************************************************************************************************************************************************
 
 
-#### INICIO DA ÁRVORE SINTÁTICA ####
-
-declaration
-func_dec
-TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC
-int
-main
-vazio
-
-
-#### FIM DA ÁRVORE SINTÁTICA ####
+FORAM ENCONTRADOS 5 ERROS E 1 WARNINGS NO CODIGO
 

@@ -67,149 +67,16 @@ VARIAVEL ans NAO DECLARADA, linha 23, coluna 18
 ERRO SEMÂNTICO
 FUNÇÃO MAIN NÃO ENCONTRADA
 
-************************************************************** TABELA DE SIMBOLOS ****************************************************************
-    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Escopo de origem
-    test_forall                      func                                       int                                 1                     0
-    sumsWithX                        var                                        set                                 1                     0
-    val                              var                                        int                                 1                     0
-    test_set_func_calls                 func                                       float                               2                     0
-    test_if_else                     func                                       int                                 3                     0
-    el                               var                                        int                                 3                     0
-**************************************************************************************************************************************************
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    test_forall                      func                                       int                                 1                   0
+    sumsWithX                        var                                        set                                 4                   0
+    val                              var                                        int                                 4                   0
+    test_set_func_calls                 func                                       float                               6                   0
+    test_if_else                     func                                       int                                 7                   0
+    el                               var                                        int                                 9                   0
+**********************************************************************************************************************************************************************
 
 
-#### INICIO DA ÁRVORE SINTÁTICA ####
-
-declarations_list declaration
-declarations_list declaration
-declaration
-func_dec
-TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
-int
-test_forall
-vazio
-statement_list statement
-statement_list statement
-statement_list statement
-vazio
-basic_ops
-FORALL PARENL in_set PARENR set_op SEMIC 
-forall
-term IN expression
-in
-operation
-math_op
-term
-ADDSET PARENL in_set PARENR
-add
-term IN expression
-in
-operation
-math_op
-term
-basic_ops
-FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC
-forall
-term IN expression
-in
-operation
-math_op
-term
-statement_list statement
-statement_list statement
-vazio
-expression_statement
-expression SEMIC
-assign_value
-expression_statement
-expression SEMIC
-assign_value
-basic_ops
-FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC
-forall
-term IN expression
-in
-operation
-math_op
-term
-statement_list statement
-statement_list statement
-statement_list statement
-statement_list statement
-vazio
-var_dec
-TYPE ID SEMIC
-set
-sumsWithX
-expression_statement
-expression SEMIC
-assign_value
-ID ASSIGN expression
-sumsWithX
-=
-operation
-math_op
-term
-EMPTY
-EMPTY
-var_dec
-TYPE ID SEMIC
-int
-val
-basic_ops
-FORALL PARENL in_set PARENR set_op SEMIC 
-forall
-term IN expression
-ID
-val
-in
-operation
-math_op
-term
-ADDSET PARENL in_set PARENR
-add
-term IN expression
-in
-operation
-math_op
-term
-func_dec
-TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
-float
-test_set_func_calls
-vazio
-func_dec
-TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
-int
-test_if_else
-vazio
-statement_list statement
-vazio
-basic_ops
-if_ops
-IF PARENL operation PARENR STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC
-if
-term EQUALS expression
-==
-operation
-math_op
-term
-statement_list statement
-vazio
-ret_st
-RETURN expression SEMIC
-return
-operation
-math_op
-term
-else
-statement_list statement
-vazio
-var_dec
-TYPE ID SEMIC
-int
-el
-
-
-#### FIM DA ÁRVORE SINTÁTICA ####
+FORAM ENCONTRADOS 2 ERROS E 21 WARNINGS NO CODIGO
 

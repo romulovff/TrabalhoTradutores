@@ -7,6 +7,7 @@ set add_int(set s, set i) {
     s = EMPTY;
     funcao();
     return add(-2 in add(1 in s));
+    add_set();
     2 + -2;
 }
 
@@ -20,12 +21,15 @@ set add_float(set s, set i) {
 
 int c;
 
-set add_set(set s) {
+set add_set() {
     if(1 < 2) {
-        set newset;
+      if(1 > 2){
+        add_int(a,c);
+      }
     }
+    b = 1;
     newset = EMPTY;
-    return add(1 in s);
+    return add(1 in i);
 }
 
 int main() {
