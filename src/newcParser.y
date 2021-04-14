@@ -74,7 +74,7 @@ extern FILE *yyin;
 
 %start program
 %type<tree_node> program
-%type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement for_statement
+%type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement for_statement else_statement
 %type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error if_statement forall_statement
 
 %%
@@ -246,9 +246,9 @@ if_ops:
       pop_stack();
       $$ = create_node2("if_statement STFUNC statement_list ENDFUNC", $1, $3);
     }
-  | if_statement STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC {
+  | if_statement STFUNC statement_list ENDFUNC else_statement {
       pop_stack();
-      $$ = create_node4("if_statement STFUNC statement_list ENDFUNC ELSE STFUNC statement_list ENDFUNC", $1, $3, create_node0($5), $7);
+      $$ = create_node3("if_statement STFUNC statement_list ENDFUNC else_statement", $1, $3, $5);
     }
   ;
 
@@ -258,6 +258,17 @@ if_statement:
       scope++;
       push_stack(scope);
       $$ = create_node2("IF PARENL operation PARENR", create_node0($1), $3);
+    }
+  ;
+
+else_statement:
+    ELSE {
+      parent_scope = STACK_TOP(stack_scope) -> value;
+      scope++;
+      push_stack(scope);
+    } STFUNC statement_list ENDFUNC {
+      pop_stack();
+      $$ = create_node2("ELSE STFUNC statement_list ENDFUNC", create_node0($1), $4);
     }
   ;
 
