@@ -241,7 +241,6 @@ if_ops:
       $$ = create_node2("if_statement STFUNC statement_list ENDFUNC", $1, $3);
     }
   | if_statement STFUNC statement_list ENDFUNC else_statement {
-      pop_stack();
       $$ = create_node3("if_statement STFUNC statement_list ENDFUNC else_statement", $1, $3, $5);
     }
   ;
@@ -256,6 +255,7 @@ if_statement:
 
 else_statement:
     ELSE {
+      pop_stack();
       scope++;
       push_stack(scope);
     } STFUNC statement_list ENDFUNC {
@@ -413,6 +413,7 @@ func_call:
     ID PARENL args_list PARENR {
       if (find_symbol_func($1) != NULL){
         if (check_number_of_params(args_params, $1)){
+          args_params = 0;
           $$ = create_node2("ID PARENL args_list PARENR", create_node0($1), $3);
         }else{
           printf("ERRO SEMATICO\n");

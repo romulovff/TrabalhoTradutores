@@ -1,7 +1,13 @@
+int funcao1(int i) {
+    s = 0;
+    funcao(b);
+}
 
-int main() {
+int funcao() {
     set s;
     s = EMPTY;
+
+    funcao1();
 
     add(1 in s);
     add(2 in s);

@@ -1,4 +1,4 @@
-set copy_set(set s) {
+set copy_set(set s, int x) {
     set ans;
     ans = EMPTY;
     forall(x in s) add(x in ans);
@@ -7,7 +7,7 @@ set copy_set(set s) {
 
 set succ(set n) {
     set next;
-    next = copy_set(n);
+    next = copy_set(n, next);
     return add(n in next);
 }
 

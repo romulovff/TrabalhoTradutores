@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.7.  */
+/* A Bison parser, made by GNU Bison 3.7.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
@@ -45,11 +45,11 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
-/* Identify Bison output.  */
-#define YYBISON 1
+/* Identify Bison output, and Bison version.  */
+#define YYBISON 30704
 
-/* Bison version.  */
-#define YYBISON_VERSION "3.7"
+/* Bison version string.  */
+#define YYBISON_VERSION "3.7.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -584,12 +584,12 @@ static const yytype_int16 yyrline[] =
        0,    81,    81,    87,    90,    93,   101,   104,   110,   113,
      110,   120,   123,   120,   135,   138,   141,   144,   152,   160,
      163,   166,   172,   175,   178,   181,   184,   190,   196,   199,
-     203,   207,   214,   222,   230,   233,   239,   243,   250,   258,
-     258,   269,   275,   282,   285,   288,   291,   297,   300,   303,
+     203,   207,   214,   222,   230,   233,   239,   243,   249,   257,
+     257,   269,   275,   282,   285,   288,   291,   297,   300,   303,
      306,   312,   323,   326,   329,   332,   335,   338,   344,   347,
      350,   353,   356,   362,   365,   368,   374,   377,   380,   383,
-     386,   389,   392,   395,   398,   401,   404,   407,   413,   435,
-     441,   445,   449,   456
+     386,   389,   392,   395,   398,   401,   404,   407,   413,   436,
+     442,   446,   450,   457
 };
 #endif
 
@@ -2412,25 +2412,25 @@ yyreduce:
   case 37: /* if_ops: if_statement STFUNC statement_list ENDFUNC else_statement  */
 #line 243 "newcParser.y"
                                                               {
-      pop_stack();
       (yyval.tree_node) = create_node3("if_statement STFUNC statement_list ENDFUNC else_statement", (yyvsp[-4].tree_node), (yyvsp[-2].tree_node), (yyvsp[0].tree_node));
     }
-#line 2419 "newcParser.tab.c"
+#line 2418 "newcParser.tab.c"
     break;
 
   case 38: /* if_statement: IF PARENL operation PARENR  */
-#line 250 "newcParser.y"
+#line 249 "newcParser.y"
                                {
       scope++;
       push_stack(scope);
       (yyval.tree_node) = create_node2("IF PARENL operation PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
     }
-#line 2429 "newcParser.tab.c"
+#line 2428 "newcParser.tab.c"
     break;
 
   case 39: /* $@5: %empty  */
-#line 258 "newcParser.y"
+#line 257 "newcParser.y"
          {
+      pop_stack();
       scope++;
       push_stack(scope);
     }
@@ -2756,6 +2756,7 @@ yyreduce:
                                {
       if (find_symbol_func((yyvsp[-3].str)) != NULL){
         if (check_number_of_params(args_params, (yyvsp[-3].str))){
+          args_params = 0;
           (yyval.tree_node) = create_node2("ID PARENL args_list PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
         }else{
           printf("ERRO SEMATICO\n");
@@ -2772,45 +2773,45 @@ yyreduce:
         (yyval.tree_node) = create_node_empty();
       }
     }
-#line 2776 "newcParser.tab.c"
+#line 2777 "newcParser.tab.c"
     break;
 
   case 79: /* in_set: term IN expression  */
-#line 435 "newcParser.y"
+#line 436 "newcParser.y"
                        {
       (yyval.tree_node) = create_node3("term IN expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
     }
-#line 2784 "newcParser.tab.c"
+#line 2785 "newcParser.tab.c"
     break;
 
   case 80: /* args_list: args_list COMMA term  */
-#line 441 "newcParser.y"
+#line 442 "newcParser.y"
                          {
       args_params++;
       (yyval.tree_node) = create_node2("args_list COMMA term", (yyvsp[-2].tree_node), (yyvsp[0].tree_node));
     }
-#line 2793 "newcParser.tab.c"
+#line 2794 "newcParser.tab.c"
     break;
 
   case 81: /* args_list: term  */
-#line 445 "newcParser.y"
+#line 446 "newcParser.y"
          {
       args_params++;
       (yyval.tree_node) = create_node1("term", (yyvsp[0].tree_node));
     }
-#line 2802 "newcParser.tab.c"
+#line 2803 "newcParser.tab.c"
     break;
 
   case 82: /* args_list: %empty  */
-#line 449 "newcParser.y"
+#line 450 "newcParser.y"
     {
       (yyval.tree_node) = create_node0("vazio");
     }
-#line 2810 "newcParser.tab.c"
+#line 2811 "newcParser.tab.c"
     break;
 
   case 83: /* assign_value: ID ASSIGN expression  */
-#line 456 "newcParser.y"
+#line 457 "newcParser.y"
                          {
       if (check_is_in_scope((yyvsp[-2].str), STACK_TOP(stack_scope) -> value))
         (yyval.tree_node) = create_node3("ID ASSIGN expression", create_node0((yyvsp[-2].str)), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
@@ -2821,11 +2822,11 @@ yyreduce:
         (yyval.tree_node) = create_node_empty();
       }
     }
-#line 2825 "newcParser.tab.c"
+#line 2826 "newcParser.tab.c"
     break;
 
 
-#line 2829 "newcParser.tab.c"
+#line 2830 "newcParser.tab.c"
 
       default: break;
     }
@@ -3055,7 +3056,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 470 "newcParser.y"
+#line 471 "newcParser.y"
 
 
 int main(int argc, char *argv[]) {

@@ -1,13 +1,11 @@
 int a;
 
-set add_int(set s, set i) {
+set add_int(set s, set i, int x) {
     int l;
     x = x + 1;
     a = 1;
     s = EMPTY;
-    funcao();
     return add(-2 in add(1 in s));
-    add_set();
     2 + -2;
 }
 
@@ -21,15 +19,14 @@ set add_float(set s, set i) {
 
 int c;
 
-set add_set() {
+set add_set(set s) {
     if(1 < 2) {
       if(1 > 2){
-        add_int(a,c);
+        add_int(a,c,l);
       }
     }
     b = 1;
-    newset = EMPTY;
-    return add(1 in i);
+    return add(1 in s);
 }
 
 int main() {
