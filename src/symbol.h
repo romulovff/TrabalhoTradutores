@@ -104,7 +104,7 @@ bool check_number_of_params(int args_params, char* func_name) {
 bool check_is_in_scope(char *name, int num) {
   struct symbol *s;
   Scope *scope;
-  Scope *scopeAux = (Scope*)malloc(sizeof(Scope));
+  Scope *scopeAux;
 
   for (scope = stack_scope; !STACK_EMPTY(scope);){
     for (s = symbol_table; s != NULL; s = s -> hh.next){
