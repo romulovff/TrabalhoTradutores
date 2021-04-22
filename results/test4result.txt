@@ -1,0 +1,153 @@
+ERRO SEMATICO
+VARIAVEL a NAO DECLARADA, linha 10, coluna 11
+
+ERRO SEMATICO
+VARIAVEL temp NAO DECLARADA, linha 13, coluna 10
+
+ERRO SEMATICO
+VARIAVEL temp NAO DECLARADA, linha 14, coluna 12
+
+ERRO SEMATICO
+VARIAVEL sum NAO DECLARADA, linha 14, coluna 16
+
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    main                             func                                       int                                 1                   0
+    n                                var                                        int                                 1                   0
+    r                                var                                        int                                 1                   0
+    a                                var                                        int                                 2                   0
+    a                                var                                        int                                 3                   0
+**********************************************************************************************************************************************************************
+
+
+#### INICIO DA ÁRVORE SINTÁTICA ####
+
+declaration
+	func_dec
+		TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC
+			int
+			main
+			vazio
+			statement_list statement
+				statement_list statement
+					statement_list statement
+						statement_list statement
+							statement_list statement
+								statement_list statement
+									statement_list statement
+										vazio
+										var_dec
+											TYPE ID SEMIC
+												int
+												n
+									var_dec
+										TYPE ID SEMIC
+											int
+											r
+								basic_ops
+									if_ops
+										if_statement STFUNC statement_list ENDFUNC else_statement
+											IF PARENL operation PARENR
+												if
+												term SMALLER expression
+													INTEGER
+														1
+													<
+													operation
+														math_op
+															term
+																INTEGER
+																	2
+											statement_list statement
+												statement_list statement
+													vazio
+													var_dec
+														TYPE ID SEMIC
+															int
+															a
+												basic_ops
+													if_ops
+														if_statement STFUNC statement_list ENDFUNC
+															IF PARENL operation PARENR
+																if
+																term GREATER expression
+																	INTEGER
+																		2
+																	>
+																	operation
+																		math_op
+																			term
+																				INTEGER
+																					1
+															statement_list statement
+																vazio
+																var_dec
+																	TYPE ID SEMIC
+																		int
+																		a
+											ELSE STFUNC statement_list ENDFUNC
+												else
+												statement_list statement
+													vazio
+													expression_statement
+														expression SEMIC
+															assign_value
+							io_ops
+								WRITELN PARENL expression PARENR SEMIC
+									writeln
+									operation
+										math_op
+											term
+												STRING
+													"enter the number="
+						expression_statement
+							expression SEMIC
+								assign_value
+					basic_ops
+						if_ops
+							if_statement STFUNC statement_list ENDFUNC else_statement
+								IF PARENL operation PARENR
+									if
+									term EQUALS expression
+										==
+										operation
+											math_op
+												term
+								statement_list statement
+									vazio
+									io_ops
+										WRITELN PARENL expression PARENR SEMIC
+											writeln
+											operation
+												math_op
+													term
+														STRING
+															"palindrome number "
+								ELSE STFUNC statement_list ENDFUNC
+									else
+									statement_list statement
+										vazio
+										io_ops
+											WRITELN PARENL expression PARENR SEMIC
+												writeln
+												operation
+													math_op
+														term
+															STRING
+																"not palindrome"
+				ret_st
+					RETURN expression SEMIC
+						return
+						operation
+							math_op
+								term
+									INTEGER
+										0
+
+
+#### FIM DA ÁRVORE SINTÁTICA ####
+
+
+
+FORAM ENCONTRADAS 4 WARNINGS NO CODIGO
+

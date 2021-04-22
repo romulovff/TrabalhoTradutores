@@ -17,6 +17,7 @@
 newline   "\n"
 space     " "
 tab       "\t"
+carriage  "\r"
 
 letter    [a-zA-Z]
 digit     [0-9]
@@ -26,7 +27,7 @@ integer   -?{digit}+
 decimal   -?{digit}*[.]{digit}+
 elem      {integer}|{decimal}
 set       "{"({elem}","?)*"}"
-char      (\'([^(\"\')])+\')
+char      (\'([^(\"\')])?\')|(\'\\b\')|(\'\\f\')|(\'\\n\')|(\'\\r\')|(\'\\t\')|(\'\\v\')|(\'\\x\')|(\'\\\\')
 string    \"(\\.|[^"\\])*\"
 type      "int"|"float"|"set"|"elem"
 comment   "//".*
@@ -336,6 +337,7 @@ forall    "forall"
             printf("\nERROR!!\n");
             printf("%s at line: %d, column: %d\n\n", yytext, line, word_position);
             word_position += strlen(yytext);
+            return ERRORTOKEN;
           }
 
 %%

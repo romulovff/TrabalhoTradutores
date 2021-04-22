@@ -1,0 +1,21 @@
+ERRO SEMATICO
+VARIAVEL s NAO DECLARADA, linha 6, coluna 10
+
+
+ERRO DE SINTAXE
+syntax error, unexpected IF, linha: 12, coluna: 5
+ERRO SEMATICO
+VARIAVEL s NAO DECLARADA, linha 12, coluna 10
+
+ERRO SEMÂNTICO
+FUNÇÃO MAIN NÃO ENCONTRADA
+
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    funcao                           func                                       int                                 1                   0
+    t                                var                                        set                                 1                   0
+**********************************************************************************************************************************************************************
+
+
+FORAM ENCONTRADOS 1 ERROS E 3 WARNINGS NO CODIGO
+

@@ -1,0 +1,213 @@
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    s                                param                                      set                                 1                   0
+    x                                param                                      int                                 1                   0
+    copy_set                         func                                       set                                 1                   2
+    ans                              var                                        set                                 1                   0
+    n                                param                                      set                                 3                   0
+    succ                             func                                       set                                 3                   1
+    next                             var                                        set                                 3                   0
+    main                             func                                       int                                 4                   0
+    zero                             var                                        set                                 4                   0
+    one                              var                                        set                                 4                   0
+    two                              var                                        set                                 4                   0
+    three                            var                                        set                                 4                   0
+**********************************************************************************************************************************************************************
+
+
+#### INICIO DA ÁRVORE SINTÁTICA ####
+
+declarations_list declaration
+	declarations_list declaration
+		declaration
+			func_dec
+				TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+					set
+					copy_set
+					params_list COMMA parameter
+						parameter
+							TYPE ID
+								set
+								s
+						TYPE ID
+							int
+							x
+					statement_list statement
+						statement_list statement
+							statement_list statement
+								statement_list statement
+									vazio
+									var_dec
+										TYPE ID SEMIC
+											set
+											ans
+								expression_statement
+									expression SEMIC
+										assign_value
+											ID ASSIGN expression
+												ans
+												=
+												operation
+													math_op
+														term
+															EMPTY
+																EMPTY
+							basic_ops
+								FORALL PARENL in_set PARENR set_op SEMIC 
+									FORALL PARENL for_body PARENR
+										forall
+										term IN expression
+											ID
+												x
+											in
+											operation
+												math_op
+													term
+														ID
+															s
+									ADDSET PARENL in_set PARENR
+										add
+										term IN expression
+											ID
+												x
+											in
+											operation
+												math_op
+													term
+														ID
+															ans
+						ret_st
+							RETURN expression SEMIC
+								return
+								operation
+									math_op
+										term
+											ID
+												ans
+		func_dec
+			TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+				set
+				succ
+				parameter
+					TYPE ID
+						set
+						n
+				statement_list statement
+					statement_list statement
+						statement_list statement
+							vazio
+							var_dec
+								TYPE ID SEMIC
+									set
+									next
+						expression_statement
+							expression SEMIC
+								assign_value
+									ID ASSIGN expression
+										next
+										=
+										func_call
+											ID PARENL args_list PARENR
+												copy_set
+												args_list COMMA term
+													term
+														ID
+															n
+													ID
+														next
+					ret_st
+						RETURN expression SEMIC
+							return
+							set_op
+								ADDSET PARENL in_set PARENR
+									add
+									term IN expression
+										ID
+											n
+										in
+										operation
+											math_op
+												term
+													ID
+														next
+	func_dec
+		TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC
+			int
+			main
+			vazio
+			statement_list statement
+				statement_list statement
+					statement_list statement
+						statement_list statement
+							statement_list statement
+								statement_list statement
+									statement_list statement
+										statement_list statement
+											vazio
+											var_dec
+												TYPE ID SEMIC
+													set
+													zero
+										var_dec
+											TYPE ID SEMIC
+												set
+												one
+									var_dec
+										TYPE ID SEMIC
+											set
+											two
+								var_dec
+									TYPE ID SEMIC
+										set
+										three
+							expression_statement
+								expression SEMIC
+									assign_value
+										ID ASSIGN expression
+											zero
+											=
+											operation
+												math_op
+													term
+														EMPTY
+															EMPTY
+						expression_statement
+							expression SEMIC
+								assign_value
+									ID ASSIGN expression
+										one
+										=
+										func_call
+											ID PARENL args_list PARENR
+												succ
+												term
+													ID
+														zero
+					expression_statement
+						expression SEMIC
+							assign_value
+								ID ASSIGN expression
+									two
+									=
+									func_call
+										ID PARENL args_list PARENR
+											succ
+											term
+												ID
+													one
+				expression_statement
+					expression SEMIC
+						assign_value
+							ID ASSIGN expression
+								three
+								=
+								func_call
+									ID PARENL args_list PARENR
+										succ
+										term
+											ID
+												two
+
+
+#### FIM DA ÁRVORE SINTÁTICA ####
+

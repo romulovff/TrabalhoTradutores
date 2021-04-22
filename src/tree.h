@@ -14,6 +14,8 @@ typedef struct node {
   struct node *right;
 }Node;
 
+int depth = 0;
+
 Node* create_node_empty() {
   Node *node = (Node *)calloc(1, sizeof(Node));
 
@@ -155,24 +157,41 @@ Node* create_node5(char *value, Node* left, Node* middle0, Node* middle1, Node* 
 }
 
 void print_tree(Node *node) {
-
+  
   if(node == NULL)
     return;
   
-  if(node -> type == 's')
+  if(node -> type == 's'){
+    for (int i = 0; i < depth; i++){
+      printf("\t");
+    }
     printf("%s\n", node -> value);
-  if(node -> type == 'i')
+  }if(node -> type == 'i'){
+    for (int i = 0; i < depth; i++){
+      printf("\t");
+    }
     printf("%d\n", node -> integer);
-  if(node -> type == 'd')
+  }if(node -> type == 'd'){
+    for (int i = 0; i < depth; i++){
+      printf("\t");
+    }
     printf("%f\n", node -> decimal);
-  if(node -> type == 'c')
+  }if(node -> type == 'c'){
+    for (int i = 0; i < depth; i++){
+      printf("\t");
+    }
     printf("%s\n", node -> value);
+  }
+
+  depth++;
   
   print_tree(node -> left);
   print_tree(node -> middle0);
   print_tree(node -> middle1);
   print_tree(node -> middle2);
   print_tree(node -> right);
+
+  depth--;
 
   free(node);
 

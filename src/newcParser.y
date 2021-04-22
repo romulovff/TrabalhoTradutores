@@ -52,6 +52,7 @@ extern FILE *yyin;
 %token<str> CHAR
 %token<str> EMPTY
 %token<str> MAIN
+%token<str> ERRORTOKEN
 %token<integer> INTEGER
 %token<dec> DECIMAL
 
@@ -337,6 +338,9 @@ term:
     }
   | PARENL expression PARENR {
       $$ = create_node1("PARENL expression PARENR", $2);
+    }
+  | ERRORTOKEN {
+      $$ = create_node_empty();
     }
   ;
 

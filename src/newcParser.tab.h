@@ -60,41 +60,42 @@ extern int yydebug;
     CHAR = 261,                    /* CHAR  */
     EMPTY = 262,                   /* EMPTY  */
     MAIN = 263,                    /* MAIN  */
-    INTEGER = 264,                 /* INTEGER  */
-    DECIMAL = 265,                 /* DECIMAL  */
-    ADD = 266,                     /* ADD  */
-    SUB = 267,                     /* SUB  */
-    MULT = 268,                    /* MULT  */
-    DIV = 269,                     /* DIV  */
-    OR = 270,                      /* OR  */
-    AND = 271,                     /* AND  */
-    SMALLER = 272,                 /* SMALLER  */
-    GREATER = 273,                 /* GREATER  */
-    SMALLEQ = 274,                 /* SMALLEQ  */
-    GREATEQ = 275,                 /* GREATEQ  */
-    EQUALS = 276,                  /* EQUALS  */
-    DIFFERENT = 277,               /* DIFFERENT  */
-    ASSIGN = 278,                  /* ASSIGN  */
-    NEG = 279,                     /* NEG  */
-    IF = 280,                      /* IF  */
-    ELSE = 281,                    /* ELSE  */
-    FOR = 282,                     /* FOR  */
-    READ = 283,                    /* READ  */
-    WRITE = 284,                   /* WRITE  */
-    WRITELN = 285,                 /* WRITELN  */
-    RETURN = 286,                  /* RETURN  */
-    IN = 287,                      /* IN  */
-    ISTYPE = 288,                  /* ISTYPE  */
-    ADDSET = 289,                  /* ADDSET  */
-    REMOVE = 290,                  /* REMOVE  */
-    EXISTS = 291,                  /* EXISTS  */
-    FORALL = 292,                  /* FORALL  */
-    COMMA = 293,                   /* COMMA  */
-    STFUNC = 294,                  /* STFUNC  */
-    ENDFUNC = 295,                 /* ENDFUNC  */
-    PARENL = 296,                  /* PARENL  */
-    PARENR = 297,                  /* PARENR  */
-    SEMIC = 298                    /* SEMIC  */
+    ERRORTOKEN = 264,              /* ERRORTOKEN  */
+    INTEGER = 265,                 /* INTEGER  */
+    DECIMAL = 266,                 /* DECIMAL  */
+    ADD = 267,                     /* ADD  */
+    SUB = 268,                     /* SUB  */
+    MULT = 269,                    /* MULT  */
+    DIV = 270,                     /* DIV  */
+    OR = 271,                      /* OR  */
+    AND = 272,                     /* AND  */
+    SMALLER = 273,                 /* SMALLER  */
+    GREATER = 274,                 /* GREATER  */
+    SMALLEQ = 275,                 /* SMALLEQ  */
+    GREATEQ = 276,                 /* GREATEQ  */
+    EQUALS = 277,                  /* EQUALS  */
+    DIFFERENT = 278,               /* DIFFERENT  */
+    ASSIGN = 279,                  /* ASSIGN  */
+    NEG = 280,                     /* NEG  */
+    IF = 281,                      /* IF  */
+    ELSE = 282,                    /* ELSE  */
+    FOR = 283,                     /* FOR  */
+    READ = 284,                    /* READ  */
+    WRITE = 285,                   /* WRITE  */
+    WRITELN = 286,                 /* WRITELN  */
+    RETURN = 287,                  /* RETURN  */
+    IN = 288,                      /* IN  */
+    ISTYPE = 289,                  /* ISTYPE  */
+    ADDSET = 290,                  /* ADDSET  */
+    REMOVE = 291,                  /* REMOVE  */
+    EXISTS = 292,                  /* EXISTS  */
+    FORALL = 293,                  /* FORALL  */
+    COMMA = 294,                   /* COMMA  */
+    STFUNC = 295,                  /* STFUNC  */
+    ENDFUNC = 296,                 /* ENDFUNC  */
+    PARENL = 297,                  /* PARENL  */
+    PARENR = 298,                  /* PARENR  */
+    SEMIC = 299                    /* SEMIC  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -112,7 +113,7 @@ union YYSTYPE
 
   struct node *tree_node;
 
-#line 116 "newcParser.tab.h"
+#line 117 "newcParser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

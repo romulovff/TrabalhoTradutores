@@ -14,6 +14,7 @@ int l;
 
 set add_float(set s, set i) {
     l = 1;
+    writeln('\n');
     return add(-5.4 in add(1.5 in s));
 }
 

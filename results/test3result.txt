@@ -1,0 +1,311 @@
+ERRO SEMATICO
+VARIAVEL s NAO DECLARADA, linha 2, coluna 11
+
+ERRO SEMATICO
+VARIAVEL b NAO DECLARADA, linha 3, coluna 14
+
+ERRO SEMATICO
+FUNÇAO funcao NAO DECLARADA, linha 3, coluna 15
+
+ERRO SEMATICO
+FUNÇAO funcao1 COM NUMERO DE PARAMETROS INVALIDOS NA INVOCAÇÃO, linha 10, coluna 15
+
+ERRO SEMATICO
+VARIAVEL var NAO DECLARADA, linha 21, coluna 14
+
+ERRO SEMÂNTICO
+FUNÇÃO MAIN NÃO ENCONTRADA
+
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    i                                param                                      int                                 1                   0
+    funcao1                          func                                       int                                 1                   1
+    funcao                           func                                       int                                 2                   0
+    s                                var                                        set                                 2                   0
+    possibleSums                     var                                        set                                 2                   0
+    x                                var                                        int                                 2                   0
+    sumsWithX                        var                                        set                                 3                   0
+    val                              var                                        int                                 3                   0
+**********************************************************************************************************************************************************************
+
+
+#### INICIO DA ÁRVORE SINTÁTICA ####
+
+declarations_list declaration
+	declaration
+		func_dec
+			TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+				int
+				funcao1
+				parameter
+					TYPE ID
+						int
+						i
+				statement_list statement
+					statement_list statement
+						vazio
+						expression_statement
+							expression SEMIC
+								assign_value
+					expression_statement
+						expression SEMIC
+							func_call
+	func_dec
+		TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
+			int
+			funcao
+			vazio
+			statement_list statement
+				statement_list statement
+					statement_list statement
+						statement_list statement
+							statement_list statement
+								statement_list statement
+									statement_list statement
+										statement_list statement
+											statement_list statement
+												statement_list statement
+													statement_list statement
+														statement_list statement
+															vazio
+															var_dec
+																TYPE ID SEMIC
+																	set
+																	s
+														expression_statement
+															expression SEMIC
+																assign_value
+																	ID ASSIGN expression
+																		s
+																		=
+																		operation
+																			math_op
+																				term
+																					EMPTY
+																						EMPTY
+													expression_statement
+														expression SEMIC
+															func_call
+												expression_statement
+													expression SEMIC
+														set_op
+															ADDSET PARENL in_set PARENR
+																add
+																term IN expression
+																	INTEGER
+																		1
+																	in
+																	operation
+																		math_op
+																			term
+																				ID
+																					s
+											expression_statement
+												expression SEMIC
+													set_op
+														ADDSET PARENL in_set PARENR
+															add
+															term IN expression
+																INTEGER
+																	2
+																in
+																operation
+																	math_op
+																		term
+																			ID
+																				s
+										expression_statement
+											expression SEMIC
+												set_op
+													ADDSET PARENL in_set PARENR
+														add
+														term IN expression
+															INTEGER
+																5
+															in
+															operation
+																math_op
+																	term
+																		ID
+																			s
+									expression_statement
+										expression SEMIC
+											set_op
+												ADDSET PARENL in_set PARENR
+													add
+													term IN expression
+														INTEGER
+															8
+														in
+														operation
+															math_op
+																term
+																	ID
+																		s
+								var_dec
+									TYPE ID SEMIC
+										set
+										possibleSums
+							expression_statement
+								expression SEMIC
+									assign_value
+										ID ASSIGN expression
+											possibleSums
+											=
+											operation
+												math_op
+													term
+														EMPTY
+															EMPTY
+						var_dec
+							TYPE ID SEMIC
+								int
+								x
+					io_ops
+						READ PARENL expression PARENR SEMIC
+							read
+							operation
+								math_op
+									term
+				basic_ops
+					FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC
+						FORALL PARENL for_body PARENR
+							forall
+							term IN expression
+								ID
+									x
+								in
+								operation
+									math_op
+										term
+											ID
+												s
+						statement_list statement
+							statement_list statement
+								statement_list statement
+									statement_list statement
+										statement_list statement
+											statement_list statement
+												vazio
+												var_dec
+													TYPE ID SEMIC
+														set
+														sumsWithX
+											expression_statement
+												expression SEMIC
+													assign_value
+														ID ASSIGN expression
+															sumsWithX
+															=
+															operation
+																math_op
+																	term
+																		EMPTY
+																			EMPTY
+										var_dec
+											TYPE ID SEMIC
+												int
+												val
+									basic_ops
+										FORALL PARENL in_set PARENR set_op SEMIC 
+											FORALL PARENL for_body PARENR
+												forall
+												term IN expression
+													ID
+														val
+													in
+													operation
+														math_op
+															term
+																ID
+																	possibleSums
+											ADDSET PARENL in_set PARENR
+												add
+												term IN expression
+													PARENL expression PARENR
+														operation
+															math_op
+																term ADD expression
+																	ID
+																		x
+																	+
+																	operation
+																		math_op
+																			term
+																				ID
+																					val
+													in
+													operation
+														math_op
+															term
+																ID
+																	sumsWithX
+								basic_ops
+									FORALL PARENL in_set PARENR set_op SEMIC 
+										FORALL PARENL for_body PARENR
+											forall
+											term IN expression
+												ID
+													val
+												in
+												operation
+													math_op
+														term
+															ID
+																sumsWithX
+										ADDSET PARENL in_set PARENR
+											add
+											term IN expression
+												ID
+													val
+												in
+												operation
+													math_op
+														term
+															ID
+																possibleSums
+							basic_ops
+								if_ops
+									if_statement STFUNC statement_list ENDFUNC else_statement
+										IF PARENL operation PARENR
+											if
+											in_set
+												term IN expression
+													INTEGER
+														13
+													in
+													operation
+														math_op
+															term
+																ID
+																	possibleSums
+										statement_list statement
+											vazio
+											io_ops
+												WRITELN PARENL expression PARENR SEMIC
+													writeln
+													operation
+														math_op
+															term
+																CHAR
+																	'y'
+										ELSE STFUNC statement_list ENDFUNC
+											else
+											statement_list statement
+												vazio
+												io_ops
+													WRITELN PARENL expression PARENR SEMIC
+														writeln
+														operation
+															math_op
+																term
+																	CHAR
+																		'n'
+
+
+#### FIM DA ÁRVORE SINTÁTICA ####
+
+
+
+FORAM ENCONTRADAS 6 WARNINGS NO CODIGO
+

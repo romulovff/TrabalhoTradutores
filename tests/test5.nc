@@ -1,13 +1,15 @@
 //Linguagem não reconhecida
 
-int main() {
-  set t, s;
+int funcao() {
+  set t;
 
-  if(s & t) {
+  if(s && t) {
     writeln("Algum teste errado");
   }
 
-  if(s | t) {
+  l = 0
+
+  if(s || t) {
     writeln("Algum outro teste errado");
   }
 }
