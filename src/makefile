@@ -7,7 +7,7 @@ runvalgrind: all valgrind
 compile: runflex runbison compilefile
 
 runbison:
-	bison -d -v newcParser.y
+	bison -d -v -Wcounterexamples newcParser.y
 
 runflex:
 	flex newc.l

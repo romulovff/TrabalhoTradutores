@@ -49,9 +49,10 @@ declarations_list declaration
 												=
 												operation
 													math_op
-														term
-															EMPTY
+														math_op_muldiv
+															term
 																EMPTY
+																	EMPTY
 							basic_ops
 								FORALL PARENL in_set PARENR set_op SEMIC 
 									FORALL PARENL for_body PARENR
@@ -62,9 +63,10 @@ declarations_list declaration
 											in
 											operation
 												math_op
-													term
-														ID
-															s
+													math_op_muldiv
+														term
+															ID
+																s
 									ADDSET PARENL in_set PARENR
 										add
 										term IN expression
@@ -73,17 +75,19 @@ declarations_list declaration
 											in
 											operation
 												math_op
-													term
-														ID
-															ans
+													math_op_muldiv
+														term
+															ID
+																ans
 						ret_st
 							RETURN expression SEMIC
 								return
 								operation
 									math_op
-										term
-											ID
-												ans
+										math_op_muldiv
+											term
+												ID
+													ans
 		func_dec
 			TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC
 				set
@@ -127,9 +131,10 @@ declarations_list declaration
 										in
 										operation
 											math_op
-												term
-													ID
-														next
+												math_op_muldiv
+													term
+														ID
+															next
 	func_dec
 		TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC
 			int
@@ -168,9 +173,10 @@ declarations_list declaration
 											=
 											operation
 												math_op
-													term
-														EMPTY
+													math_op_muldiv
+														term
 															EMPTY
+																EMPTY
 						expression_statement
 							expression SEMIC
 								assign_value

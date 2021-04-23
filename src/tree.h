@@ -157,10 +157,10 @@ Node* create_node5(char *value, Node* left, Node* middle0, Node* middle1, Node* 
 }
 
 void print_tree(Node *node) {
-  
+
   if(node == NULL)
     return;
-  
+
   if(node -> type == 's'){
     for (int i = 0; i < depth; i++){
       printf("\t");
@@ -184,7 +184,7 @@ void print_tree(Node *node) {
   }
 
   depth++;
-  
+
   print_tree(node -> left);
   print_tree(node -> middle0);
   print_tree(node -> middle1);
@@ -201,7 +201,7 @@ void free_tree(Node *node) {
 
   if(node == NULL)
     return;
-  
+
   free_tree(node -> left);
   free_tree(node -> middle0);
   free_tree(node -> middle1);

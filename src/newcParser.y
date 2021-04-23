@@ -74,7 +74,7 @@ extern FILE *yyin;
 %start program
 %type<tree_node> program
 %type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement for_statement else_statement
-%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error if_statement forall_statement
+%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error if_statement forall_statement math_op_muldiv
 
 %%
 
@@ -237,7 +237,11 @@ for_body:
   ;
 
 if_ops:
-    if_statement STFUNC statement_list ENDFUNC {
+    if_statement statement {
+      pop_stack();
+      $$ = create_node2("if_statement statement", $1, $2);
+    }
+  | if_statement STFUNC statement_list ENDFUNC {
       pop_stack();
       $$ = create_node2("if_statement STFUNC statement_list ENDFUNC", $1, $3);
     }
@@ -256,6 +260,15 @@ if_statement:
 
 else_statement:
     ELSE {
+      pop_stack();
+      scope++;
+      push_stack(scope);
+    }
+    statement {
+      pop_stack();
+      $$ = create_node2("ELSE statement_list", create_node0($1), $3);
+    }
+  | ELSE {
       pop_stack();
       scope++;
       push_stack(scope);
@@ -345,18 +358,24 @@ term:
   ;
 
 math_op:
-    term DIV expression {
-      $$ = create_node3("term DIV expression", $1, create_node0($2), $3);
+    math_op ADD math_op_muldiv {
+      $$ = create_node3("math_op ADD math_op_muldiv", $1, create_node0("+"), $3);
     }
-  | term MULT expression {
-      $$ = create_node3("term MULT expression", $1, create_node0($2), $3);
+  | math_op SUB math_op_muldiv {
+      $$ = create_node3("math_op SUB math_op_muldiv", $1, create_node0("-"), $3);
     }
-  | term ADD expression {
-      $$ = create_node3("term ADD expression", $1, create_node0($2), $3);
+  | math_op_muldiv {
+      $$ = create_node1("math_op_muldiv", $1);
     }
-  | term SUB expression {
-      $$ = create_node3("term SUB expression", $1, create_node0($2), $3);
+  ;
+
+math_op_muldiv:
+    math_op_muldiv DIV term {
+      $$ = create_node3("math_op_muldiv DIV term", $1, create_node0("/"), $3);
     }
+  | math_op_muldiv MULT term {
+    $$ = create_node3("math_op_muldiv MULT term", $1, create_node0("*"), $3);
+  }
   | term {
       $$ = create_node1("term", $1);
     }
@@ -385,31 +404,31 @@ operation:
       $$ = create_node2("ISTYPE PARENL expression PARENR", create_node0($1), $3);
     }
   | term SMALLER expression {
-      $$ = create_node3("term SMALLER expression", $1, create_node0($2), $3);
+      $$ = create_node3("term SMALLER expression", $1, create_node0("<"), $3);
     }
   | term GREATER expression {
-      $$ = create_node3("term GREATER expression", $1, create_node0($2), $3);
+      $$ = create_node3("term GREATER expression", $1, create_node0(">"), $3);
     }
   | term SMALLEQ expression {
-      $$ = create_node3("term SMALLEQ expression", $1, create_node0($2), $3);
+      $$ = create_node3("term SMALLEQ expression", $1, create_node0("<="), $3);
     }
   | term GREATEQ expression {
-      $$ = create_node3("term GREATEQ expression", $1, create_node0($2), $3);
+      $$ = create_node3("term GREATEQ expression", $1, create_node0(">="), $3);
     }
   | term EQUALS expression {
-      $$ = create_node3("term EQUALS expression", $1, create_node0($2), $3);
+      $$ = create_node3("term EQUALS expression", $1, create_node0("=="), $3);
     }
   | term DIFFERENT expression {
-      $$ = create_node3("term DIFFERENT expression", $1, create_node0($2), $3);
+      $$ = create_node3("term DIFFERENT expression", $1, create_node0("!="), $3);
     }
   | term OR expression {
-      $$ = create_node3("term OR expression", $1, create_node0($2), $3);
+      $$ = create_node3("term OR expression", $1, create_node0("||"), $3);
     }
   | term AND expression {
-      $$ = create_node3("term AND expression", $1, create_node0($2), $3);
+      $$ = create_node3("term AND expression", $1, create_node0("&&"), $3);
     }
   | NEG expression {
-      $$ = create_node2("NEG expression", create_node0($1), $2);
+      $$ = create_node2("NEG expression", create_node0("!"), $2);
     }
   ;
 
@@ -460,7 +479,7 @@ args_list:
 assign_value:
     ID ASSIGN expression {
       if (check_is_in_scope($1, STACK_TOP(stack_scope) -> value))
-        $$ = create_node3("ID ASSIGN expression", create_node0($1), create_node0($2), $3);
+        $$ = create_node3("ID ASSIGN expression", create_node0($1), create_node0("="), $3);
       else{
         printf("ERRO SEMATICO\n");
         printf("VARIAVEL %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
@@ -509,6 +528,8 @@ int main(int argc, char *argv[]) {
   }
 
   free_symbol_table();
+
+  free_stack();
 
   fclose(yyin);
 

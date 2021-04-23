@@ -55,9 +55,10 @@ declaration
 													<
 													operation
 														math_op
-															term
-																INTEGER
-																	2
+															math_op_muldiv
+																term
+																	INTEGER
+																		2
 											statement_list statement
 												statement_list statement
 													vazio
@@ -76,9 +77,10 @@ declaration
 																	>
 																	operation
 																		math_op
-																			term
-																				INTEGER
-																					1
+																			math_op_muldiv
+																				term
+																					INTEGER
+																						1
 															statement_list statement
 																vazio
 																var_dec
@@ -97,9 +99,10 @@ declaration
 									writeln
 									operation
 										math_op
-											term
-												STRING
-													"enter the number="
+											math_op_muldiv
+												term
+													STRING
+														"enter the number="
 						expression_statement
 							expression SEMIC
 								assign_value
@@ -112,7 +115,8 @@ declaration
 										==
 										operation
 											math_op
-												term
+												math_op_muldiv
+													term
 								statement_list statement
 									vazio
 									io_ops
@@ -120,9 +124,10 @@ declaration
 											writeln
 											operation
 												math_op
-													term
-														STRING
-															"palindrome number "
+													math_op_muldiv
+														term
+															STRING
+																"palindrome number "
 								ELSE STFUNC statement_list ENDFUNC
 									else
 									statement_list statement
@@ -132,17 +137,19 @@ declaration
 												writeln
 												operation
 													math_op
-														term
-															STRING
-																"not palindrome"
+														math_op_muldiv
+															term
+																STRING
+																	"not palindrome"
 				ret_st
 					RETURN expression SEMIC
 						return
 						operation
 							math_op
-								term
-									INTEGER
-										0
+								math_op_muldiv
+									term
+										INTEGER
+											0
 
 
 #### FIM DA ÁRVORE SINTÁTICA ####

@@ -1,5 +1,5 @@
 
-#line 2 "lex.yy.c"
+#line 3 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -580,9 +580,9 @@ char *yytext;
   int line = 1;
   int word_position = 1;
 
-#line 583 "lex.yy.c"
+#line 584 "lex.yy.c"
 #define YY_NO_INPUT 1
-#line 585 "lex.yy.c"
+#line 586 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -800,7 +800,7 @@ YY_DECL
 #line 77 "newc.l"
 
 
-#line 803 "lex.yy.c"
+#line 804 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -878,56 +878,51 @@ YY_RULE_SETUP
 #line 89 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return ADD;
           }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 95 "newc.l"
+#line 94 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return SUB;
           }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 101 "newc.l"
+#line 99 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return MULT;
           }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 107 "newc.l"
+#line 104 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return DIV;
           }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 113 "newc.l"
+#line 109 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return NEG;
           }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 119 "newc.l"
+#line 114 "newc.l"
 {
             word_position += 2;
           }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 123 "newc.l"
+#line 118 "newc.l"
 {
             word_position += 1;
           }
@@ -935,7 +930,7 @@ YY_RULE_SETUP
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 127 "newc.l"
+#line 122 "newc.l"
 {
             line += 1;
             word_position = 1;
@@ -943,7 +938,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 132 "newc.l"
+#line 127 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -952,7 +947,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 138 "newc.l"
+#line 133 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -961,7 +956,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 144 "newc.l"
+#line 139 "newc.l"
 {
             word_position += yyleng;
             return STFUNC;
@@ -969,7 +964,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 149 "newc.l"
+#line 144 "newc.l"
 {
             word_position += yyleng;
             return ENDFUNC;
@@ -977,7 +972,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 154 "newc.l"
+#line 149 "newc.l"
 {
             word_position += yyleng;
             return PARENL;
@@ -985,7 +980,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 159 "newc.l"
+#line 154 "newc.l"
 {
             word_position += yyleng;
             return PARENR;
@@ -993,7 +988,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 164 "newc.l"
+#line 159 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1002,95 +997,86 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 170 "newc.l"
+#line 165 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return ASSIGN;
           }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 176 "newc.l"
+#line 170 "newc.l"
 {
             word_position += yyleng;
           }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 180 "newc.l"
+#line 174 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return AND;
           }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 186 "newc.l"
+#line 179 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return OR;
           }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 192 "newc.l"
+#line 184 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return SMALLER;
           }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 198 "newc.l"
+#line 189 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return GREATER;
           }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 204 "newc.l"
+#line 194 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return SMALLEQ;
           }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 210 "newc.l"
+#line 199 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return GREATEQ;
           }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 216 "newc.l"
+#line 204 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return EQUALS;
           }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 222 "newc.l"
+#line 209 "newc.l"
 {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return DIFFERENT;
           }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 228 "newc.l"
+#line 214 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1099,7 +1085,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 234 "newc.l"
+#line 220 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1108,7 +1094,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 240 "newc.l"
+#line 226 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1117,7 +1103,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 246 "newc.l"
+#line 232 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1126,7 +1112,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 252 "newc.l"
+#line 238 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1135,7 +1121,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 258 "newc.l"
+#line 244 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1144,7 +1130,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 264 "newc.l"
+#line 250 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1153,7 +1139,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 270 "newc.l"
+#line 256 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1162,7 +1148,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 276 "newc.l"
+#line 262 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1171,7 +1157,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 282 "newc.l"
+#line 268 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1180,7 +1166,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 288 "newc.l"
+#line 274 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1189,7 +1175,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 294 "newc.l"
+#line 280 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1198,7 +1184,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 300 "newc.l"
+#line 286 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1207,7 +1193,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 306 "newc.l"
+#line 292 "newc.l"
 {
             word_position += yyleng;
             yylval.dec = atof(yytext);
@@ -1216,7 +1202,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 312 "newc.l"
+#line 298 "newc.l"
 {
             word_position += yyleng;
             yylval.integer = atoi(yytext);
@@ -1225,7 +1211,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 318 "newc.l"
+#line 304 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1235,7 +1221,7 @@ YY_RULE_SETUP
 case 44:
 /* rule 44 can match eol */
 YY_RULE_SETUP
-#line 324 "newc.l"
+#line 310 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1245,7 +1231,7 @@ YY_RULE_SETUP
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 330 "newc.l"
+#line 316 "newc.l"
 {
             word_position += yyleng;
             yylval.str = (char *) strdup(yytext);
@@ -1254,7 +1240,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 336 "newc.l"
+#line 322 "newc.l"
 {
             printf("\nERROR!!\n");
             printf("%s at line: %d, column: %d\n\n", yytext, line, word_position);
@@ -1264,10 +1250,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 343 "newc.l"
+#line 329 "newc.l"
 ECHO;
 	YY_BREAK
-#line 1270 "lex.yy.c"
+#line 1257 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2235,6 +2221,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 343 "newc.l"
+#line 329 "newc.l"
 
 

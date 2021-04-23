@@ -21,3 +21,8 @@ void pop_stack() {
   STACK_POP(stack_scope, scope);
   free(scope);
 }
+
+void free_stack() {
+  while(!STACK_EMPTY(stack_scope))
+    pop_stack();
+}

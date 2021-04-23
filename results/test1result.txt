@@ -14,10 +14,10 @@
     c                                var                                        int                                 0                   0
     s                                param                                      set                                 3                   0
     add_set                          func                                       set                                 3                   1
-    main                             func                                       int                                 6                   0
-    s                                var                                        set                                 6                   0
-    t                                var                                        set                                 6                   0
-    o                                var                                        set                                 6                   0
+    main                             func                                       int                                 7                   0
+    s                                var                                        set                                 7                   0
+    t                                var                                        set                                 7                   0
+    o                                var                                        set                                 7                   0
 **********************************************************************************************************************************************************************
 
 
@@ -70,15 +70,15 @@ declarations_list declaration
 																		=
 																		operation
 																			math_op
-																				term ADD expression
-																					ID
-																						x
+																				math_op ADD math_op_muldiv
+																					math_op_muldiv
+																						term
+																							ID
+																								x
 																					+
-																					operation
-																						math_op
-																							term
-																								INTEGER
-																									1
+																					term
+																						INTEGER
+																							1
 													expression_statement
 														expression SEMIC
 															assign_value
@@ -87,9 +87,10 @@ declarations_list declaration
 																	=
 																	operation
 																		math_op
-																			term
-																				INTEGER
-																					1
+																			math_op_muldiv
+																				term
+																					INTEGER
+																						1
 												expression_statement
 													expression SEMIC
 														assign_value
@@ -98,9 +99,10 @@ declarations_list declaration
 																=
 																operation
 																	math_op
-																		term
-																			EMPTY
+																		math_op_muldiv
+																			term
 																				EMPTY
+																					EMPTY
 											ret_st
 												RETURN expression SEMIC
 													return
@@ -120,22 +122,27 @@ declarations_list declaration
 																			in
 																			operation
 																				math_op
-																					term
-																						ID
-																							s
+																					math_op_muldiv
+																						term
+																							ID
+																								s
 										expression_statement
 											expression SEMIC
 												operation
 													math_op
-														term ADD expression
-															INTEGER
-																2
+														math_op ADD math_op_muldiv
+															math_op_muldiv
+																term
+																	INTEGER
+																		2
 															+
-															operation
-																math_op
-																	term
-																		INTEGER
-																			-2
+															math_op_muldiv MULT term
+																term
+																	INTEGER
+																		-2
+																*
+																INTEGER
+																	3
 						var_dec
 							TYPE ID SEMIC
 								int
@@ -168,17 +175,19 @@ declarations_list declaration
 													=
 													operation
 														math_op
-															term
-																INTEGER
-																	1
+															math_op_muldiv
+																term
+																	INTEGER
+																		1
 								io_ops
 									WRITELN PARENL expression PARENR SEMIC
 										writeln
 										operation
 											math_op
-												term
-													CHAR
-														'\n'
+												math_op_muldiv
+													term
+														CHAR
+															'\n'
 							ret_st
 								RETURN expression SEMIC
 									return
@@ -198,9 +207,10 @@ declarations_list declaration
 															in
 															operation
 																math_op
-																	term
-																		ID
-																			s
+																	math_op_muldiv
+																		term
+																			ID
+																				s
 			var_dec
 				TYPE ID SEMIC
 					int
@@ -219,7 +229,7 @@ declarations_list declaration
 							vazio
 							basic_ops
 								if_ops
-									if_statement STFUNC statement_list ENDFUNC
+									if_statement statement
 										IF PARENL operation PARENR
 											if
 											term SMALLER expression
@@ -228,41 +238,52 @@ declarations_list declaration
 												<
 												operation
 													math_op
-														term
-															INTEGER
-																2
-										statement_list statement
-											vazio
-											basic_ops
-												if_ops
-													if_statement STFUNC statement_list ENDFUNC
-														IF PARENL operation PARENR
-															if
-															term GREATER expression
+														math_op_muldiv
+															term
 																INTEGER
-																	1
-																>
-																operation
-																	math_op
+																	2
+										basic_ops
+											if_ops
+												if_statement STFUNC statement_list ENDFUNC else_statement
+													IF PARENL operation PARENR
+														if
+														term GREATER expression
+															INTEGER
+																1
+															>
+															operation
+																math_op
+																	math_op_muldiv
 																		term
 																			INTEGER
 																				2
-														statement_list statement
-															vazio
-															expression_statement
-																expression SEMIC
-																	func_call
-																		ID PARENL args_list PARENR
-																			add_int
+													statement_list statement
+														vazio
+														expression_statement
+															expression SEMIC
+																func_call
+																	ID PARENL args_list PARENR
+																		add_int
+																		args_list COMMA term
 																			args_list COMMA term
-																				args_list COMMA term
-																					term
-																						ID
-																							a
+																				term
 																					ID
-																						c
+																						a
 																				ID
-																					l
+																					c
+																			ID
+																				l
+													ELSE statement_list
+														else
+														io_ops
+															WRITELN PARENL expression PARENR SEMIC
+																writeln
+																operation
+																	math_op
+																		math_op_muldiv
+																			term
+																				CHAR
+																					'o'
 						expression_statement
 							expression SEMIC
 								assign_value
@@ -271,9 +292,10 @@ declarations_list declaration
 										=
 										operation
 											math_op
-												term
-													INTEGER
-														1
+												math_op_muldiv
+													term
+														INTEGER
+															1
 					ret_st
 						RETURN expression SEMIC
 							return
@@ -286,9 +308,10 @@ declarations_list declaration
 										in
 										operation
 											math_op
-												term
-													ID
-														s
+												math_op_muldiv
+													term
+														ID
+															s
 	func_dec
 		TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC
 			int

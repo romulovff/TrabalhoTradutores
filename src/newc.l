@@ -88,31 +88,26 @@ forall    "forall"
 
 {add}     {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return ADD;
           }
 
 {sub}     {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return SUB;
           }
 
 {mult}    {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return MULT;
           }
 
 {div}     {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return DIV;
           }
 
 {negate}  {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return NEG;
           }
 
@@ -169,7 +164,6 @@ forall    "forall"
 
 {assign}  {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return ASSIGN;
           }
 
@@ -179,49 +173,41 @@ forall    "forall"
 
 {and}     {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return AND;
           }
 
 {or}      {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return OR;
           }
 
 {smaller} {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return SMALLER;
           }
 
 {greater} {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return GREATER;
           }
 
 {smalleq} {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return SMALLEQ;
           }
 
 {greateq} {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return GREATEQ;
           }
 
 {equals}  {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return EQUALS;
           }
 
 {diff}    {
             word_position += yyleng;
-            yylval.str = (char *) strdup(yytext);
             return DIFFERENT;
           }
 
