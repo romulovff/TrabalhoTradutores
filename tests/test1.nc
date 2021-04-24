@@ -6,7 +6,7 @@ set add_int(set s, set i, int x) {
     a = 1;
     s = EMPTY;
     return add(-2 in add(1 in s));
-    2 + -2 * 3;
+    (2 + -2) * 3;
 }
 
 int b;
@@ -24,8 +24,10 @@ set add_set(set s) {
     if(1 < 2)
       if(1 > 2){
         add_int(a,c,l);
-      } else
-        writeln('o');
+      } else{
+        if(1 > 2)
+          writeln('o');
+      }
     b = 1;
     return add(1 in s);
 }

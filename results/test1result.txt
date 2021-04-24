@@ -14,10 +14,10 @@
     c                                var                                        int                                 0                   0
     s                                param                                      set                                 3                   0
     add_set                          func                                       set                                 3                   1
-    main                             func                                       int                                 7                   0
-    s                                var                                        set                                 7                   0
-    t                                var                                        set                                 7                   0
-    o                                var                                        set                                 7                   0
+    main                             func                                       int                                 8                   0
+    s                                var                                        set                                 8                   0
+    t                                var                                        set                                 8                   0
+    o                                var                                        set                                 8                   0
 **********************************************************************************************************************************************************************
 
 
@@ -130,16 +130,21 @@ declarations_list declaration
 											expression SEMIC
 												operation
 													math_op
-														math_op ADD math_op_muldiv
-															math_op_muldiv
-																term
-																	INTEGER
-																		2
-															+
+														math_op_muldiv
 															math_op_muldiv MULT term
 																term
-																	INTEGER
-																		-2
+																	PARENL expression PARENR
+																		operation
+																			math_op
+																				math_op ADD math_op_muldiv
+																					math_op_muldiv
+																						term
+																							INTEGER
+																								2
+																					+
+																					term
+																						INTEGER
+																							-2
 																*
 																INTEGER
 																	3
@@ -273,17 +278,34 @@ declarations_list declaration
 																					c
 																			ID
 																				l
-													ELSE statement_list
+													ELSE STFUNC statement_list ENDFUNC
 														else
-														io_ops
-															WRITELN PARENL expression PARENR SEMIC
-																writeln
-																operation
-																	math_op
-																		math_op_muldiv
-																			term
-																				CHAR
-																					'o'
+														statement_list statement
+															vazio
+															basic_ops
+																if_ops
+																	if_statement statement
+																		IF PARENL operation PARENR
+																			if
+																			term GREATER expression
+																				INTEGER
+																					1
+																				>
+																				operation
+																					math_op
+																						math_op_muldiv
+																							term
+																								INTEGER
+																									2
+																		io_ops
+																			WRITELN PARENL expression PARENR SEMIC
+																				writeln
+																				operation
+																					math_op
+																						math_op_muldiv
+																							term
+																								CHAR
+																									'o'
 						expression_statement
 							expression SEMIC
 								assign_value

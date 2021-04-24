@@ -70,6 +70,9 @@ extern FILE *yyin;
 %token<str> IN ISTYPE ADDSET REMOVE EXISTS FORALL
 %token<str> COMMA STFUNC ENDFUNC PARENL PARENR SEMIC
 
+%nonassoc OUTERTHEN
+%nonassoc ELSE
+%nonassoc THEN
 
 %start program
 %type<tree_node> program
@@ -237,11 +240,15 @@ for_body:
   ;
 
 if_ops:
-    if_statement statement {
+    if_statement statement %prec OUTERTHEN {
       pop_stack();
       $$ = create_node2("if_statement statement", $1, $2);
     }
-  | if_statement STFUNC statement_list ENDFUNC {
+  | if_statement statement else_statement {
+      pop_stack();
+      $$ = create_node3("if_statement statement else_statement", $1, $2, $3);
+    }
+  | if_statement STFUNC statement_list ENDFUNC %prec OUTERTHEN {
       pop_stack();
       $$ = create_node2("if_statement STFUNC statement_list ENDFUNC", $1, $3);
     }

@@ -27,3 +27,4 @@ test:
 	./parser ../tests/test6.nc > ../results/test6result.txt
 	./parser ../tests/test7.nc > ../results/test7result.txt
 	./parser ../tests/test8.nc > ../results/test8result.txt
+	./parser ../tests/test9.nc > ../results/test9result.txt
