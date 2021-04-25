@@ -22,7 +22,7 @@ int check_types_return_function(char value, char returnType) {
     return 0;
   if (returnType != 'v' && value == 'x')
     return 1;
-  if (returnType == value)
+  if (returnType == value || (returnType == 'v' && value == 'x'))
     return 2;
   return 3;
 }

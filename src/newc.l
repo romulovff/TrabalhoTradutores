@@ -29,7 +29,7 @@ elem      {integer}|{decimal}
 set       "{"({elem}","?)*"}"
 char      (\'([^(\"\')])?\')|(\'\\b\')|(\'\\f\')|(\'\\n\')|(\'\\r\')|(\'\\t\')|(\'\\v\')|(\'\\x\')|(\'\\\\')
 string    \"(\\.|[^"\\])*\"
-type      "int"|"float"|"set"|"elem"
+type      "int"|"float"|"set"|"elem"|"void"
 comment   "//".*
 
 add       [+]

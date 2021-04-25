@@ -189,7 +189,10 @@ parameter:
 statement_list:
     statement_list statement {
       $$ = create_node2("statement_list statement", $1, $2);
-      $$ -> returnType = $2 -> returnType;
+      if($1 -> returnType == 'x')
+        $$ -> returnType = $2 -> returnType;
+      else
+        $$ -> returnType = $1 -> returnType;
     }
   | {
       $$ = create_node0("vazio");
