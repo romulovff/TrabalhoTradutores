@@ -1,203 +1,210 @@
-==6709== Memcheck, a memory error detector
-==6709== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==6709== Using Valgrind-3.16.1-36d6727e1d-20200622X and LibVEX; rerun with -h for copyright info
-==6709== Command: ./parser ../tests/test1.nc
-==6709== Parent PID: 6693
-==6709== 
---6709-- 
---6709-- Valgrind options:
---6709--    --leak-check=full
---6709--    --show-leak-kinds=all
---6709--    --track-origins=yes
---6709--    --verbose
---6709--    --log-file=valgrind-out.txt
---6709-- Contents of /proc/version:
---6709--   Linux version 5.8.0-25-generic (buildd@lcy01-amd64-022) (gcc (Ubuntu 10.2.0-13ubuntu1) 10.2.0, GNU ld (GNU Binutils for Ubuntu) 2.35.1) #26-Ubuntu SMP Thu Oct 15 10:30:38 UTC 2020
---6709-- 
---6709-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
---6709-- Page sizes: currently 4096, max supported 4096
---6709-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
---6709-- Reading syms from /home/ubuntu/Desktop/TrabalhoTradutores/src/parser
---6709-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.32.so
---6709--   Considering /usr/lib/x86_64-linux-gnu/ld-2.32.so ..
---6709--   .. CRC mismatch (computed 26410511 wanted 6010827e)
---6709--   Considering /lib/x86_64-linux-gnu/ld-2.32.so ..
---6709--   .. CRC mismatch (computed 26410511 wanted 6010827e)
---6709--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.32.so ..
---6709--   .. CRC is valid
---6709-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
---6709--    object doesn't have a symbol table
---6709--    object doesn't have a dynamic symbol table
---6709-- Scheduler: using generic scheduler lock implementation.
---6709-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
-==6709== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-6709-by-ubuntu-on-???
-==6709== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-6709-by-ubuntu-on-???
-==6709== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-6709-by-ubuntu-on-???
-==6709== 
-==6709== TO CONTROL THIS PROCESS USING vgdb (which you probably
-==6709== don't want to do, unless you know exactly what you're doing,
-==6709== or are doing some strange experiment):
-==6709==   /usr/bin/vgdb --pid=6709 ...command...
-==6709== 
-==6709== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==6709==   /path/to/gdb ./parser
-==6709== and then give GDB the following command
-==6709==   target remote | /usr/bin/vgdb --pid=6709
-==6709== --pid is optional if only one valgrind process is running
-==6709== 
---6709-- REDIR: 0x4023b00 (ld-linux-x86-64.so.2:strlen) redirected to 0x580ccb72 (???)
---6709-- REDIR: 0x40238d0 (ld-linux-x86-64.so.2:index) redirected to 0x580ccb8c (???)
---6709-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
---6709--    object doesn't have a symbol table
---6709-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
---6709--    object doesn't have a symbol table
-==6709== WARNING: new redirection conflicts with existing -- ignoring it
---6709--     old: 0x04023b00 (strlen              ) R-> (0000.0) 0x580ccb72 ???
---6709--     new: 0x04023b00 (strlen              ) R-> (2007.0) 0x04840060 strlen
---6709-- REDIR: 0x40202e0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4840fd0 (strcmp)
---6709-- REDIR: 0x4024060 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4844af0 (mempcpy)
---6709-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.32.so
---6709--   Considering /usr/lib/x86_64-linux-gnu/libc-2.32.so ..
---6709--   .. CRC mismatch (computed 2798f119 wanted a3907336)
---6709--   Considering /lib/x86_64-linux-gnu/libc-2.32.so ..
---6709--   .. CRC mismatch (computed 2798f119 wanted a3907336)
---6709--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.32.so ..
---6709--   .. CRC is valid
---6709-- REDIR: 0x48fa1f0 (libc.so.6:memmove) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48f9680 (libc.so.6:strncpy) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fa530 (libc.so.6:strcasecmp) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48f9120 (libc.so.6:strcat) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48f96e0 (libc.so.6:rindex) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fb9f0 (libc.so.6:rawmemchr) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x4916150 (libc.so.6:wmemchr) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x4915c90 (libc.so.6:wcscmp) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fa350 (libc.so.6:mempcpy) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fa180 (libc.so.6:bcmp) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48f9610 (libc.so.6:strncmp) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48f91d0 (libc.so.6:strcmp) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fa2c0 (libc.so.6:memset) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x4915c50 (libc.so.6:wcschr) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48f9570 (libc.so.6:strnlen) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48f92b0 (libc.so.6:strcspn) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fa580 (libc.so.6:strncasecmp) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48f9250 (libc.so.6:strcpy) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fa6d0 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x49173d0 (libc.so.6:wcsnlen) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x4915cd0 (libc.so.6:wcscpy) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48f9720 (libc.so.6:strpbrk) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48f9180 (libc.so.6:index) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48f9530 (libc.so.6:strlen) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x4901ee0 (libc.so.6:memrchr) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fa5d0 (libc.so.6:strcasecmp_l) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fa140 (libc.so.6:memchr) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x4915da0 (libc.so.6:wcslen) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48f9850 (libc.so.6:strspn) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fa4d0 (libc.so.6:stpncpy) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fa470 (libc.so.6:stpcpy) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fba30 (libc.so.6:strchrnul) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x48fa620 (libc.so.6:strncasecmp_l) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
---6709-- REDIR: 0x49defa0 (libc.so.6:__strrchr_avx2) redirected to 0x483fa10 (rindex)
---6709-- REDIR: 0x48f4560 (libc.so.6:malloc) redirected to 0x483c780 (malloc)
---6709-- REDIR: 0x48f9d10 (libc.so.6:__GI_strstr) redirected to 0x4844d70 (__strstr_sse2)
---6709-- REDIR: 0x49e2600 (libc.so.6:__memset_avx2_unaligned_erms) redirected to 0x48439b0 (memset)
---6709-- REDIR: 0x49df170 (libc.so.6:__strlen_avx2) redirected to 0x483ff40 (strlen)
---6709-- REDIR: 0x49e2180 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x4843ac0 (memmove)
---6709-- REDIR: 0x48f5c00 (libc.so.6:calloc) redirected to 0x483ece0 (calloc)
---6709-- REDIR: 0x49da660 (libc.so.6:__strcmp_avx2) redirected to 0x4840ed0 (strcmp)
---6709-- REDIR: 0x48f4b70 (libc.so.6:free) redirected to 0x483d9d0 (free)
---6709-- REDIR: 0x49db760 (libc.so.6:__memcmp_avx2_movbe) redirected to 0x48431e0 (bcmp)
---6709-- REDIR: 0x49e2160 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4844730 (mempcpy)
---6709-- REDIR: 0x49dedb0 (libc.so.6:__strchrnul_avx2) redirected to 0x4844610 (strchrnul)
-==6709== 
-==6709== HEAP SUMMARY:
-==6709==     in use at exit: 244 bytes in 67 blocks
-==6709==   total heap usage: 387 allocs, 320 frees, 45,230 bytes allocated
-==6709== 
-==6709== Searching for pointers to 67 not-freed blocks
-==6709== Checked 74,344 bytes
-==6709== 
-==6709== 2 bytes in 1 blocks are still reachable in loss record 1 of 11
-==6709==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==6709==    by 0x48F941E: strdup (strdup.c:42)
-==6709==    by 0x10AE1F: yylex (newc.l:306)
-==6709==    by 0x10FDFC: yyparse (newcParser.tab.c:2040)
-==6709==    by 0x111F95: main (newcParser.y:485)
-==6709== 
-==6709== 5 bytes in 1 blocks are definitely lost in loss record 2 of 11
-==6709==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==6709==    by 0x48F941E: strdup (strdup.c:42)
-==6709==    by 0x10AE53: yylex (newc.l:312)
-==6709==    by 0x10FDFC: yyparse (newcParser.tab.c:2040)
-==6709==    by 0x111F95: main (newcParser.y:485)
-==6709== 
-==6709== 5 bytes in 1 blocks are definitely lost in loss record 3 of 11
-==6709==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==6709==    by 0x48F941E: strdup (strdup.c:42)
-==6709==    by 0x10A908: yylex (newc.l:135)
-==6709==    by 0x10FDFC: yyparse (newcParser.tab.c:2040)
-==6709==    by 0x111F95: main (newcParser.y:485)
-==6709== 
-==6709== 6 bytes in 1 blocks are definitely lost in loss record 4 of 11
-==6709==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==6709==    by 0x48F941E: strdup (strdup.c:42)
-==6709==    by 0x10A9B4: yylex (newc.l:161)
-==6709==    by 0x10FDFC: yyparse (newcParser.tab.c:2040)
-==6709==    by 0x111F95: main (newcParser.y:485)
-==6709== 
-==6709== 6 bytes in 2 blocks are definitely lost in loss record 5 of 11
-==6709==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==6709==    by 0x48F941E: strdup (strdup.c:42)
-==6709==    by 0x10AB0F: yylex (newc.l:216)
-==6709==    by 0x10FDFC: yyparse (newcParser.tab.c:2040)
-==6709==    by 0x111F95: main (newcParser.y:485)
-==6709== 
-==6709== 8 bytes in 1 blocks are definitely lost in loss record 6 of 11
-==6709==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==6709==    by 0x48F941E: strdup (strdup.c:42)
-==6709==    by 0x10AC47: yylex (newc.l:252)
-==6709==    by 0x10FDFC: yyparse (newcParser.tab.c:2040)
-==6709==    by 0x111F95: main (newcParser.y:485)
-==6709== 
-==6709== 15 bytes in 5 blocks are definitely lost in loss record 7 of 11
-==6709==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==6709==    by 0x48F941E: strdup (strdup.c:42)
-==6709==    by 0x10AC7B: yylex (newc.l:258)
-==6709==    by 0x10FDFC: yyparse (newcParser.tab.c:2040)
-==6709==    by 0x111F95: main (newcParser.y:485)
-==6709== 
-==6709== 20 bytes in 5 blocks are definitely lost in loss record 8 of 11
-==6709==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==6709==    by 0x48F941E: strdup (strdup.c:42)
-==6709==    by 0x10ACE3: yylex (newc.l:270)
-==6709==    by 0x10FDFC: yyparse (newcParser.tab.c:2040)
-==6709==    by 0x111F95: main (newcParser.y:485)
-==6709== 
-==6709== 21 bytes in 3 blocks are definitely lost in loss record 9 of 11
-==6709==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==6709==    by 0x48F941E: strdup (strdup.c:42)
-==6709==    by 0x10ABAB: yylex (newc.l:234)
-==6709==    by 0x10FDFC: yyparse (newcParser.tab.c:2040)
-==6709==    by 0x111F95: main (newcParser.y:485)
-==6709== 
-==6709== 72 bytes in 18 blocks are definitely lost in loss record 10 of 11
-==6709==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==6709==    by 0x48F941E: strdup (strdup.c:42)
-==6709==    by 0x10A8D4: yylex (newc.l:129)
-==6709==    by 0x10FDFC: yyparse (newcParser.tab.c:2040)
-==6709==    by 0x111F95: main (newcParser.y:485)
-==6709== 
-==6709== 84 bytes in 29 blocks are definitely lost in loss record 11 of 11
-==6709==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==6709==    by 0x48F941E: strdup (strdup.c:42)
-==6709==    by 0x10AE1F: yylex (newc.l:306)
-==6709==    by 0x10FDFC: yyparse (newcParser.tab.c:2040)
-==6709==    by 0x111F95: main (newcParser.y:485)
-==6709== 
-==6709== LEAK SUMMARY:
-==6709==    definitely lost: 242 bytes in 66 blocks
-==6709==    indirectly lost: 0 bytes in 0 blocks
-==6709==      possibly lost: 0 bytes in 0 blocks
-==6709==    still reachable: 2 bytes in 1 blocks
-==6709==         suppressed: 0 bytes in 0 blocks
-==6709== 
-==6709== ERROR SUMMARY: 10 errors from 10 contexts (suppressed: 0 from 0)
+==12134== Memcheck, a memory error detector
+==12134== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==12134== Using Valgrind-3.16.1-36d6727e1d-20200622X and LibVEX; rerun with -h for copyright info
+==12134== Command: ./parser ../tests/test1.nc
+==12134== Parent PID: 12118
+==12134== 
+--12134-- 
+--12134-- Valgrind options:
+--12134--    --leak-check=full
+--12134--    --show-leak-kinds=all
+--12134--    --track-origins=yes
+--12134--    --verbose
+--12134--    --log-file=valgrind-out.txt
+--12134-- Contents of /proc/version:
+--12134--   Linux version 5.8.0-25-generic (buildd@lcy01-amd64-022) (gcc (Ubuntu 10.2.0-13ubuntu1) 10.2.0, GNU ld (GNU Binutils for Ubuntu) 2.35.1) #26-Ubuntu SMP Thu Oct 15 10:30:38 UTC 2020
+--12134-- 
+--12134-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
+--12134-- Page sizes: currently 4096, max supported 4096
+--12134-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
+--12134-- Reading syms from /home/ubuntu/Desktop/TrabalhoTradutores/src/parser
+--12134-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.32.so
+--12134--   Considering /usr/lib/x86_64-linux-gnu/ld-2.32.so ..
+--12134--   .. CRC mismatch (computed 26410511 wanted 6010827e)
+--12134--   Considering /lib/x86_64-linux-gnu/ld-2.32.so ..
+--12134--   .. CRC mismatch (computed 26410511 wanted 6010827e)
+--12134--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.32.so ..
+--12134--   .. CRC is valid
+--12134-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
+--12134--    object doesn't have a symbol table
+--12134--    object doesn't have a dynamic symbol table
+--12134-- Scheduler: using generic scheduler lock implementation.
+--12134-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
+==12134== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-12134-by-ubuntu-on-???
+==12134== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-12134-by-ubuntu-on-???
+==12134== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-12134-by-ubuntu-on-???
+==12134== 
+==12134== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==12134== don't want to do, unless you know exactly what you're doing,
+==12134== or are doing some strange experiment):
+==12134==   /usr/bin/vgdb --pid=12134 ...command...
+==12134== 
+==12134== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==12134==   /path/to/gdb ./parser
+==12134== and then give GDB the following command
+==12134==   target remote | /usr/bin/vgdb --pid=12134
+==12134== --pid is optional if only one valgrind process is running
+==12134== 
+--12134-- REDIR: 0x4023b00 (ld-linux-x86-64.so.2:strlen) redirected to 0x580ccb72 (???)
+--12134-- REDIR: 0x40238d0 (ld-linux-x86-64.so.2:index) redirected to 0x580ccb8c (???)
+--12134-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
+--12134--    object doesn't have a symbol table
+--12134-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
+--12134--    object doesn't have a symbol table
+==12134== WARNING: new redirection conflicts with existing -- ignoring it
+--12134--     old: 0x04023b00 (strlen              ) R-> (0000.0) 0x580ccb72 ???
+--12134--     new: 0x04023b00 (strlen              ) R-> (2007.0) 0x04840060 strlen
+--12134-- REDIR: 0x40202e0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4840fd0 (strcmp)
+--12134-- REDIR: 0x4024060 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4844af0 (mempcpy)
+--12134-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.32.so
+--12134--   Considering /usr/lib/x86_64-linux-gnu/libc-2.32.so ..
+--12134--   .. CRC mismatch (computed 2798f119 wanted a3907336)
+--12134--   Considering /lib/x86_64-linux-gnu/libc-2.32.so ..
+--12134--   .. CRC mismatch (computed 2798f119 wanted a3907336)
+--12134--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.32.so ..
+--12134--   .. CRC is valid
+--12134-- REDIR: 0x48fa1f0 (libc.so.6:memmove) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48f9680 (libc.so.6:strncpy) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fa530 (libc.so.6:strcasecmp) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48f9120 (libc.so.6:strcat) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48f96e0 (libc.so.6:rindex) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fb9f0 (libc.so.6:rawmemchr) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x4916150 (libc.so.6:wmemchr) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x4915c90 (libc.so.6:wcscmp) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fa350 (libc.so.6:mempcpy) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fa180 (libc.so.6:bcmp) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48f9610 (libc.so.6:strncmp) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48f91d0 (libc.so.6:strcmp) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fa2c0 (libc.so.6:memset) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x4915c50 (libc.so.6:wcschr) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48f9570 (libc.so.6:strnlen) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48f92b0 (libc.so.6:strcspn) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fa580 (libc.so.6:strncasecmp) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48f9250 (libc.so.6:strcpy) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fa6d0 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x49173d0 (libc.so.6:wcsnlen) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x4915cd0 (libc.so.6:wcscpy) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48f9720 (libc.so.6:strpbrk) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48f9180 (libc.so.6:index) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48f9530 (libc.so.6:strlen) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x4901ee0 (libc.so.6:memrchr) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fa5d0 (libc.so.6:strcasecmp_l) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fa140 (libc.so.6:memchr) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x4915da0 (libc.so.6:wcslen) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48f9850 (libc.so.6:strspn) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fa4d0 (libc.so.6:stpncpy) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fa470 (libc.so.6:stpcpy) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fba30 (libc.so.6:strchrnul) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x48fa620 (libc.so.6:strncasecmp_l) redirected to 0x48321d0 (_vgnU_ifunc_wrapper)
+--12134-- REDIR: 0x49defa0 (libc.so.6:__strrchr_avx2) redirected to 0x483fa10 (rindex)
+--12134-- REDIR: 0x48f4560 (libc.so.6:malloc) redirected to 0x483c780 (malloc)
+--12134-- REDIR: 0x48f9d10 (libc.so.6:__GI_strstr) redirected to 0x4844d70 (__strstr_sse2)
+--12134-- REDIR: 0x49e2600 (libc.so.6:__memset_avx2_unaligned_erms) redirected to 0x48439b0 (memset)
+--12134-- REDIR: 0x49df170 (libc.so.6:__strlen_avx2) redirected to 0x483ff40 (strlen)
+--12134-- REDIR: 0x49e2180 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x4843ac0 (memmove)
+--12134-- REDIR: 0x48f5c00 (libc.so.6:calloc) redirected to 0x483ece0 (calloc)
+--12134-- REDIR: 0x49da660 (libc.so.6:__strcmp_avx2) redirected to 0x4840ed0 (strcmp)
+--12134-- REDIR: 0x49dedb0 (libc.so.6:__strchrnul_avx2) redirected to 0x4844610 (strchrnul)
+--12134-- REDIR: 0x49e2160 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4844730 (mempcpy)
+--12134-- REDIR: 0x48f4b70 (libc.so.6:free) redirected to 0x483d9d0 (free)
+--12134-- REDIR: 0x49db760 (libc.so.6:__memcmp_avx2_movbe) redirected to 0x48431e0 (bcmp)
+==12134== 
+==12134== HEAP SUMMARY:
+==12134==     in use at exit: 264 bytes in 71 blocks
+==12134==   total heap usage: 463 allocs, 392 frees, 50,322 bytes allocated
+==12134== 
+==12134== Searching for pointers to 71 not-freed blocks
+==12134== Checked 74,344 bytes
+==12134== 
+==12134== 2 bytes in 1 blocks are still reachable in loss record 1 of 12
+==12134==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12134==    by 0x48F941E: strdup (strdup.c:42)
+==12134==    by 0x10AE1F: yylex (newc.l:306)
+==12134==    by 0x10FE01: yyparse (newcParser.tab.c:2444)
+==12134==    by 0x112233: main (newcParser.y:525)
+==12134== 
+==12134== 5 bytes in 1 blocks are definitely lost in loss record 2 of 12
+==12134==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12134==    by 0x48F941E: strdup (strdup.c:42)
+==12134==    by 0x10AB43: yylex (newc.l:222)
+==12134==    by 0x10FE01: yyparse (newcParser.tab.c:2444)
+==12134==    by 0x112233: main (newcParser.y:525)
+==12134== 
+==12134== 5 bytes in 1 blocks are definitely lost in loss record 3 of 12
+==12134==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12134==    by 0x48F941E: strdup (strdup.c:42)
+==12134==    by 0x10A908: yylex (newc.l:135)
+==12134==    by 0x10FE01: yyparse (newcParser.tab.c:2444)
+==12134==    by 0x112233: main (newcParser.y:525)
+==12134== 
+==12134== 6 bytes in 1 blocks are definitely lost in loss record 4 of 12
+==12134==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12134==    by 0x48F941E: strdup (strdup.c:42)
+==12134==    by 0x10A9B4: yylex (newc.l:161)
+==12134==    by 0x10FE01: yyparse (newcParser.tab.c:2444)
+==12134==    by 0x112233: main (newcParser.y:525)
+==12134== 
+==12134== 9 bytes in 2 blocks are definitely lost in loss record 5 of 12
+==12134==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12134==    by 0x48F941E: strdup (strdup.c:42)
+==12134==    by 0x10AE53: yylex (newc.l:312)
+==12134==    by 0x10FE01: yyparse (newcParser.tab.c:2444)
+==12134==    by 0x112233: main (newcParser.y:525)
+==12134== 
+==12134== 9 bytes in 3 blocks are definitely lost in loss record 6 of 12
+==12134==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12134==    by 0x48F941E: strdup (strdup.c:42)
+==12134==    by 0x10AB0F: yylex (newc.l:216)
+==12134==    by 0x10FE01: yyparse (newcParser.tab.c:2444)
+==12134==    by 0x112233: main (newcParser.y:525)
+==12134== 
+==12134== 15 bytes in 5 blocks are definitely lost in loss record 7 of 12
+==12134==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12134==    by 0x48F941E: strdup (strdup.c:42)
+==12134==    by 0x10AC7B: yylex (newc.l:258)
+==12134==    by 0x10FE01: yyparse (newcParser.tab.c:2444)
+==12134==    by 0x112233: main (newcParser.y:525)
+==12134== 
+==12134== 16 bytes in 2 blocks are definitely lost in loss record 8 of 12
+==12134==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12134==    by 0x48F941E: strdup (strdup.c:42)
+==12134==    by 0x10AC47: yylex (newc.l:252)
+==12134==    by 0x10FE01: yyparse (newcParser.tab.c:2444)
+==12134==    by 0x112233: main (newcParser.y:525)
+==12134== 
+==12134== 20 bytes in 5 blocks are definitely lost in loss record 9 of 12
+==12134==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12134==    by 0x48F941E: strdup (strdup.c:42)
+==12134==    by 0x10ACE3: yylex (newc.l:270)
+==12134==    by 0x10FE01: yyparse (newcParser.tab.c:2444)
+==12134==    by 0x112233: main (newcParser.y:525)
+==12134== 
+==12134== 21 bytes in 3 blocks are definitely lost in loss record 10 of 12
+==12134==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12134==    by 0x48F941E: strdup (strdup.c:42)
+==12134==    by 0x10ABAB: yylex (newc.l:234)
+==12134==    by 0x10FE01: yyparse (newcParser.tab.c:2444)
+==12134==    by 0x112233: main (newcParser.y:525)
+==12134== 
+==12134== 72 bytes in 18 blocks are definitely lost in loss record 11 of 12
+==12134==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12134==    by 0x48F941E: strdup (strdup.c:42)
+==12134==    by 0x10A8D4: yylex (newc.l:129)
+==12134==    by 0x10FE01: yyparse (newcParser.tab.c:2444)
+==12134==    by 0x112233: main (newcParser.y:525)
+==12134== 
+==12134== 84 bytes in 29 blocks are definitely lost in loss record 12 of 12
+==12134==    at 0x483C7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12134==    by 0x48F941E: strdup (strdup.c:42)
+==12134==    by 0x10AE1F: yylex (newc.l:306)
+==12134==    by 0x10FE01: yyparse (newcParser.tab.c:2444)
+==12134==    by 0x112233: main (newcParser.y:525)
+==12134== 
+==12134== LEAK SUMMARY:
+==12134==    definitely lost: 262 bytes in 70 blocks
+==12134==    indirectly lost: 0 bytes in 0 blocks
+==12134==      possibly lost: 0 bytes in 0 blocks
+==12134==    still reachable: 2 bytes in 1 blocks
+==12134==         suppressed: 0 bytes in 0 blocks
+==12134== 
+==12134== ERROR SUMMARY: 11 errors from 11 contexts (suppressed: 0 from 0)

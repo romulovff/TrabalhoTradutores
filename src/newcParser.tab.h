@@ -96,8 +96,7 @@ extern int yydebug;
     PARENL = 297,                  /* PARENL  */
     PARENR = 298,                  /* PARENR  */
     SEMIC = 299,                   /* SEMIC  */
-    OUTERTHEN = 300,               /* OUTERTHEN  */
-    THEN = 301                     /* THEN  */
+    OUTERTHEN = 300                /* OUTERTHEN  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -106,7 +105,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 40 "newcParser.y"
+#line 41 "newcParser.y"
 
   int integer;
   char *str;
@@ -115,7 +114,7 @@ union YYSTYPE
 
   struct node *tree_node;
 
-#line 119 "newcParser.tab.h"
+#line 118 "newcParser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

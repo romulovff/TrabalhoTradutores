@@ -1,19 +1,19 @@
 int a;
 
+float l;
+
 set add_int(set s, set i, int x) {
-    int l;
     x = x + 1;
     a = 1;
     s = EMPTY;
-    return add(-2 in add(1 in s));
-    (2 + -2) * 3;
+    return 1;
+    l = (2 + 1) * 3;
 }
 
 int b;
-int l;
 
 set add_float(set s, set i) {
-    l = 1;
+    l = 1.1;
     writeln('\n');
     return add(-5.4 in add(1.5 in s));
 }

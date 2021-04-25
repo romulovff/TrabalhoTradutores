@@ -47,21 +47,6 @@ int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope,
   return 1;
 }
 
-// struct symbol *find_symbol(char *name, int scope) {
-//   struct symbol *s;
-//
-//   for (s = symbol_table; s != NULL; s = s -> hh.next){
-//     if ((strcmp(s -> name, name) == 0 && s -> scope == scope) && (strcmp(s -> symbolType, "var") == 0 || strcmp(s -> symbolType, "param") == 0)){
-//       return s;
-//     } else {
-//       if ((strcmp(s -> name, name) == 0 && s -> scope == origin_scope) && strcmp(s -> symbolType, "var") == 0){
-//         return s;
-//       }
-//     }
-//   }
-//   return NULL;
-// }
-
 struct symbol *find_symbol_func(char *name) {
   struct symbol *s;
 
@@ -101,7 +86,7 @@ bool check_number_of_params(int args_params, char* func_name) {
   return false;
 }
 
-bool check_is_in_scope(char *name, int num) {
+struct symbol *check_is_in_scope(char *name, int num) {
   struct symbol *s;
   Scope *scope;
   Scope *scopeAux;
@@ -109,11 +94,11 @@ bool check_is_in_scope(char *name, int num) {
   for (scope = stack_scope; !STACK_EMPTY(scope);){
     for (s = symbol_table; s != NULL; s = s -> hh.next){
       if (strcmp(s -> name, name) == 0 && s -> scope == scope -> value && (strcmp(s -> symbolType, "var") == 0 || strcmp(s -> symbolType, "param") == 0)){
-        return true;
+        return s;
       }
     }
     STACK_POP(scope, scopeAux);
   }
-  return false;
+  return NULL;
   free(scopeAux);
 }

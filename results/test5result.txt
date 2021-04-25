@@ -7,6 +7,9 @@ syntax error, unexpected IF, linha: 12, coluna: 5
 ERRO SEMATICO
 VARIAVEL s NAO DECLARADA, linha 12, coluna 10
 
+ERRO SEMATICO
+FUNCAO funcao SEM RETORNO ESPERADO, linha 15, coluna 2
+
 ERRO SEMÂNTICO
 FUNÇÃO MAIN NÃO ENCONTRADA
 
@@ -17,5 +20,5 @@ FUNÇÃO MAIN NÃO ENCONTRADA
 **********************************************************************************************************************************************************************
 
 
-FORAM ENCONTRADOS 1 ERROS E 3 WARNINGS NO CODIGO
+FORAM ENCONTRADOS 1 ERROS E 4 WARNINGS NO CODIGO
 

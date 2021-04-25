@@ -1,3 +1,6 @@
+ERRO SEMATICO
+FUNCAO add_float SEM RETORNO ESPERADO, linha 9, coluna 6
+
 
 ERRO DE SINTAXE
 syntax error, unexpected FOR, linha: 14, coluna: 11
@@ -11,13 +14,25 @@ syntax error, unexpected INTEGER, linha: 15, coluna: 20
 ERRO DE SINTAXE
 syntax error, unexpected PARENR, linha: 15, coluna: 28
 ERRO SEMATICO
+FUNCAO add_set SEM RETORNO ESPERADO, linha 25, coluna 4
+
+ERRO SEMATICO
+VARIAVEL zero DO TIPO set RECEBENDO VALOR DE TIPO INVALIDO, linha 27, coluna 18
+
+ERRO SEMATICO
 FUNÇAO succ NAO DECLARADA, linha 28, coluna 22
+
+ERRO SEMATICO
+VARIAVEL one DO TIPO set RECEBENDO VALOR DE TIPO INVALIDO, linha 28, coluna 22
 
 ERRO SEMATICO
 FUNÇAO succ NAO DECLARADA, linha 29, coluna 27
 
 ERRO SEMATICO
 FUNÇAO succ NAO DECLARADA, linha 30, coluna 29
+
+ERRO SEMATICO
+FUNCAO subsum SEM RETORNO ESPERADO, linha 33, coluna 4
 
 ERRO SEMATICO
 VARIAVEL x NAO DECLARADA, linha 37, coluna 20
@@ -27,6 +42,9 @@ VARIAVEL s NAO DECLARADA, linha 37, coluna 23
 
 ERRO SEMATICO
 VARIAVEL ans NAO DECLARADA, linha 38, coluna 16
+
+ERRO SEMATICO
+FUNCAO test_return COM RETORNO DE TIPO ERRADO, linha 42, coluna 2
 
 ERRO SEMÂNTICO
 FUNÇÃO MAIN NÃO ENCONTRADA
@@ -51,5 +69,5 @@ FUNÇÃO MAIN NÃO ENCONTRADA
 **********************************************************************************************************************************************************************
 
 
-FORAM ENCONTRADOS 4 ERROS E 7 WARNINGS NO CODIGO
+FORAM ENCONTRADOS 4 ERROS E 13 WARNINGS NO CODIGO
 

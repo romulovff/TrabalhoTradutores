@@ -41,6 +41,9 @@ ERRO SEMATICO
 VARIAVEL s NAO DECLARADA, linha 7, coluna 20
 
 ERRO SEMATICO
+VARIAVEL sumsWithX DO TIPO set RECEBENDO VALOR DE TIPO INVALIDO, linha 9, coluna 27
+
+ERRO SEMATICO
 VARIAVEL possibleSums NAO DECLARADA, linha 11, coluna 37
 
 ERRO SEMATICO
@@ -49,12 +52,18 @@ VARIAVEL x NAO DECLARADA, linha 11, coluna 46
 ERRO SEMATICO
 VARIAVEL v NAO DECLARADA, linha 11, coluna 49
 
+ERRO SEMATICO
+FUNCAO test_forall SEM RETORNO ESPERADO, linha 15, coluna 6
+
 
 ERRO DE SINTAXE
 syntax error, unexpected PARENL, expecting SEMIC, linha: 16, coluna: 16
 
 ERRO DE SINTAXE
 syntax error, unexpected ENDFUNC, expecting end of file or TYPE, linha: 19, coluna: 2
+ERRO SEMATICO
+FUNCAO test_set_func_calls SEM RETORNO ESPERADO, linha 21, coluna 4
+
 ERRO SEMATICO
 VARIAVEL target NAO DECLARADA, linha 22, coluna 17
 
@@ -63,6 +72,9 @@ VARIAVEL cur_sum NAO DECLARADA, linha 22, coluna 26
 
 ERRO SEMATICO
 VARIAVEL ans NAO DECLARADA, linha 23, coluna 18
+
+ERRO SEMATICO
+FUNCAO test_if_else SEM RETORNO ESPERADO, linha 28, coluna 2
 
 ERRO SEMÂNTICO
 FUNÇÃO MAIN NÃO ENCONTRADA
@@ -78,5 +90,5 @@ FUNÇÃO MAIN NÃO ENCONTRADA
 **********************************************************************************************************************************************************************
 
 
-FORAM ENCONTRADOS 2 ERROS E 21 WARNINGS NO CODIGO
+FORAM ENCONTRADOS 2 ERROS E 25 WARNINGS NO CODIGO
 

@@ -12,6 +12,7 @@
 #include "tree.h"
 #include "symbol.h"
 #include "newc.h"
+#include "utils.h"
 
 int errors = 0;
 int semanticErrors = 0;
@@ -72,7 +73,6 @@ extern FILE *yyin;
 
 %nonassoc OUTERTHEN
 %nonassoc ELSE
-%nonassoc THEN
 
 %start program
 %type<tree_node> program
@@ -120,6 +120,19 @@ func_dec:
     } statement_list ENDFUNC  {
       $$ = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
       pop_stack();
+      if(check_types_return_function($9 -> returnType, $1[0]) == 0) {
+        printf("ERRO SEMATICO\n");
+        printf("FUNCAO %s COM RETORNO INESPERADO, linha %d, coluna %d\n\n", $2, line, word_position);
+        semanticErrors += 1;
+      }else if(check_types_return_function($9 -> returnType, $1[0]) == 1) {
+        printf("ERRO SEMATICO\n");
+        printf("FUNCAO %s SEM RETORNO ESPERADO, linha %d, coluna %d\n\n", $2, line, word_position);
+        semanticErrors += 1;
+      } else if (check_types_return_function($9 -> returnType, $1[0]) == 3) {
+        printf("ERRO SEMATICO\n");
+        printf("FUNCAO %s COM RETORNO DE TIPO ERRADO, linha %d, coluna %d\n\n", $2, line, word_position);
+        semanticErrors += 1;
+      }
     }
   | TYPE MAIN PARENL {
       scope++;
@@ -132,6 +145,19 @@ func_dec:
       $$ = create_node4("TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
       has_main++;
       pop_stack();
+      if(check_types_return_function($9 -> returnType, $1[0]) == 0) {
+        printf("ERRO SEMATICO\n");
+        printf("FUNCAO %s COM RETORNO INESPERADO, linha %d, coluna %d\n\n", $2, line, word_position);
+        semanticErrors += 1;
+      }else if(check_types_return_function($9 -> returnType, $1[0]) == 1) {
+        printf("ERRO SEMATICO\n");
+        printf("FUNCAO %s SEM RETORNO ESPERADO, linha %d, coluna %d\n\n", $2, line, word_position);
+        semanticErrors += 1;
+      } else if (check_types_return_function($9 -> returnType, $1[0]) == 3) {
+        printf("ERRO SEMATICO\n");
+        printf("FUNCAO %s COM RETORNO DE TIPO ERRADO, linha %d, coluna %d\n\n", $2, line, word_position);
+        semanticErrors += 1;
+      }
     }
   ;
 
@@ -163,6 +189,7 @@ parameter:
 statement_list:
     statement_list statement {
       $$ = create_node2("statement_list statement", $1, $2);
+      $$ -> returnType = $2 -> returnType;
     }
   | {
       $$ = create_node0("vazio");
@@ -178,6 +205,7 @@ statement:
     }
   | ret_st {
       $$ = create_node1("ret_st", $1);
+      $$ -> returnType = $1 -> returnType;
     }
   | var_dec {
       $$ = create_node1("var_dec", $1);
@@ -241,7 +269,6 @@ for_body:
 
 if_ops:
     if_statement statement %prec OUTERTHEN {
-      pop_stack();
       $$ = create_node2("if_statement statement", $1, $2);
     }
   | if_statement statement else_statement {
@@ -289,6 +316,7 @@ else_statement:
 ret_st:
     RETURN expression SEMIC {
       $$ = create_node2("RETURN expression SEMIC", create_node0($1), $2);
+      $$ -> returnType = $2 -> type;
     }
   ;
 
@@ -317,9 +345,7 @@ io_ops:
 expression:
     set_op {
       $$ = create_node1("set_op", $1);
-    }
-  | operation {
-      $$ = create_node1("operation", $1);
+      $$ -> type = $1 -> type;
     }
   | func_call {
       $$ = create_node1("func_call", $1);
@@ -331,8 +357,10 @@ expression:
 
 term:
     ID {
-      if (check_is_in_scope($1, STACK_TOP(stack_scope) -> value)) {
-        $$ = create_node1("ID", create_node0($1));
+      struct symbol *s = check_is_in_scope($1, STACK_TOP(stack_scope) -> value);
+      if (s != NULL) {
+        $$ = create_node1("ID", create_node0_string($1));
+        $$ -> type = s -> returnFuncVarType[0];
       }
       else{
         printf("ERRO SEMATICO\n");
@@ -343,21 +371,27 @@ term:
     }
   | INTEGER {
       $$ = create_node1("INTEGER", create_node0_int($1, 'i'));
+      $$ -> type = 'i';
     }
   | DECIMAL {
-      $$ = create_node1("DECIMAL", create_node0_dec($1, 'd'));
+      $$ = create_node1("DECIMAL", create_node0_dec($1, 'f'));
+      $$ -> type = 'f';
     }
   | CHAR {
       $$ = create_node1("CHAR", create_node0_char($1, 'c'));
+      $$ -> type = 'c';
     }
   | STRING {
       $$ = create_node1("STRING", create_node0($1));
+      $$ -> type = 's';
     }
   | EMPTY {
       $$ = create_node1("EMPTY", create_node0($1));
+      $$ -> type = 'e';
     }
   | PARENL expression PARENR {
       $$ = create_node1("PARENL expression PARENR", $2);
+      $$ -> type = $2 -> type;
     }
   | ERRORTOKEN {
       $$ = create_node_empty();
@@ -367,42 +401,53 @@ term:
 math_op:
     math_op ADD math_op_muldiv {
       $$ = create_node3("math_op ADD math_op_muldiv", $1, create_node0("+"), $3);
+      $$ -> type = check_types($1 -> type, $3 -> type);
     }
   | math_op SUB math_op_muldiv {
       $$ = create_node3("math_op SUB math_op_muldiv", $1, create_node0("-"), $3);
+      $$ -> type = check_types($1 -> type, $3 -> type);
     }
   | math_op_muldiv {
       $$ = create_node1("math_op_muldiv", $1);
+      $$ -> type = $1 -> type;
     }
   ;
 
 math_op_muldiv:
     math_op_muldiv DIV term {
       $$ = create_node3("math_op_muldiv DIV term", $1, create_node0("/"), $3);
+      $$ -> type = check_types($1 -> type, $3 -> type);
     }
   | math_op_muldiv MULT term {
-    $$ = create_node3("math_op_muldiv MULT term", $1, create_node0("*"), $3);
-  }
+      $$ = create_node3("math_op_muldiv MULT term", $1, create_node0("*"), $3);
+      $$ -> type = check_types($1 -> type, $3 -> type);
+    }
   | term {
       $$ = create_node1("term", $1);
+      $$ -> type = $1 -> type;
     }
   ;
 
 set_op:
-    ADDSET PARENL in_set PARENR {
-      $$ = create_node2("ADDSET PARENL in_set PARENR", create_node0($1), $3);
+    ADDSET PARENL set_op PARENR {
+      $$ = create_node2("ADDSET PARENL set_op PARENR", create_node0($1), $3);
     }
-  | REMOVE PARENL in_set PARENR {
-      $$ = create_node2("REMOVE PARENL in_set PARENR", create_node0($1), $3);
+  | REMOVE PARENL set_op PARENR {
+      $$ = create_node2("REMOVE PARENL set_op PARENR", create_node0($1), $3);
     }
-  | EXISTS PARENL in_set PARENR {
-      $$ = create_node2("EXISTS PARENL in_set PARENR", create_node0($1), $3);
+  | EXISTS PARENL set_op PARENR {
+      $$ = create_node2("EXISTS PARENL set_op PARENR", create_node0($1), $3);
+    }
+  | operation {
+      $$ = create_node1("operation", $1);
+      $$ -> type = $1 -> type;
     }
   ;
 
 operation:
     math_op {
       $$ = create_node1("math_op", $1);
+      $$ -> type = $1 -> type;
     }
   | in_set {
       $$ = create_node1("in_set", $1);
@@ -485,9 +530,16 @@ args_list:
 
 assign_value:
     ID ASSIGN expression {
-      if (check_is_in_scope($1, STACK_TOP(stack_scope) -> value))
+      struct symbol *s = check_is_in_scope($1, STACK_TOP(stack_scope) -> value);
+      if (s != NULL){
         $$ = create_node3("ID ASSIGN expression", create_node0($1), create_node0("="), $3);
-      else{
+        $$ -> type = s -> returnFuncVarType[0];
+        if(!check_types_var(s -> returnFuncVarType[0], $3 -> type)) {
+          printf("ERRO SEMATICO\n");
+          printf("VARIAVEL %s DO TIPO %s RECEBENDO VALOR DE TIPO INVALIDO, linha %d, coluna %d\n\n", $1, s -> returnFuncVarType, line, word_position);
+          semanticErrors += 1;
+        }
+      }else{
         printf("ERRO SEMATICO\n");
         printf("VARIAVEL %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
         semanticErrors += 1;

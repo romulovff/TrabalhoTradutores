@@ -9,11 +9,14 @@ syntax error, unexpected ERRORTOKEN, expecting ID, linha: 4, coluna: 8
 ERROR!!
 @ at line: 6, column: 9
 
+ERRO SEMATICO
+FUNCAO main SEM RETORNO ESPERADO, linha 7, coluna 2
+
 ************************************************************************ TABELA DE SIMBOLOS **************************************************************************
     Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
     main                             func                                       int                                 1                   0
 **********************************************************************************************************************************************************************
 
 
-FORAM ENCONTRADOS 1 ERROS E 0 WARNINGS NO CODIGO
+FORAM ENCONTRADOS 1 ERROS E 1 WARNINGS NO CODIGO
 
