@@ -3360,7 +3360,10 @@ yyreduce:
       struct symbol *s = check_is_in_scope((yyvsp[-2].str), STACK_TOP(stack_scope) -> value);
       if (s != NULL){
         (yyval.tree_node) = create_node3("ID ASSIGN expression", create_node0((yyvsp[-2].str)), create_node0("="), (yyvsp[0].tree_node));
-        (yyval.tree_node) -> type = s -> returnFuncVarType[0];
+        if (s -> returnFuncVarType[0] != 'e')
+          (yyval.tree_node) -> type = s -> returnFuncVarType[0];
+        else
+          (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
         if(!check_types_var(s -> returnFuncVarType[0], (yyvsp[0].tree_node) -> type)) {
           printf("ERRO SEMATICO\n");
           printf("VARIAVEL %s DO TIPO %s RECEBENDO VALOR DE TIPO INVALIDO, linha %d, coluna %d\n\n", (yyvsp[-2].str), s -> returnFuncVarType, line, word_position);
@@ -3373,11 +3376,11 @@ yyreduce:
         (yyval.tree_node) = create_node_empty();
       }
     }
-#line 3377 "newcParser.tab.c"
+#line 3380 "newcParser.tab.c"
     break;
 
 
-#line 3381 "newcParser.tab.c"
+#line 3384 "newcParser.tab.c"
 
       default: break;
     }
@@ -3607,7 +3610,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 589 "newcParser.y"
+#line 592 "newcParser.y"
 
 
 int main(int argc, char *argv[]) {

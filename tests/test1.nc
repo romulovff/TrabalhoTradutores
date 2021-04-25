@@ -1,6 +1,8 @@
 float a;
 
 int add_int(set s, set i, int x) {
+    elem r;
+    r = 0.1;
     int l;
     x = x + 1;
     a = 1;

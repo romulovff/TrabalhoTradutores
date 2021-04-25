@@ -16,6 +16,8 @@ bool check_types_var(char varType, char value) {
     return true;
   if (varType == 'f' && (value == 'i' || value == 'f'))
     return true;
+  if (varType == 'e' && (value == 'i' || value == 'f'))
+    return true;
   if (varType == value)
     return true;
   return false;

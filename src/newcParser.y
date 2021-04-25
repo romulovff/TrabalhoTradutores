@@ -569,7 +569,10 @@ assign_value:
       struct symbol *s = check_is_in_scope($1, STACK_TOP(stack_scope) -> value);
       if (s != NULL){
         $$ = create_node3("ID ASSIGN expression", create_node0($1), create_node0("="), $3);
-        $$ -> type = s -> returnFuncVarType[0];
+        if (s -> returnFuncVarType[0] != 'e')
+          $$ -> type = s -> returnFuncVarType[0];
+        else
+          $$ -> type = $3 -> type;
         if(!check_types_var(s -> returnFuncVarType[0], $3 -> type)) {
           printf("ERRO SEMATICO\n");
           printf("VARIAVEL %s DO TIPO %s RECEBENDO VALOR DE TIPO INVALIDO, linha %d, coluna %d\n\n", $1, s -> returnFuncVarType, line, word_position);
