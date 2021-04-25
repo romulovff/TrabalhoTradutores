@@ -1,22 +1,17 @@
 
-ERROR!!
-@ at line: 4, column: 7
-
+ERRO DE SINTAXE
+syntax error, unexpected FOR, linha: 8, coluna: 9
 
 ERRO DE SINTAXE
-syntax error, unexpected ERRORTOKEN, expecting ID, linha: 4, coluna: 8
-
-ERROR!!
-@ at line: 6, column: 9
-
-ERRO SEMATICO
-FUNCAO main SEM RETORNO ESPERADO, linha 7, coluna 2
-
+syntax error, unexpected PARENR, linha: 8, coluna: 14
 ************************************************************************ TABELA DE SIMBOLOS **************************************************************************
     Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
-    main                             func                                       int                                 1                   0
+    add_set                          func                                       set                                 1                   0
+    s                                var                                        set                                 1                   0
+    another_thing                    var                                        int                                 1                   0
+    main                             func                                       void                                2                   0
 **********************************************************************************************************************************************************************
 
 
-FORAM ENCONTRADOS 1 ERROS E 1 WARNINGS NO CODIGO
+FORAM ENCONTRADOS 2 ERROS E 0 WARNINGS NO CODIGO
 

@@ -76,38 +76,38 @@ extern FILE *yyin;
 
 %start program
 %type<tree_node> program
-%type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement for_statement else_statement
-%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error if_statement forall_statement math_op_muldiv
+%type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement for_statement else_statement str_term
+%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error if_statement forall_statement math_op_muldiv math_term
 
 %%
 
 program:
-    declarations_list     {
-                            ast_tree = $$;
-                          }
+    declarations_list {
+      ast_tree = $$;
+    }
   ;
 
 declarations_list:
-    declarations_list declaration     {
-                                        $$ = create_node2("declarations_list declaration", $1, $2);
-                                      }
-  | declaration                       {
-                                        $$ = create_node1("declaration", $1);
-                                      }
-  | error                             {
-                                        $$ = create_node_empty();
-                                        errors += 1;
-                                        yyerror(yymsg);
-                                      }
+    declarations_list declaration {
+      $$ = create_node2("declarations_list declaration", $1, $2);
+    }
+  | declaration {
+      $$ = create_node1("declaration", $1);
+    }
+  | error {
+      $$ = create_node_empty();
+      errors += 1;
+      yyerror(yymsg);
+    }
   ;
 
 declaration:
-    var_dec     {
-                  $$ = create_node1("var_dec", $1);
-                }
-  | func_dec    {
-                  $$ = create_node1("func_dec", $1);
-                }
+    var_dec {
+      $$ = create_node1("var_dec", $1);
+    }
+  | func_dec{
+      $$ = create_node1("func_dec", $1);
+    }
   ;
 
 func_dec:
@@ -205,6 +205,7 @@ statement_list:
 statement:
     expression_statement {
       $$ = create_node1("expression_statement", $1);
+      $$ -> type = $1 -> type;
     }
   | ret_st {
       $$ = create_node1("ret_st", $1);
@@ -224,6 +225,7 @@ statement:
 expression_statement:
     expression SEMIC {
       $$ = create_node1("expression SEMIC", $1);
+      $$ -> type = $1 -> type;
     }
   ;
 
@@ -334,8 +336,8 @@ io_ops:
     READ PARENL PARENR SEMIC {
       $$ = create_node1("READ PARENL PARENR SEMIC", create_node0($1));
     }
-  | READ PARENL expression PARENR SEMIC {
-      $$ = create_node2("READ PARENL expression PARENR SEMIC", create_node0($1), $3);
+  | READ PARENL ID PARENR SEMIC {
+      $$ = create_node2("READ PARENL expression PARENR SEMIC", create_node0($1), create_node0($3));
     }
   | WRITE PARENL expression PARENR SEMIC {
       $$ = create_node2("WRITE PARENL expression PARENR SEMIC", create_node0($1), $3);
@@ -349,16 +351,34 @@ expression:
     set_op {
       $$ = create_node1("set_op", $1);
       $$ -> type = $1 -> type;
+      if ($1 -> type == 'u') {
+        printf("ERRO SEMATICO\n");
+        printf("ERRO DE TIPOS ENCONTRADO, linha %d, coluna %d\n\n", line, word_position);
+        semanticErrors += 1;
+      }
     }
   | func_call {
       $$ = create_node1("func_call", $1);
+      $$ -> type = $1 -> type;
     }
   | assign_value {
       $$ = create_node1("assign_value", $1);
+      $$ -> type = $1 -> type;
     }
   ;
 
 term:
+    math_term {
+      $$ = create_node1("math_term", $1);
+      $$ -> type = $1 -> type;
+    }
+  | str_term {
+      $$ = create_node1("str_term", $1);
+      $$ -> type = $1 -> type;
+    }
+  ;
+
+math_term:
     ID {
       struct symbol *s = check_is_in_scope($1, STACK_TOP(stack_scope) -> value);
       if (s != NULL) {
@@ -379,22 +399,25 @@ term:
   | DECIMAL {
       $$ = create_node1("DECIMAL", create_node0_dec($1, 'f'));
       $$ -> type = 'f';
+  }
+  | PARENL expression PARENR {
+      $$ = create_node1("PARENL expression PARENR", $2);
+      $$ -> type = $2 -> type;
     }
-  | CHAR {
+  ;
+
+str_term:
+    CHAR {
       $$ = create_node1("CHAR", create_node0_char($1, 'c'));
       $$ -> type = 'c';
     }
   | STRING {
       $$ = create_node1("STRING", create_node0($1));
-      $$ -> type = 's';
+      $$ -> type = 't';
     }
   | EMPTY {
       $$ = create_node1("EMPTY", create_node0($1));
-      $$ -> type = 'e';
-    }
-  | PARENL expression PARENR {
-      $$ = create_node1("PARENL expression PARENR", $2);
-      $$ -> type = $2 -> type;
+      $$ -> type = 's';
     }
   | ERRORTOKEN {
       $$ = create_node_empty();
@@ -417,15 +440,15 @@ math_op:
   ;
 
 math_op_muldiv:
-    math_op_muldiv DIV term {
+    math_op_muldiv DIV math_term {
       $$ = create_node3("math_op_muldiv DIV term", $1, create_node0("/"), $3);
       $$ -> type = check_types($1 -> type, $3 -> type);
     }
-  | math_op_muldiv MULT term {
+  | math_op_muldiv MULT math_term {
       $$ = create_node3("math_op_muldiv MULT term", $1, create_node0("*"), $3);
       $$ -> type = check_types($1 -> type, $3 -> type);
     }
-  | term {
+  | math_term {
       $$ = create_node1("term", $1);
       $$ -> type = $1 -> type;
     }
@@ -434,12 +457,15 @@ math_op_muldiv:
 set_op:
     ADDSET PARENL set_op PARENR {
       $$ = create_node2("ADDSET PARENL set_op PARENR", create_node0($1), $3);
+      $$ -> type = $3 -> type;
     }
   | REMOVE PARENL set_op PARENR {
       $$ = create_node2("REMOVE PARENL set_op PARENR", create_node0($1), $3);
+      $$ -> type = $3 -> type;
     }
   | EXISTS PARENL set_op PARENR {
       $$ = create_node2("EXISTS PARENL set_op PARENR", create_node0($1), $3);
+      $$ -> type = $3 -> type;
     }
   | operation {
       $$ = create_node1("operation", $1);
@@ -454,6 +480,7 @@ operation:
     }
   | in_set {
       $$ = create_node1("in_set", $1);
+      $$ -> type = $1 -> type;
     }
   | ISTYPE PARENL expression PARENR {
       $$ = create_node2("ISTYPE PARENL expression PARENR", create_node0($1), $3);
@@ -493,6 +520,7 @@ func_call:
         if (check_number_of_params(args_params, $1)){
           args_params = 0;
           $$ = create_node2("ID PARENL args_list PARENR", create_node0($1), $3);
+          $$ -> type = find_symbol_func($1) -> returnFuncVarType[0];
         }else{
           printf("ERRO SEMATICO\n");
           printf("FUNÇAO %s COM NUMERO DE PARAMETROS INVALIDOS NA INVOCAÇÃO, linha %d, coluna %d\n\n", $1, line, word_position);
@@ -508,11 +536,16 @@ func_call:
         $$ = create_node_empty();
       }
     }
+  | str_term {
+      $$ = create_node1("str_term", $1);
+      $$ -> type = $1 -> type;
+    }
   ;
 
 in_set:
     term IN expression {
       $$ = create_node3("term IN expression", $1, create_node0($2), $3);
+      $$ -> type = check_types_set($3 -> type);
     }
   ;
 

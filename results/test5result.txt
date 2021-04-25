@@ -1,24 +1,18 @@
-ERRO SEMATICO
-VARIAVEL s NAO DECLARADA, linha 6, coluna 10
-
 
 ERRO DE SINTAXE
-syntax error, unexpected IF, linha: 12, coluna: 5
-ERRO SEMATICO
-VARIAVEL s NAO DECLARADA, linha 12, coluna 10
+syntax error, unexpected READ, linha: 10, coluna: 15
 
-ERRO SEMATICO
-FUNCAO funcao SEM RETORNO ESPERADO, linha 15, coluna 2
-
-ERRO SEMÂNTICO
-FUNÇÃO MAIN NÃO ENCONTRADA
-
+ERRO DE SINTAXE
+syntax error, unexpected IF, linha: 14, coluna: 5
 ************************************************************************ TABELA DE SIMBOLOS **************************************************************************
     Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
-    funcao                           func                                       int                                 1                   0
+    s                                param                                      set                                 1                   0
+    funcao                           func                                       void                                1                   1
     t                                var                                        set                                 1                   0
+    s                                var                                        set                                 0                   0
+    main                             func                                       int                                 4                   0
 **********************************************************************************************************************************************************************
 
 
-FORAM ENCONTRADOS 1 ERROS E 4 WARNINGS NO CODIGO
+FORAM ENCONTRADOS 2 ERROS E 0 WARNINGS NO CODIGO
 

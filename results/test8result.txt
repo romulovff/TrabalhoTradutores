@@ -1,94 +1,26 @@
-ERRO SEMATICO
-VARIAVEL x NAO DECLARADA, linha 2, coluna 16
 
-ERRO SEMATICO
-VARIAVEL s NAO DECLARADA, linha 2, coluna 19
-
-ERRO SEMATICO
-VARIAVEL x NAO DECLARADA, linha 2, coluna 28
-
-ERRO SEMATICO
-VARIAVEL s NAO DECLARADA, linha 2, coluna 31
-
-ERRO SEMATICO
-VARIAVEL x NAO DECLARADA, linha 3, coluna 16
-
-ERRO SEMATICO
-VARIAVEL s NAO DECLARADA, linha 3, coluna 19
-
-ERRO SEMATICO
-VARIAVEL acc NAO DECLARADA, linha 4, coluna 20
-
-ERRO SEMATICO
-VARIAVEL x NAO DECLARADA, linha 4, coluna 23
-
-ERRO SEMATICO
-VARIAVEL acc NAO DECLARADA, linha 4, coluna 23
-
-ERRO SEMATICO
-VARIAVEL accf NAO DECLARADA, linha 5, coluna 22
-
-ERRO SEMATICO
-VARIAVEL x NAO DECLARADA, linha 5, coluna 25
-
-ERRO SEMATICO
-VARIAVEL accf NAO DECLARADA, linha 5, coluna 25
-
-ERRO SEMATICO
-VARIAVEL x NAO DECLARADA, linha 7, coluna 17
-
-ERRO SEMATICO
-VARIAVEL s NAO DECLARADA, linha 7, coluna 20
-
-ERRO SEMATICO
-VARIAVEL sumsWithX DO TIPO set RECEBENDO VALOR DE TIPO INVALIDO, linha 9, coluna 27
-
-ERRO SEMATICO
-VARIAVEL possibleSums NAO DECLARADA, linha 11, coluna 37
-
-ERRO SEMATICO
-VARIAVEL x NAO DECLARADA, linha 11, coluna 46
-
-ERRO SEMATICO
-VARIAVEL v NAO DECLARADA, linha 11, coluna 49
-
-ERRO SEMATICO
-FUNCAO test_forall SEM RETORNO ESPERADO, linha 15, coluna 6
+ERROR!!
+| at line: 3, column: 9
 
 
 ERRO DE SINTAXE
-syntax error, unexpected PARENL, expecting SEMIC, linha: 16, coluna: 16
+syntax error, unexpected ERRORTOKEN, linha: 3, coluna: 10
+
+ERROR!!
+\ at line: 3, column: 11
+
+
+ERROR!!
+& at line: 4, column: 7
+
 
 ERRO DE SINTAXE
-syntax error, unexpected ENDFUNC, expecting end of file or TYPE, linha: 19, coluna: 2
-ERRO SEMATICO
-FUNCAO test_set_func_calls SEM RETORNO ESPERADO, linha 21, coluna 4
-
-ERRO SEMATICO
-VARIAVEL target NAO DECLARADA, linha 22, coluna 17
-
-ERRO SEMATICO
-VARIAVEL cur_sum NAO DECLARADA, linha 22, coluna 26
-
-ERRO SEMATICO
-VARIAVEL ans NAO DECLARADA, linha 23, coluna 18
-
-ERRO SEMATICO
-FUNCAO test_if_else SEM RETORNO ESPERADO, linha 28, coluna 2
-
-ERRO SEMÂNTICO
-FUNÇÃO MAIN NÃO ENCONTRADA
-
+syntax error, unexpected ENDFUNC, expecting end of file or TYPE, linha: 6, coluna: 2
 ************************************************************************ TABELA DE SIMBOLOS **************************************************************************
     Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
-    test_forall                      func                                       int                                 1                   0
-    sumsWithX                        var                                        set                                 4                   0
-    val                              var                                        int                                 4                   0
-    test_set_func_calls                 func                                       float                               6                   0
-    test_if_else                     func                                       int                                 7                   0
-    el                               var                                        int                                 9                   0
+    main                             func                                       void                                1                   0
 **********************************************************************************************************************************************************************
 
 
-FORAM ENCONTRADOS 2 ERROS E 25 WARNINGS NO CODIGO
+FORAM ENCONTRADOS 2 ERROS E 0 WARNINGS NO CODIGO
 

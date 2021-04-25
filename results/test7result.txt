@@ -1,73 +1,19 @@
-ERRO SEMATICO
-FUNCAO add_float SEM RETORNO ESPERADO, linha 9, coluna 6
+
+ERROR!!
+@ at line: 2, column: 7
 
 
 ERRO DE SINTAXE
-syntax error, unexpected FOR, linha: 14, coluna: 11
+syntax error, unexpected ERRORTOKEN, expecting ID, linha: 2, coluna: 8
 
-ERRO DE SINTAXE
-syntax error, unexpected PARENR, linha: 14, coluna: 16
-
-ERRO DE SINTAXE
-syntax error, unexpected INTEGER, linha: 15, coluna: 20
-
-ERRO DE SINTAXE
-syntax error, unexpected PARENR, linha: 15, coluna: 28
-ERRO SEMATICO
-FUNCAO add_set SEM RETORNO ESPERADO, linha 25, coluna 4
-
-ERRO SEMATICO
-VARIAVEL zero DO TIPO set RECEBENDO VALOR DE TIPO INVALIDO, linha 27, coluna 18
-
-ERRO SEMATICO
-FUNÇAO succ NAO DECLARADA, linha 28, coluna 22
-
-ERRO SEMATICO
-VARIAVEL one DO TIPO set RECEBENDO VALOR DE TIPO INVALIDO, linha 28, coluna 22
-
-ERRO SEMATICO
-FUNÇAO succ NAO DECLARADA, linha 29, coluna 27
-
-ERRO SEMATICO
-FUNÇAO succ NAO DECLARADA, linha 30, coluna 29
-
-ERRO SEMATICO
-FUNCAO subsum SEM RETORNO ESPERADO, linha 33, coluna 4
-
-ERRO SEMATICO
-VARIAVEL x NAO DECLARADA, linha 37, coluna 20
-
-ERRO SEMATICO
-VARIAVEL s NAO DECLARADA, linha 37, coluna 23
-
-ERRO SEMATICO
-VARIAVEL ans NAO DECLARADA, linha 38, coluna 16
-
-ERRO SEMATICO
-FUNCAO test_return COM RETORNO DE TIPO ERRADO, linha 42, coluna 2
-
-ERRO SEMÂNTICO
-FUNÇÃO MAIN NÃO ENCONTRADA
+ERROR!!
+@ at line: 4, column: 9
 
 ************************************************************************ TABELA DE SIMBOLOS **************************************************************************
     Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
-    first_thing                      var                                        float                               0                   0
-    add_float                        func                                       set                                 1                   0
-    second_thing                     var                                        float                               0                   0
-    add_set                          func                                       set                                 2                   0
-    another_thing                    var                                        int                                 2                   0
-    s                                param                                      set                                 3                   0
-    target                           param                                      int                                 3                   0
-    cur_sum                          param                                      int                                 3                   0
-    ans                              param                                      set                                 3                   0
-    subsum                           func                                       set                                 3                   4
-    zero                             var                                        set                                 3                   0
-    one                              var                                        set                                 3                   0
-    two                              var                                        set                                 3                   0
-    three                            var                                        set                                 3                   0
-    test_return                      func                                       set                                 4                   0
+    main                             func                                       int                                 1                   0
 **********************************************************************************************************************************************************************
 
 
-FORAM ENCONTRADOS 4 ERROS E 13 WARNINGS NO CODIGO
+FORAM ENCONTRADOS 1 ERROS E 0 WARNINGS NO CODIGO
 

@@ -1,12 +1,12 @@
-int a;
+float a;
 
 int add_int(set s, set i, int x) {
     int l;
     x = x + 1;
     a = 1;
-    s = EMPTY;
     return 1;
-    (2 + -2) * 3;
+    s = add(1 in add(2 in s));
+    a = (2 + -2) * 3.2;
 }
 
 int b;
@@ -28,11 +28,12 @@ set add_set(set s) {
           writeln('o');
       }
     b = 1;
-    return add(1 in s);
+    return s;
 }
 
 int main() {
     set s;
     set t;
     set o;
+    return 0;
 }

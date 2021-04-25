@@ -12,9 +12,19 @@ char check_types(char type1, char type2) {
 }
 
 bool check_types_var(char varType, char value) {
+  if (varType == 'i' && (value == 'i' || value == 'f'))
+    return true;
+  if (varType == 'f' && (value == 'i' || value == 'f'))
+    return true;
   if (varType == value)
     return true;
   return false;
+}
+
+char check_types_set(char value) {
+  if (value == 's')
+    return value;
+  return 'u';
 }
 
 int check_types_return_function(char value, char returnType) {
