@@ -16,7 +16,7 @@ compilefile:
 	gcc lex.yy.c -g newcParser.tab.c -ll -g -Wall -o parser
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./parser ../tests/test1.nc
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./parser ../tests/test9.nc
 
 test:
 	./parser ../tests/test1.nc > ../results/test1result.txt

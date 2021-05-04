@@ -13,6 +13,7 @@
 #include "symbol.h"
 #include "newc.h"
 #include "utils.h"
+#include "codegen.h"
 
 int errors = 0;
 int semanticErrors = 0;
@@ -21,10 +22,14 @@ int scope = 0;
 int parameters = 0;
 int args_params = 0;
 int has_main = 0;
+int var_reg = 1;
 
 extern Symbol *symbol_table;
 Node *ast_tree = NULL;
 extern Scope *stack_scope;
+extern FILE *tacfile;
+extern Codegen *codegen;
+extern Codegen *current_line;
 
 int yylex();
 void yyerror (const char *msg) {
@@ -115,10 +120,11 @@ func_dec:
       scope++;
       push_stack(scope);
     } params_list PARENR STFUNC {
-      errors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parameters);
+      errors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parameters, 0);
       parameters = 0;
     } statement_list ENDFUNC  {
       $$ = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
+      add_func($2);
       pop_stack();
       if(check_types_return_function($9 -> returnType, $1[0]) == 0) {
         printf("ERRO SEMATICO\n");
@@ -138,12 +144,13 @@ func_dec:
       scope++;
       push_stack(scope);
     } params_list PARENR STFUNC {
-      semanticErrors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parameters);
+      semanticErrors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parameters, 0);
       parameters = 0;
     } statement_list ENDFUNC {
       symbolIdCounter++;
       $$ = create_node4("TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
       has_main++;
+      add_func($2);
       pop_stack();
       if(check_types_return_function($9 -> returnType, $1[0]) == 0) {
         printf("ERRO SEMATICO\n");
@@ -182,7 +189,8 @@ parameter:
     TYPE ID {
       parameters++;
       $$ = create_node2("TYPE ID", create_node0($1), create_node0($2));
-      semanticErrors += add_symbol($2, "param", $1, STACK_TOP(stack_scope) -> value, 0);
+      semanticErrors += add_symbol($2, "param", $1, STACK_TOP(stack_scope) -> value, 0, var_reg);
+      var_reg++;
     }
   ;
 
@@ -327,7 +335,25 @@ ret_st:
 
 var_dec:
     TYPE ID SEMIC {
-      semanticErrors += add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value, 0);
+      semanticErrors += add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value, 0, var_reg);
+      UT_string *s;
+      if($1[0] == 'i' || $1[0] == 'e') {
+        utstring_new(s);
+        utstring_printf(s, "$%d", var_reg);
+
+        var_dec(utstring_body(s), "0");
+      } else if($1[0] == 'f') {
+        utstring_new(s);
+        utstring_printf(s, "$%d", var_reg);
+
+        var_dec(utstring_body(s), "0.0");
+      } else if($1[0] == 's') {
+        utstring_new(s);
+        utstring_printf(s, "$%d", var_reg);
+
+        var_dec(utstring_body(s), "0");
+      }
+      var_reg++;
       $$ = create_node2("TYPE ID SEMIC", create_node0($1), create_node0($2));
     }
   ;
@@ -595,6 +621,10 @@ int main(int argc, char *argv[]) {
 
   push_stack(0);
 
+  tacfile = fopen("file.tac", "w");
+  fprintf (tacfile, ".table\n");
+  fprintf (tacfile, ".code\n");
+
   ast_tree = NULL;
 
   yyin = fopen(argv[1], "r");
@@ -612,6 +642,8 @@ int main(int argc, char *argv[]) {
   }
 
   print_symbols();
+
+  write_tac_file(current_line);
 
   if (errors == 0) {
     printf("\n\n#### INICIO DA ÁRVORE SINTÁTICA ####\n\n");

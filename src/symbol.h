@@ -10,12 +10,13 @@ typedef struct symbol {
   char *returnFuncVarType;
   int scope;
   int parameters;
+  int var_reg;
   UT_hash_handle hh;
 }Symbol;
 
 Symbol *symbol_table = NULL;
 
-int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope, int parameters) {
+int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope, int parameters, int var_reg) {
   struct symbol *s;
 
   HASH_FIND_STR(symbol_table, name, s);
@@ -26,6 +27,7 @@ int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope,
     s -> returnFuncVarType = returnFuncVarType;
     s -> scope = scope;
     s -> parameters = parameters;
+    s -> var_reg = var_reg;
     HASH_ADD_STR(symbol_table, name, s);
     return 0;
   } else {
@@ -36,6 +38,7 @@ int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope,
       s -> returnFuncVarType = returnFuncVarType;
       s -> scope = scope;
       s -> parameters = parameters;
+      s -> var_reg = var_reg;
       HASH_ADD_STR(symbol_table, name, s);
       return 0;
     }else {
