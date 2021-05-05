@@ -9,6 +9,7 @@ typedef struct node {
   char type;
   bool terminal;
   char returnType;
+  char *saved;
   struct node *left;
   struct node *middle0;
   struct node *middle1;

@@ -14,6 +14,7 @@
 #include "newc.h"
 #include "utils.h"
 #include "codegen.h"
+#define _GNU_SOURCE
 
 int errors = 0;
 int semanticErrors = 0;
@@ -120,11 +121,13 @@ func_dec:
       scope++;
       push_stack(scope);
     } params_list PARENR STFUNC {
-      errors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parameters, 0);
+      UT_string *r;
+      utstring_new(r);
+      errors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parameters, r);
+      add_func($2);
       parameters = 0;
     } statement_list ENDFUNC  {
       $$ = create_node4("TYPE ID PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
-      add_func($2);
       pop_stack();
       if(check_types_return_function($9 -> returnType, $1[0]) == 0) {
         printf("ERRO SEMATICO\n");
@@ -144,13 +147,15 @@ func_dec:
       scope++;
       push_stack(scope);
     } params_list PARENR STFUNC {
-      semanticErrors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parameters, 0);
+      UT_string *r;
+      utstring_new(r);
+      semanticErrors += add_symbol($2, "func", $1, STACK_TOP(stack_scope) -> value, parameters, r);
+      add_func($2);
       parameters = 0;
     } statement_list ENDFUNC {
       symbolIdCounter++;
       $$ = create_node4("TYPE MAIN PARENL params_list PARENR STFUNC statement_list ENDFUNC", create_node0($1), create_node0($2), $5, $9);
       has_main++;
-      add_func($2);
       pop_stack();
       if(check_types_return_function($9 -> returnType, $1[0]) == 0) {
         printf("ERRO SEMATICO\n");
@@ -189,7 +194,7 @@ parameter:
     TYPE ID {
       parameters++;
       $$ = create_node2("TYPE ID", create_node0($1), create_node0($2));
-      semanticErrors += add_symbol($2, "param", $1, STACK_TOP(stack_scope) -> value, 0, var_reg);
+      semanticErrors += add_symbol($2, "param", $1, STACK_TOP(stack_scope) -> value, 0, create_new_reg(var_reg));
       var_reg++;
     }
   ;
@@ -335,23 +340,23 @@ ret_st:
 
 var_dec:
     TYPE ID SEMIC {
-      semanticErrors += add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value, 0, var_reg);
+      semanticErrors += add_symbol($2, "var", $1, STACK_TOP(stack_scope) -> value, 0, create_new_reg(var_reg));
       UT_string *s;
       if($1[0] == 'i' || $1[0] == 'e') {
         utstring_new(s);
         utstring_printf(s, "$%d", var_reg);
 
-        var_dec(utstring_body(s), "0");
+        var_dec_assign(utstring_body(s), "0");
       } else if($1[0] == 'f') {
         utstring_new(s);
         utstring_printf(s, "$%d", var_reg);
 
-        var_dec(utstring_body(s), "0.0");
+        var_dec_assign(utstring_body(s), "0.0");
       } else if($1[0] == 's') {
         utstring_new(s);
         utstring_printf(s, "$%d", var_reg);
 
-        var_dec(utstring_body(s), "0");
+        var_dec_assign(utstring_body(s), "0");
       }
       var_reg++;
       $$ = create_node2("TYPE ID SEMIC", create_node0($1), create_node0($2));
@@ -367,9 +372,13 @@ io_ops:
     }
   | WRITE PARENL expression PARENR SEMIC {
       $$ = create_node2("WRITE PARENL expression PARENR SEMIC", create_node0($1), $3);
+      write_func($3 -> saved);
+      $$ -> saved = $3 -> saved;
     }
   | WRITELN PARENL expression PARENR SEMIC {
       $$ = create_node2("WRITELN PARENL expression PARENR SEMIC", create_node0($1), $3);
+      writeln_func($3 -> saved);
+      $$ -> saved = $3 -> saved;
     }
   ;
 
@@ -377,6 +386,7 @@ expression:
     set_op {
       $$ = create_node1("set_op", $1);
       $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
       if ($1 -> type == 'u') {
         printf("ERRO SEMATICO\n");
         printf("ERRO DE TIPOS ENCONTRADO, linha %d, coluna %d\n\n", line, word_position);
@@ -390,6 +400,7 @@ expression:
   | assign_value {
       $$ = create_node1("assign_value", $1);
       $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
     }
   ;
 
@@ -410,6 +421,7 @@ math_term:
       if (s != NULL) {
         $$ = create_node1("ID", create_node0_string($1));
         $$ -> type = s -> returnFuncVarType[0];
+        $$ -> saved = utstring_body(s -> var_reg);
       }
       else{
         printf("ERRO SEMATICO\n");
@@ -421,14 +433,19 @@ math_term:
   | INTEGER {
       $$ = create_node1("INTEGER", create_node0_int($1, 'i'));
       $$ -> type = 'i';
+      UT_string *s = int_as_str($1);
+      $$ -> saved = utstring_body(s);
     }
   | DECIMAL {
       $$ = create_node1("DECIMAL", create_node0_dec($1, 'f'));
       $$ -> type = 'f';
+      UT_string *s = float_as_str($1);
+      $$ -> saved = utstring_body(s);
   }
   | PARENL expression PARENR {
       $$ = create_node1("PARENL expression PARENR", $2);
       $$ -> type = $2 -> type;
+      $$ -> saved = $2 -> saved;
     }
   ;
 
@@ -436,14 +453,17 @@ str_term:
     CHAR {
       $$ = create_node1("CHAR", create_node0_char($1, 'c'));
       $$ -> type = 'c';
+      $$ -> saved = $1;
     }
   | STRING {
       $$ = create_node1("STRING", create_node0($1));
       $$ -> type = 't';
+      $$ -> saved = $1;
     }
   | EMPTY {
       $$ = create_node1("EMPTY", create_node0($1));
       $$ -> type = 's';
+      $$ -> saved = $1;
     }
   | ERRORTOKEN {
       $$ = create_node_empty();
@@ -454,14 +474,21 @@ math_op:
     math_op ADD math_op_muldiv {
       $$ = create_node3("math_op ADD math_op_muldiv", $1, create_node0("+"), $3);
       $$ -> type = check_types($1 -> type, $3 -> type);
+      UT_string *s = create_new_reg(var_reg);
+      math_op_file("add", utstring_body(s), $1 -> saved, $3 -> saved);
+      $$ -> saved = utstring_body(s);
     }
   | math_op SUB math_op_muldiv {
       $$ = create_node3("math_op SUB math_op_muldiv", $1, create_node0("-"), $3);
       $$ -> type = check_types($1 -> type, $3 -> type);
+      UT_string *s = create_new_reg(var_reg);
+      math_op_file("sub", utstring_body(s), $1 -> saved, $3 -> saved);
+      $$ -> saved = utstring_body(s);
     }
   | math_op_muldiv {
       $$ = create_node1("math_op_muldiv", $1);
       $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
     }
   ;
 
@@ -469,14 +496,21 @@ math_op_muldiv:
     math_op_muldiv DIV math_term {
       $$ = create_node3("math_op_muldiv DIV term", $1, create_node0("/"), $3);
       $$ -> type = check_types($1 -> type, $3 -> type);
+      UT_string *s = create_new_reg(var_reg);
+      math_op_file("div", utstring_body(s), $1 -> saved, $3 -> saved);
+      $$ -> saved = utstring_body(s);
     }
   | math_op_muldiv MULT math_term {
       $$ = create_node3("math_op_muldiv MULT term", $1, create_node0("*"), $3);
       $$ -> type = check_types($1 -> type, $3 -> type);
+      UT_string *s = create_new_reg(var_reg);
+      math_op_file("mul", utstring_body(s), $1 -> saved, $3 -> saved);
+      $$ -> saved = utstring_body(s);
     }
   | math_term {
-      $$ = create_node1("term", $1);
+      $$ = create_node1("math_term", $1);
       $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
     }
   ;
 
@@ -496,6 +530,7 @@ set_op:
   | operation {
       $$ = create_node1("operation", $1);
       $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
     }
   ;
 
@@ -503,6 +538,7 @@ operation:
     math_op {
       $$ = create_node1("math_op", $1);
       $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
     }
   | in_set {
       $$ = create_node1("in_set", $1);
@@ -595,6 +631,8 @@ assign_value:
       struct symbol *s = check_is_in_scope($1, STACK_TOP(stack_scope) -> value);
       if (s != NULL){
         $$ = create_node3("ID ASSIGN expression", create_node0($1), create_node0("="), $3);
+        var_dec_assign(utstring_body(s -> var_reg), $3 -> saved);
+        $$ -> saved = $3 -> saved;
         if (s -> returnFuncVarType[0] != 'e')
           $$ -> type = s -> returnFuncVarType[0];
         else

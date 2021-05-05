@@ -3,6 +3,7 @@
 #include<string.h>
 #include "uthash.h"
 #include "stackScope.h"
+#include "utstring.h"
 
 typedef struct symbol {
   char *name;
@@ -10,13 +11,13 @@ typedef struct symbol {
   char *returnFuncVarType;
   int scope;
   int parameters;
-  int var_reg;
+  UT_string *var_reg;
   UT_hash_handle hh;
 }Symbol;
 
 Symbol *symbol_table = NULL;
 
-int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope, int parameters, int var_reg) {
+int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope, int parameters, UT_string *var_reg) {
   struct symbol *s;
 
   HASH_FIND_STR(symbol_table, name, s);

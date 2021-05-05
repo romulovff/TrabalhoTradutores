@@ -1,7 +1,10 @@
 void main() {
   int a;
   int c;
-  a = 1;
+  c = 1;
+  a = c;
+  a = 10 + 2 * (3 / 2);
+
   writeln(a);
 }
 
