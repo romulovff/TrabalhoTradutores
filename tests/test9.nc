@@ -1,11 +1,10 @@
 void main() {
   int a;
   int c;
-  c = 1;
+  c = 100;
   a = c;
-  a = 10 + 2 * (3 / 2);
 
-  writeln(a);
+  writeln(a == c);
 }
 
 void add_func() {

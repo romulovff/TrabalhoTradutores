@@ -50,6 +50,14 @@ void math_op_file(char *op, char *dest, char *operand1, char *operand2) {
   DL_APPEND(current_line, code);
 }
 
+void not_func(char *name, char *value){
+  Codegen *code = (Codegen *)malloc(sizeof *code);
+  utstring_new(code -> line);
+  utstring_printf(code -> line, "not %s, %s\n", name, value);
+  DL_APPEND(current_line, code);
+}
+
+
 void write_tac_file(Codegen *original_node) {
   if(original_node == NULL)
     return;
@@ -80,6 +88,15 @@ UT_string *float_as_str(float value) {
   utstring_printf(r, "%f", value);
 
   return r;
+}
+
+void free_codegen() {
+  Codegen *temp, *line;
+
+  DL_FOREACH_SAFE(current_line,line,temp) {
+    DL_DELETE(current_line,line);
+    free(line);
+  }
 }
 
 // void add_inst(char *command, char *operand1, char *operand2, int last_register) {

@@ -63,15 +63,15 @@ extern FILE *yyin;
 %token<integer> INTEGER
 %token<dec> DECIMAL
 
-%left ADD SUB MULT DIV
-%left OR AND SMALLER GREATER
-%left SMALLEQ GREATEQ EQUALS DIFFERENT
-%right ASSIGN NEG
-
 %token<str> ADD SUB MULT DIV
 %token<str> OR AND SMALLER GREATER
 %token<str> SMALLEQ GREATEQ EQUALS DIFFERENT
 %token<str> ASSIGN NEG
+
+%left ADD SUB MULT DIV
+%left EQUALS DIFFERENT SMALLEQ GREATEQ
+%left OR AND SMALLER GREATER
+%right ASSIGN NEG
 
 %token<str> IF ELSE FOR READ WRITE WRITELN RETURN
 %token<str> IN ISTYPE ADDSET REMOVE EXISTS FORALL
@@ -82,8 +82,8 @@ extern FILE *yyin;
 
 %start program
 %type<tree_node> program
-%type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement for_statement else_statement str_term
-%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error if_statement forall_statement math_op_muldiv math_term
+%type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement for_statement else_statement str_term or_operation equality_operation negation_operation
+%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error if_statement forall_statement math_op_muldiv math_term and_operation relational_operation
 
 %%
 
@@ -408,10 +408,12 @@ term:
     math_term {
       $$ = create_node1("math_term", $1);
       $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
     }
   | str_term {
       $$ = create_node1("str_term", $1);
       $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
     }
   ;
 
@@ -535,44 +537,126 @@ set_op:
   ;
 
 operation:
-    math_op {
-      $$ = create_node1("math_op", $1);
-      $$ -> type = $1 -> type;
-      $$ -> saved = $1 -> saved;
-    }
-  | in_set {
+    in_set {
       $$ = create_node1("in_set", $1);
       $$ -> type = $1 -> type;
     }
   | ISTYPE PARENL expression PARENR {
       $$ = create_node2("ISTYPE PARENL expression PARENR", create_node0($1), $3);
     }
-  | term SMALLER expression {
-      $$ = create_node3("term SMALLER expression", $1, create_node0("<"), $3);
+  | or_operation {
+      $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
     }
-  | term GREATER expression {
-      $$ = create_node3("term GREATER expression", $1, create_node0(">"), $3);
-    }
-  | term SMALLEQ expression {
-      $$ = create_node3("term SMALLEQ expression", $1, create_node0("<="), $3);
-    }
-  | term GREATEQ expression {
-      $$ = create_node3("term GREATEQ expression", $1, create_node0(">="), $3);
-    }
-  | term EQUALS expression {
-      $$ = create_node3("term EQUALS expression", $1, create_node0("=="), $3);
-    }
-  | term DIFFERENT expression {
-      $$ = create_node3("term DIFFERENT expression", $1, create_node0("!="), $3);
-    }
-  | term OR expression {
+  ;
+
+or_operation:
+    or_operation OR and_operation {
       $$ = create_node3("term OR expression", $1, create_node0("||"), $3);
+      $$ -> type = $1 -> type;
+      char *s = utstring_body(create_new_reg(var_reg));
+      math_op_file("or", s, $1 -> saved, $3 -> saved);
+      $$ -> saved = s;
+      var_reg++;
     }
-  | term AND expression {
+  | and_operation {
+      $$ = create_node1("and_operation", $1);
+      $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
+    }
+  ;
+
+and_operation:
+    and_operation AND equality_operation {
       $$ = create_node3("term AND expression", $1, create_node0("&&"), $3);
+      $$ -> type = $1 -> type;
+      char *s = utstring_body(create_new_reg(var_reg));
+      math_op_file("and", s, $1 -> saved, $3 -> saved);
+      $$ -> saved = s;
+      var_reg++;
     }
-  | NEG expression {
-      $$ = create_node2("NEG expression", create_node0("!"), $2);
+  | equality_operation {
+      $$ = create_node1("equality_operation", $1);
+      $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
+    }
+  ;
+
+equality_operation:
+    equality_operation EQUALS relational_operation {
+      $$ = create_node3("term EQUALS expression", $1, create_node0("=="), $3);
+      $$ -> type = $1 -> type;
+      char *s = utstring_body(create_new_reg(var_reg));
+      math_op_file("seq", s, $1 -> saved, $3 -> saved);
+      $$ -> saved = s;
+      var_reg++;
+    }
+  | equality_operation DIFFERENT relational_operation {
+      $$ = create_node3("term DIFFERENT expression", $1, create_node0("!="), $3);
+      char *s = utstring_body(create_new_reg(var_reg));
+      math_op_file("seq", s, $1 -> saved, $3 -> saved);
+      not_func(s, s);
+      $$ -> saved = s;
+      $$ -> type = $1 -> type;
+    }
+  | relational_operation {
+      $$ = create_node1("relational_operation", $1);
+      $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
+    }
+  ;
+
+relational_operation:
+    relational_operation SMALLER negation_operation {
+      $$ = create_node3("term SMALLER expression", $1, create_node0("<"), $3);
+      $$ -> type = $1 -> type;
+      char *s = utstring_body(create_new_reg(var_reg));
+      math_op_file("slt", s, $1 -> saved, $3 -> saved);
+      $$ -> saved = s;
+      var_reg++;
+    }
+  | relational_operation GREATER negation_operation {
+      $$ = create_node3("term GREATER expression", $1, create_node0(">"), $3);
+      $$ -> type = $1 -> type;
+      char *s = utstring_body(create_new_reg(var_reg));
+      math_op_file("slt", s, $3 -> saved, $1 -> saved);
+      $$ -> saved = s;
+      var_reg++;
+    }
+  | relational_operation SMALLEQ negation_operation {
+      $$ = create_node3("term SMALLEQ expression", $1, create_node0("<="), $3);
+      $$ -> type = $1 -> type;
+      char *s = utstring_body(create_new_reg(var_reg));
+      math_op_file("sleq", s, $1 -> saved, $3 -> saved);
+      $$ -> saved = s;
+      var_reg++;
+    }
+  | relational_operation GREATEQ negation_operation {
+      $$ = create_node3("term GREATEQ expression", $1, create_node0(">="), $3);
+      $$ -> type = $1 -> type;
+      char *s = utstring_body(create_new_reg(var_reg));
+      math_op_file("sleq", s, $3 -> saved, $1 -> saved);
+      $$ -> saved = s;
+      var_reg++;
+    }
+  | negation_operation {
+      $$ = create_node1("negation_operation", $1);
+      $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
+    }
+  ;
+
+negation_operation:
+    NEG math_op {
+      $$ = create_node2("NEG math_op", create_node0("!"), $2);
+      $$ -> type = $2 -> type;
+      not_func($2 -> saved, $2 -> saved);
+      $$ -> saved = $2 -> saved;
+    }
+  | math_op {
+      $$ = create_node1("math_op", $1);
+      $$ -> type = $1 -> type;
+      $$ -> saved = $1 -> saved;
     }
   ;
 
@@ -699,7 +783,11 @@ int main(int argc, char *argv[]) {
 
   free_stack();
 
+  free_codegen();
+
   fclose(yyin);
+
+  fclose(tacfile);
 
   yylex_destroy();
 

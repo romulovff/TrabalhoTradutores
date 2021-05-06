@@ -25,6 +25,7 @@ Node* create_node_empty() {
   node -> value = NULL;
   node -> type = 'e';
   node -> returnType = 'x';
+  node -> terminal = true;
   node -> left = NULL;
   node -> middle0 = NULL;
   node -> middle1 = NULL;
@@ -104,6 +105,7 @@ Node* create_node0(char *value) {
   node -> value = value;
   node -> type = '\0';
   node -> returnType = 'x';
+  node -> terminal = true;
   node -> left = NULL;
   node -> middle0 = NULL;
   node -> middle1 = NULL;
@@ -119,6 +121,7 @@ Node* create_node1(char *value, Node* left) {
   node -> value = value;
   node -> type = '\0';
   node -> returnType = 'x';
+  node -> terminal = false;
   node -> left = left;
   node -> middle0 = NULL;
   node -> middle1 = NULL;
@@ -134,6 +137,7 @@ Node* create_node2(char *value, Node* left, Node* middle0) {
   node -> value = value;
   node -> type = '\0';
   node -> returnType = 'x';
+  node -> terminal = false;
   node -> left = left;
   node -> middle0 = middle0;
   node -> middle1 = NULL;
@@ -149,6 +153,7 @@ Node* create_node3(char *value, Node* left, Node* middle0, Node* middle1) {
   node -> value = value;
   node -> type = '\0';
   node -> returnType = 'x';
+  node -> terminal = false;
   node -> left = left;
   node -> middle0 = middle0;
   node -> middle1 = middle1;
@@ -164,6 +169,7 @@ Node* create_node4(char *value, Node* left, Node* middle0, Node* middle1, Node* 
   node -> value = value;
   node -> type = '\0';
   node -> returnType = 'x';
+  node -> terminal = false;
   node -> left = left;
   node -> middle0 = middle0;
   node -> middle1 = middle1;
@@ -179,6 +185,7 @@ Node* create_node5(char *value, Node* left, Node* middle0, Node* middle1, Node* 
   node -> value = value;
   node -> type = '\0';
   node -> returnType = 'x';
+  node -> terminal = false;
   node -> left = left;
   node -> middle0 = middle0;
   node -> middle1 = middle1;
@@ -204,17 +211,22 @@ void print_tree(Node *node) {
         printf("\t");
       }
       printf("%s\n", node -> value);
-    }if(node -> type == 'i'){
+    } else if(node -> type == 'i'){
       for (int i = 0; i < depth; i++){
         printf("\t");
       }
       printf("%d\n", node -> integer);
-    }if(node -> type == 'f'){
+    }else if(node -> type == 'f'){
       for (int i = 0; i < depth; i++){
         printf("\t");
       }
       printf("%f\n", node -> decimal);
-    }if(node -> type == 'c'){
+    }else if(node -> type == 'c'){
+      for (int i = 0; i < depth; i++){
+        printf("\t");
+      }
+      printf("%s\n", node -> value);
+    } else {
       for (int i = 0; i < depth; i++){
         printf("\t");
       }
