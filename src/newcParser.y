@@ -23,11 +23,13 @@ int scope = 0;
 int parameters = 0;
 int args_params = 0;
 int has_main = 0;
-int var_reg = 1;
+int var_reg = 0;
+int if_id = 0;
 
 extern Symbol *symbol_table;
 Node *ast_tree = NULL;
 extern Scope *stack_scope;
+extern Scope *stack_ifelse;
 extern FILE *tacfile;
 extern Codegen *codegen;
 extern Codegen *current_line;
@@ -356,7 +358,7 @@ var_dec:
         utstring_new(s);
         utstring_printf(s, "$%d", var_reg);
 
-        var_dec_assign(utstring_body(s), "0");
+        var_dec_assign(utstring_body(s), "EMPTY");
       }
       var_reg++;
       $$ = create_node2("TYPE ID SEMIC", create_node0($1), create_node0($2));
@@ -364,11 +366,18 @@ var_dec:
   ;
 
 io_ops:
-    READ PARENL PARENR SEMIC {
-      $$ = create_node1("READ PARENL PARENR SEMIC", create_node0($1));
-    }
-  | READ PARENL ID PARENR SEMIC {
-      $$ = create_node2("READ PARENL expression PARENR SEMIC", create_node0($1), create_node0($3));
+    READ PARENL ID PARENR SEMIC {
+      struct symbol *s = check_is_in_scope($3, STACK_TOP(stack_scope) -> value);
+      if (s != NULL) {
+        $$ = create_node2("READ PARENL ID PARENR SEMIC", create_node0($1), create_node0($3));
+        read_func(utstring_body(s -> var_reg), s -> returnFuncVarType[0]);
+        $$ -> saved = utstring_body(s -> var_reg);
+      } else {
+        printf("ERRO SEMATICO\n");
+        printf("VARIAVEL %s NAO DECLARADA, linha %d, coluna %d\n\n", $1, line, word_position);
+        semanticErrors += 1;
+        $$ = create_node_empty();
+      }
     }
   | WRITE PARENL expression PARENR SEMIC {
       $$ = create_node2("WRITE PARENL expression PARENR SEMIC", create_node0($1), $3);
@@ -743,13 +752,15 @@ int main(int argc, char *argv[]) {
 
   push_stack(0);
 
-  tacfile = fopen("file.tac", "w");
-  fprintf (tacfile, ".table\n");
-  fprintf (tacfile, ".code\n");
+  char s[100] = "";
+  char *file = argv[1];
+
+  strcat(s, file);
+  strcat(s, ".tac");
 
   ast_tree = NULL;
 
-  yyin = fopen(argv[1], "r");
+  yyin = fopen(file, "r");
 
   yyparse();
 
@@ -765,9 +776,15 @@ int main(int argc, char *argv[]) {
 
   print_symbols();
 
-  write_tac_file(current_line);
+  if(errors == 0) {
+    tacfile = fopen(s, "w");
+    fprintf (tacfile, ".table\n");
+    fprintf (tacfile, ".code\n");
+    write_tac_file(current_line);
+    fclose(tacfile);
+  }
 
-  if (errors == 0) {
+  if (errors == 0 && semanticErrors == 0) {
     printf("\n\n#### INICIO DA ÁRVORE SINTÁTICA ####\n\n");
     print_tree(ast_tree);
     printf("\n\n#### FIM DA ÁRVORE SINTÁTICA ####\n\n");
@@ -786,8 +803,6 @@ int main(int argc, char *argv[]) {
   free_codegen();
 
   fclose(yyin);
-
-  fclose(tacfile);
 
   yylex_destroy();
 

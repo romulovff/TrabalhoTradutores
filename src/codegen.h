@@ -29,6 +29,18 @@ void var_dec_assign(char *name, char *value){
   DL_APPEND(current_line, code);
 }
 
+void read_func(char *value, char type) {
+  Codegen *code = (Codegen *)malloc(sizeof *code);
+  utstring_new(code -> line);
+  if (type == 'i')
+    utstring_printf(code -> line, "scani %s\n", value);
+  if (type == 'f')
+    utstring_printf(code -> line, "scanf %s\n", value);
+  if (type == 'c')
+    utstring_printf(code -> line, "scanc %s\n", value);
+  DL_APPEND(current_line, code);
+}
+
 void write_func(char *value){
   Codegen *code = (Codegen *)malloc(sizeof *code);
   utstring_new(code -> line);
@@ -57,6 +69,19 @@ void not_func(char *name, char *value){
   DL_APPEND(current_line, code);
 }
 
+// void return_func(char *value) {
+//   Codegen *code = (Codegen *)malloc(sizeof *code);
+//   utstring_new(code -> line);
+//   utstring_printf(code -> line, "return %s\n", value);
+//   DL_APPEND(current_line, code);
+// }
+
+// void if_else_func(int value){
+//   Codegen *code = (Codegen *)malloc(sizeof *code);
+//   utstring_new(code -> line);
+//   utstring_printf(code -> line, "L%d:\n", value);
+//   DL_APPEND(current_line, code);
+// }
 
 void write_tac_file(Codegen *original_node) {
   if(original_node == NULL)
@@ -64,6 +89,14 @@ void write_tac_file(Codegen *original_node) {
 
   fprintf(tacfile, "%s", utstring_body(original_node -> line));
   write_tac_file(original_node -> next);
+}
+
+UT_string *create_new_reg_from_string(char *var_reg) {
+  UT_string *r;
+  utstring_new(r);
+  utstring_printf(r, "%s", var_reg);
+
+  return r;
 }
 
 UT_string *create_new_reg(int var_reg) {
@@ -98,12 +131,3 @@ void free_codegen() {
     free(line);
   }
 }
-
-// void add_inst(char *command, char *operand1, char *operand2, int last_register) {
-//   UT_string *line;
-//
-//   utstring_new(line);
-//   utstring_printf(line, "%s %s%d %s\n", command, operand1, last_register, operand2);
-//   fprintf(tacfile, "%s", utstring_body(line));
-//   free(line);
-// }

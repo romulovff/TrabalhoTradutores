@@ -9,11 +9,18 @@ typedef struct scope {
 } Scope;
 
 Scope *stack_scope = NULL;
+Scope *stack_ifelse = NULL;
 
 void push_stack(int value) {
   Scope *scope = (Scope*)malloc(sizeof(Scope));
   scope -> value = value;
   STACK_PUSH(stack_scope, scope);
+}
+
+void push_stack_if(int value) {
+  Scope *scope = (Scope*)malloc(sizeof(Scope));
+  scope -> value = value;
+  STACK_PUSH(stack_ifelse, scope);
 }
 
 void pop_stack() {
@@ -22,7 +29,18 @@ void pop_stack() {
   free(scope);
 }
 
+void pop_stack_if() {
+  Scope *scope;
+  STACK_POP(stack_ifelse, scope);
+  free(scope);
+}
+
 void free_stack() {
   while(!STACK_EMPTY(stack_scope))
+    pop_stack();
+}
+
+void free_stack_if() {
+  while(!STACK_EMPTY(stack_ifelse))
     pop_stack();
 }

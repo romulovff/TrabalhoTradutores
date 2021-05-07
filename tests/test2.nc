@@ -1,26 +1,18 @@
-set copy_set(set s, int x) {
-    set ans;
-    ans = EMPTY;
-    forall(x in s) add(x in ans);
-    return ans;
-}
+int b;
 
-set succ(set n) {
-    set next;
-    next = copy_set(n, 1);
-    return add(n in next);
-}
-
-int main() {
-    set zero;
-    set one;
-    set two;
-    set three;
-
-    zero = EMPTY;
-    one = succ(zero);
-    two = succ(one);
-    three = succ(two);
-
-    return 0;
+void main() {
+  b = 0;
+  writeln((1 + 2) * 3);
+  writeln(1 == 10);
+  writeln(1 == 1);
+  writeln(b == 0);
+  writeln(b == 1);
+  b = 1;
+  writeln(b == 0);
+  writeln(b == 1);
+  writeln(b > 0 && b < 2);
+  writeln(b >= 0);
+  writeln(b <= 0);
+  read(b);
+  writeln(b * 10);
 }
