@@ -27,7 +27,7 @@ integer   -?{digit}+
 decimal   -?{digit}*[.]{digit}+
 elem      {integer}|{decimal}
 set       "{"({elem}","?)*"}"
-char      (\'([^(\"\')])?\')|(\'\\b\')|(\'\\f\')|(\'\\n\')|(\'\\r\')|(\'\\t\')|(\'\\v\')|(\'\\x\')|(\'\\\\')
+char      (\'([^(\"\')])?\')|(\'\\b\')|(\'\\f\')|(\'\\n\')|(\'\\r\')|(\'\\t\')|(\'\\v\')|(\'\\x\')|(\'\\\a\')|(\'\\\\')
 string    \"(\\.|[^"\\])*\"
 type      "int"|"float"|"set"|"elem"|"void"
 comment   "//".*
@@ -323,7 +323,6 @@ forall    "forall"
             printf("\nERROR!!\n");
             printf("%s at line: %d, column: %d\n\n", yytext, line, word_position);
             word_position += strlen(yytext);
-            return ERRORTOKEN;
           }
 
 %%

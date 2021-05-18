@@ -20,7 +20,7 @@ int funcao() {
     possibleSums = EMPTY;
     int x;
 
-    read(var);
+    read(s);
 
     forall (x in s) {
         set sumsWithX;

@@ -61,7 +61,6 @@ extern FILE *yyin;
 %token<str> CHAR
 %token<str> EMPTY
 %token<str> MAIN
-%token<str> ERRORTOKEN
 %token<integer> INTEGER
 %token<dec> DECIMAL
 
@@ -85,7 +84,7 @@ extern FILE *yyin;
 %start program
 %type<tree_node> program
 %type<tree_node> declarations_list declaration var_dec func_dec params_list parameter statement_list statement for_body expression_statement for_statement else_statement str_term or_operation equality_operation negation_operation
-%type<tree_node> ret_st assign_value math_op set_op in_set basic_ops if_ops io_ops expression operation func_call term args_list error if_statement forall_statement math_op_muldiv math_term and_operation relational_operation
+%type<tree_node> ret_st assign_value math_op many_operations in_set basic_ops if_ops io_ops expression operation func_call term args_list error if_statement forall_statement math_op_muldiv math_term and_operation relational_operation
 
 %%
 
@@ -250,15 +249,19 @@ basic_ops:
     }
   | for_statement STFUNC statement_list ENDFUNC {
       pop_stack();
-      $$ = create_node2("FOR PARENL for_body PARENR STFUNC statement_list ENDFUNC", $1, $3);
+      $$ = create_node2("for_statement STFUNC statement_list ENDFUNC", $1, $3);
     }
-  | forall_statement set_op SEMIC {
+  | for_statement statement {
       pop_stack();
-      $$ = create_node2("FORALL PARENL in_set PARENR set_op SEMIC ", $1, $2);
+      $$ = create_node2("for_statement statement", $1, $2);
+    }
+  | forall_statement statement {
+      pop_stack();
+      $$ = create_node2("forall_statement many_operations SEMIC ", $1, $2);
     }
   | forall_statement STFUNC statement_list ENDFUNC {
       pop_stack();
-      $$ = create_node2("FORALL PARENL in_set PARENR STFUNC statement_list ENDFUNC", $1, $3);
+      $$ = create_node2("forall_statement STFUNC statement_list ENDFUNC", $1, $3);
     }
   ;
 
@@ -285,6 +288,9 @@ for_body:
   | SEMIC expression_statement expression {
       $$ = create_node2("SEMIC expression_statement expression", $2, $3);
     }
+  | many_operations {
+      $$ = create_node1("many_operations", $1);
+    }
   ;
 
 if_ops:
@@ -305,10 +311,10 @@ if_ops:
   ;
 
 if_statement:
-    IF PARENL operation PARENR {
+    IF PARENL expression PARENR {
       scope++;
       push_stack(scope);
-      $$ = create_node2("IF PARENL operation PARENR", create_node0($1), $3);
+      $$ = create_node2("IF PARENL expression PARENR", create_node0($1), $3);
     }
   ;
 
@@ -392,8 +398,8 @@ io_ops:
   ;
 
 expression:
-    set_op {
-      $$ = create_node1("set_op", $1);
+    many_operations {
+      $$ = create_node1("many_operations", $1);
       $$ -> type = $1 -> type;
       $$ -> saved = $1 -> saved;
       if ($1 -> type == 'u') {
@@ -476,9 +482,6 @@ str_term:
       $$ -> type = 's';
       $$ -> saved = $1;
     }
-  | ERRORTOKEN {
-      $$ = create_node_empty();
-    }
   ;
 
 math_op:
@@ -525,17 +528,17 @@ math_op_muldiv:
     }
   ;
 
-set_op:
-    ADDSET PARENL set_op PARENR {
-      $$ = create_node2("ADDSET PARENL set_op PARENR", create_node0($1), $3);
+many_operations:
+    ADDSET PARENL many_operations PARENR {
+      $$ = create_node2("ADDSET PARENL many_operations PARENR", create_node0($1), $3);
       $$ -> type = $3 -> type;
     }
-  | REMOVE PARENL set_op PARENR {
-      $$ = create_node2("REMOVE PARENL set_op PARENR", create_node0($1), $3);
+  | REMOVE PARENL many_operations PARENR {
+      $$ = create_node2("REMOVE PARENL many_operations PARENR", create_node0($1), $3);
       $$ -> type = $3 -> type;
     }
-  | EXISTS PARENL set_op PARENR {
-      $$ = create_node2("EXISTS PARENL set_op PARENR", create_node0($1), $3);
+  | EXISTS PARENL many_operations PARENR {
+      $$ = create_node2("EXISTS PARENL many_operations PARENR", create_node0($1), $3);
       $$ -> type = $3 -> type;
     }
   | operation {
@@ -705,11 +708,11 @@ in_set:
   ;
 
 args_list:
-    args_list COMMA term {
+    args_list COMMA expression {
       args_params++;
       $$ = create_node2("args_list COMMA term", $1, $3);
     }
-  | term {
+  | expression {
       args_params++;
       $$ = create_node1("term", $1);
     }
@@ -789,10 +792,10 @@ int main(int argc, char *argv[]) {
     print_tree(ast_tree);
     printf("\n\n#### FIM DA ÁRVORE SINTÁTICA ####\n\n");
     if (semanticErrors > 0) {
-      printf("\n\nFORAM ENCONTRADAS %d WARNINGS NO CODIGO\n\n", semanticErrors);
+      printf("\n\nFORAM ENCONTRADAS %d AVISOS NO CODIGO\n\n", semanticErrors);
     }
   } else {
-    printf("\n\nFORAM ENCONTRADOS %d ERROS E %d WARNINGS NO CODIGO\n\n", errors, semanticErrors);
+    printf("\n\nFORAM ENCONTRADOS %d ERROS E %d AVISOS NO CODIGO\n\n", errors, semanticErrors);
     free_tree(ast_tree);
   }
 

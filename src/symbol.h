@@ -32,7 +32,7 @@ int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope,
     HASH_ADD_STR(symbol_table, name, s);
     return 0;
   } else {
-    if (s -> scope != scope) {
+    if (s -> scope != scope && symbolType[0] == 'v') {
       s = (Symbol*)malloc(sizeof(Symbol));
       s -> name = name;
       s -> symbolType = symbolType;
@@ -44,7 +44,10 @@ int add_symbol(char *name, char *symbolType, char *returnFuncVarType, int scope,
       return 0;
     }else {
       printf("ERRO SEMANTICO\n");
-      printf("VARIAVEL OU FUNÇAO JA DECLARADA NESSE ESCOPO\n\n");
+      if (symbolType[0] == 'v')
+        printf("VARIAVEL %s JA DECLARADA NESSE ESCOPO\n\n", name);
+      else if (symbolType[0] == 'f')
+        printf("FUNÇAO %s JA DECLARADA\n\n", name);
       return 1;
     }
   }
@@ -75,7 +78,6 @@ void print_symbols() {
 
 void free_symbol_table() {
   Symbol *current_symbol, *tmp;
-
   HASH_ITER(hh, symbol_table, current_symbol, tmp) {
     HASH_DEL(symbol_table, current_symbol);
     free(current_symbol);

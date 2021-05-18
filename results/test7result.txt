@@ -1,0 +1,19 @@
+
+ERROR!!
+@ at line: 2, column: 7
+
+
+ERRO DE SINTAXE
+syntax error, unexpected SEMIC, expecting ID, linha: 2, coluna: 9
+
+ERROR!!
+@ at line: 4, column: 9
+
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    main                             func                                       int                                 1                   0
+**********************************************************************************************************************************************************************
+
+
+FORAM ENCONTRADOS 1 ERROS E 0 AVISOS NO CODIGO
+

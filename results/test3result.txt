@@ -1,0 +1,46 @@
+ERRO SEMATICO
+VARIAVEL s NAO DECLARADA, linha 2, coluna 11
+
+ERRO SEMATICO
+VARIAVEL b NAO DECLARADA, linha 3, coluna 14
+
+ERRO SEMATICO
+FUNÇAO funcao NAO DECLARADA, linha 3, coluna 15
+
+ERRO SEMATICO
+FUNCAO funcao1 COM RETORNO DE TIPO ERRADO, linha 7, coluna 4
+
+ERRO SEMATICO
+VARIAVEL s DO TIPO int RECEBENDO VALOR DE TIPO INVALIDO, linha 10, coluna 15
+
+ERRO SEMATICO
+FUNÇAO funcao1 COM NUMERO DE PARAMETROS INVALIDOS NA INVOCAÇÃO, linha 12, coluna 15
+
+ERRO SEMATICO
+ERRO DE TIPOS ENCONTRADO, linha 14, coluna 17
+
+ERRO SEMATICO
+ERRO DE TIPOS ENCONTRADO, linha 15, coluna 17
+
+ERRO SEMATICO
+FUNCAO funcao SEM RETORNO ESPERADO, linha 34, coluna 1
+
+ERRO SEMÂNTICO
+FUNÇÃO MAIN NÃO ENCONTRADA
+
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    i                                param                                      int                                 1                   0
+    funcao1                          func                                       int                                 1                   1
+    funcao                           func                                       int                                 2                   0
+    s                                var                                        int                                 2                   0
+    t                                var                                        set                                 2                   0
+    possibleSums                     var                                        set                                 2                   0
+    x                                var                                        int                                 2                   0
+    sumsWithX                        var                                        set                                 3                   0
+    val                              var                                        int                                 3                   0
+**********************************************************************************************************************************************************************
+
+
+FORAM ENCONTRADOS 0 ERROS E 10 AVISOS NO CODIGO
+

@@ -1,0 +1,23 @@
+
+ERROR!!
+| at line: 3, column: 9
+
+
+ERROR!!
+\ at line: 3, column: 11
+
+
+ERROR!!
+& at line: 4, column: 7
+
+
+ERRO DE SINTAXE
+syntax error, unexpected INTEGER, linha: 4, coluna: 10
+************************************************************************ TABELA DE SIMBOLOS **************************************************************************
+    Valor                        Tipo do símbolo             Tipo do retorno da função ou tipo da variável       Escopo           Parâmetros
+    main                             func                                       void                                1                   0
+**********************************************************************************************************************************************************************
+
+
+FORAM ENCONTRADOS 1 ERROS E 0 AVISOS NO CODIGO
+
