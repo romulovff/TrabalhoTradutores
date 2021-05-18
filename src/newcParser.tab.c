@@ -4344,7 +4344,7 @@ int main(int argc, char *argv[]) {
   free_symbol_table();
 
   free_stack();
-
+  
   free_codegen();
 
   fclose(yyin);
