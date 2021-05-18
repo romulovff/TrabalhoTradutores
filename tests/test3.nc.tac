@@ -13,5 +13,9 @@ mov $5, EMPTY
 mov $5, (null)
 mov $6, 0
 add $7, $4, $6
+brz if_exit_1, (null)
 println (null)
+jump if_jump_1
+if_exit_1:
 println (null)
+if_jump_1:

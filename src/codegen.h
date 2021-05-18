@@ -76,12 +76,34 @@ void not_func(char *name, char *value){
 //   DL_APPEND(current_line, code);
 // }
 
-// void if_else_func(int value){
-//   Codegen *code = (Codegen *)malloc(sizeof *code);
-//   utstring_new(code -> line);
-//   utstring_printf(code -> line, "L%d:\n", value);
-//   DL_APPEND(current_line, code);
-// }
+void if_func(int value, char *reg){
+  Codegen *code = (Codegen *)malloc(sizeof *code);
+  utstring_new(code -> line);
+  utstring_printf(code -> line, "brz if_exit_%d, %s\n", value, reg);
+  DL_APPEND(current_line, code);
+}
+
+void if_func_exit(int value){
+  Codegen *code = (Codegen *)malloc(sizeof *code);
+  utstring_new(code -> line);
+  utstring_printf(code -> line, "if_exit_%d:\n", value);
+  DL_APPEND(current_line, code);
+}
+
+void if_jump(int value){
+  Codegen *code = (Codegen *)malloc(sizeof *code);
+  utstring_new(code -> line);
+  utstring_printf(code -> line, "jump if_jump_%d\n", value);
+  DL_APPEND(current_line, code);
+  if_func_exit(value);
+}
+
+void if_jump_exit(int value){
+  Codegen *code = (Codegen *)malloc(sizeof *code);
+  utstring_new(code -> line);
+  utstring_printf(code -> line, "if_jump_%d:\n", value);
+  DL_APPEND(current_line, code);
+}
 
 void write_tac_file(Codegen *original_node) {
   if(original_node == NULL)

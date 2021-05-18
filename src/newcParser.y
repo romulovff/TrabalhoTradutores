@@ -296,6 +296,8 @@ for_body:
 if_ops:
     if_statement statement %prec OUTERTHEN {
       $$ = create_node2("if_statement statement", $1, $2);
+      if_func_exit(STACK_TOP(stack_ifelse) -> value);
+      pop_stack_if();
     }
   | if_statement statement else_statement {
       pop_stack();
@@ -304,6 +306,8 @@ if_ops:
   | if_statement STFUNC statement_list ENDFUNC %prec OUTERTHEN {
       pop_stack();
       $$ = create_node2("if_statement STFUNC statement_list ENDFUNC", $1, $3);
+      if_func_exit(STACK_TOP(stack_ifelse) -> value);
+      pop_stack_if();
     }
   | if_statement STFUNC statement_list ENDFUNC else_statement {
       $$ = create_node3("if_statement STFUNC statement_list ENDFUNC else_statement", $1, $3, $5);
@@ -312,6 +316,9 @@ if_ops:
 
 if_statement:
     IF PARENL expression PARENR {
+      if_id++;
+      push_stack_if(if_id);
+      if_func(if_id, $3 -> saved);
       scope++;
       push_stack(scope);
       $$ = create_node2("IF PARENL expression PARENR", create_node0($1), $3);
@@ -320,19 +327,27 @@ if_statement:
 
 else_statement:
     ELSE {
+      if_jump(if_id);
       pop_stack();
       scope++;
       push_stack(scope);
     }
     statement {
+      if_jump_exit(STACK_TOP(stack_ifelse) -> value);
+      pop_stack_if();
+      if_id++;
       pop_stack();
       $$ = create_node2("ELSE statement_list", create_node0($1), $3);
     }
   | ELSE {
+      if_jump(if_id);
       pop_stack();
       scope++;
       push_stack(scope);
     } STFUNC statement_list ENDFUNC {
+      if_jump_exit(STACK_TOP(stack_ifelse) -> value);
+      pop_stack_if();
+      if_id++;
       pop_stack();
       $$ = create_node2("ELSE STFUNC statement_list ENDFUNC", create_node0($1), $4);
     }

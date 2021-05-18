@@ -603,13 +603,13 @@ static const yytype_int16 yyrline[] =
        0,    92,    92,    98,   101,   104,   112,   115,   121,   124,
      121,   147,   150,   147,   178,   181,   184,   187,   195,   204,
      211,   214,   220,   224,   228,   231,   234,   240,   247,   250,
-     254,   258,   262,   269,   277,   285,   288,   291,   297,   300,
-     304,   308,   314,   322,   322,   331,   331,   343,   350,   375,
-     388,   393,   401,   411,   415,   423,   428,   436,   450,   456,
-     462,   470,   475,   480,   488,   495,   502,   510,   517,   524,
-     532,   536,   540,   544,   552,   556,   559,   566,   574,   582,
-     590,   598,   606,   614,   622,   630,   638,   646,   654,   662,
-     668,   676,   697,   704,   711,   715,   719,   726
+     254,   258,   262,   269,   277,   285,   288,   291,   297,   302,
+     306,   312,   318,   329,   329,   342,   342,   358,   365,   390,
+     403,   408,   416,   426,   430,   438,   443,   451,   465,   471,
+     477,   485,   490,   495,   503,   510,   517,   525,   532,   539,
+     547,   551,   555,   559,   567,   571,   574,   581,   589,   597,
+     605,   613,   621,   629,   637,   645,   653,   661,   669,   677,
+     683,   691,   712,   719,   726,   730,   734,   741
 };
 #endif
 
@@ -3364,95 +3364,110 @@ yyreduce:
 #line 297 "newcParser.y"
                                            {
       (yyval.tree_node) = create_node2("if_statement statement", (yyvsp[-1].tree_node), (yyvsp[0].tree_node));
+      if_func_exit(STACK_TOP(stack_ifelse) -> value);
+      pop_stack_if();
     }
-#line 3369 "newcParser.tab.c"
+#line 3371 "newcParser.tab.c"
     break;
 
   case 39: /* if_ops: if_statement statement else_statement  */
-#line 300 "newcParser.y"
+#line 302 "newcParser.y"
                                           {
       pop_stack();
       (yyval.tree_node) = create_node3("if_statement statement else_statement", (yyvsp[-2].tree_node), (yyvsp[-1].tree_node), (yyvsp[0].tree_node));
     }
-#line 3378 "newcParser.tab.c"
+#line 3380 "newcParser.tab.c"
     break;
 
   case 40: /* if_ops: if_statement STFUNC statement_list ENDFUNC  */
-#line 304 "newcParser.y"
+#line 306 "newcParser.y"
                                                                {
       pop_stack();
       (yyval.tree_node) = create_node2("if_statement STFUNC statement_list ENDFUNC", (yyvsp[-3].tree_node), (yyvsp[-1].tree_node));
+      if_func_exit(STACK_TOP(stack_ifelse) -> value);
+      pop_stack_if();
     }
-#line 3387 "newcParser.tab.c"
+#line 3391 "newcParser.tab.c"
     break;
 
   case 41: /* if_ops: if_statement STFUNC statement_list ENDFUNC else_statement  */
-#line 308 "newcParser.y"
+#line 312 "newcParser.y"
                                                               {
       (yyval.tree_node) = create_node3("if_statement STFUNC statement_list ENDFUNC else_statement", (yyvsp[-4].tree_node), (yyvsp[-2].tree_node), (yyvsp[0].tree_node));
     }
-#line 3395 "newcParser.tab.c"
+#line 3399 "newcParser.tab.c"
     break;
 
   case 42: /* if_statement: IF PARENL expression PARENR  */
-#line 314 "newcParser.y"
+#line 318 "newcParser.y"
                                 {
+      if_id++;
+      push_stack_if(if_id);
+      if_func(if_id, (yyvsp[-1].tree_node) -> saved);
       scope++;
       push_stack(scope);
       (yyval.tree_node) = create_node2("IF PARENL expression PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
     }
-#line 3405 "newcParser.tab.c"
+#line 3412 "newcParser.tab.c"
     break;
 
   case 43: /* $@5: %empty  */
-#line 322 "newcParser.y"
+#line 329 "newcParser.y"
          {
+      if_jump(if_id);
       pop_stack();
       scope++;
       push_stack(scope);
     }
-#line 3415 "newcParser.tab.c"
+#line 3423 "newcParser.tab.c"
     break;
 
   case 44: /* else_statement: ELSE $@5 statement  */
-#line 327 "newcParser.y"
+#line 335 "newcParser.y"
               {
+      if_jump_exit(STACK_TOP(stack_ifelse) -> value);
+      pop_stack_if();
+      if_id++;
       pop_stack();
       (yyval.tree_node) = create_node2("ELSE statement_list", create_node0((yyvsp[-2].str)), (yyvsp[0].tree_node));
     }
-#line 3424 "newcParser.tab.c"
+#line 3435 "newcParser.tab.c"
     break;
 
   case 45: /* $@6: %empty  */
-#line 331 "newcParser.y"
+#line 342 "newcParser.y"
          {
+      if_jump(if_id);
       pop_stack();
       scope++;
       push_stack(scope);
     }
-#line 3434 "newcParser.tab.c"
+#line 3446 "newcParser.tab.c"
     break;
 
   case 46: /* else_statement: ELSE $@6 STFUNC statement_list ENDFUNC  */
-#line 335 "newcParser.y"
+#line 347 "newcParser.y"
                                     {
+      if_jump_exit(STACK_TOP(stack_ifelse) -> value);
+      pop_stack_if();
+      if_id++;
       pop_stack();
       (yyval.tree_node) = create_node2("ELSE STFUNC statement_list ENDFUNC", create_node0((yyvsp[-4].str)), (yyvsp[-1].tree_node));
     }
-#line 3443 "newcParser.tab.c"
+#line 3458 "newcParser.tab.c"
     break;
 
   case 47: /* ret_st: RETURN expression SEMIC  */
-#line 343 "newcParser.y"
+#line 358 "newcParser.y"
                             {
       (yyval.tree_node) = create_node2("RETURN expression SEMIC", create_node0((yyvsp[-2].str)), (yyvsp[-1].tree_node));
       (yyval.tree_node) -> returnType = (yyvsp[-1].tree_node) -> type;
     }
-#line 3452 "newcParser.tab.c"
+#line 3467 "newcParser.tab.c"
     break;
 
   case 48: /* var_dec: TYPE ID SEMIC  */
-#line 350 "newcParser.y"
+#line 365 "newcParser.y"
                   {
       semanticErrors += add_symbol((yyvsp[-1].str), "var", (yyvsp[-2].str), STACK_TOP(stack_scope) -> value, 0, create_new_reg(var_reg));
       UT_string *s;
@@ -3475,11 +3490,11 @@ yyreduce:
       var_reg++;
       (yyval.tree_node) = create_node2("TYPE ID SEMIC", create_node0((yyvsp[-2].str)), create_node0((yyvsp[-1].str)));
     }
-#line 3479 "newcParser.tab.c"
+#line 3494 "newcParser.tab.c"
     break;
 
   case 49: /* io_ops: READ PARENL ID PARENR SEMIC  */
-#line 375 "newcParser.y"
+#line 390 "newcParser.y"
                                 {
       struct symbol *s = check_is_in_scope((yyvsp[-2].str), STACK_TOP(stack_scope) -> value);
       if (s != NULL) {
@@ -3493,31 +3508,31 @@ yyreduce:
         (yyval.tree_node) = create_node_empty();
       }
     }
-#line 3497 "newcParser.tab.c"
+#line 3512 "newcParser.tab.c"
     break;
 
   case 50: /* io_ops: WRITE PARENL expression PARENR SEMIC  */
-#line 388 "newcParser.y"
+#line 403 "newcParser.y"
                                          {
       (yyval.tree_node) = create_node2("WRITE PARENL expression PARENR SEMIC", create_node0((yyvsp[-4].str)), (yyvsp[-2].tree_node));
       write_func((yyvsp[-2].tree_node) -> saved);
       (yyval.tree_node) -> saved = (yyvsp[-2].tree_node) -> saved;
     }
-#line 3507 "newcParser.tab.c"
+#line 3522 "newcParser.tab.c"
     break;
 
   case 51: /* io_ops: WRITELN PARENL expression PARENR SEMIC  */
-#line 393 "newcParser.y"
+#line 408 "newcParser.y"
                                            {
       (yyval.tree_node) = create_node2("WRITELN PARENL expression PARENR SEMIC", create_node0((yyvsp[-4].str)), (yyvsp[-2].tree_node));
       writeln_func((yyvsp[-2].tree_node) -> saved);
       (yyval.tree_node) -> saved = (yyvsp[-2].tree_node) -> saved;
     }
-#line 3517 "newcParser.tab.c"
+#line 3532 "newcParser.tab.c"
     break;
 
   case 52: /* expression: many_operations  */
-#line 401 "newcParser.y"
+#line 416 "newcParser.y"
                     {
       (yyval.tree_node) = create_node1("many_operations", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
@@ -3528,50 +3543,50 @@ yyreduce:
         semanticErrors += 1;
       }
     }
-#line 3532 "newcParser.tab.c"
+#line 3547 "newcParser.tab.c"
     break;
 
   case 53: /* expression: func_call  */
-#line 411 "newcParser.y"
+#line 426 "newcParser.y"
               {
       (yyval.tree_node) = create_node1("func_call", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
     }
-#line 3541 "newcParser.tab.c"
+#line 3556 "newcParser.tab.c"
     break;
 
   case 54: /* expression: assign_value  */
-#line 415 "newcParser.y"
+#line 430 "newcParser.y"
                  {
       (yyval.tree_node) = create_node1("assign_value", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3551 "newcParser.tab.c"
+#line 3566 "newcParser.tab.c"
     break;
 
   case 55: /* term: math_term  */
-#line 423 "newcParser.y"
+#line 438 "newcParser.y"
               {
       (yyval.tree_node) = create_node1("math_term", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3561 "newcParser.tab.c"
+#line 3576 "newcParser.tab.c"
     break;
 
   case 56: /* term: str_term  */
-#line 428 "newcParser.y"
+#line 443 "newcParser.y"
              {
       (yyval.tree_node) = create_node1("str_term", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3571 "newcParser.tab.c"
+#line 3586 "newcParser.tab.c"
     break;
 
   case 57: /* math_term: ID  */
-#line 436 "newcParser.y"
+#line 451 "newcParser.y"
        {
       struct symbol *s = check_is_in_scope((yyvsp[0].str), STACK_TOP(stack_scope) -> value);
       if (s != NULL) {
@@ -3586,73 +3601,73 @@ yyreduce:
         (yyval.tree_node) = create_node_empty();
       }
     }
-#line 3590 "newcParser.tab.c"
+#line 3605 "newcParser.tab.c"
     break;
 
   case 58: /* math_term: INTEGER  */
-#line 450 "newcParser.y"
+#line 465 "newcParser.y"
             {
       (yyval.tree_node) = create_node1("INTEGER", create_node0_int((yyvsp[0].integer), 'i'));
       (yyval.tree_node) -> type = 'i';
       UT_string *s = int_as_str((yyvsp[0].integer));
       (yyval.tree_node) -> saved = utstring_body(s);
     }
-#line 3601 "newcParser.tab.c"
+#line 3616 "newcParser.tab.c"
     break;
 
   case 59: /* math_term: DECIMAL  */
-#line 456 "newcParser.y"
+#line 471 "newcParser.y"
             {
       (yyval.tree_node) = create_node1("DECIMAL", create_node0_dec((yyvsp[0].dec), 'f'));
       (yyval.tree_node) -> type = 'f';
       UT_string *s = float_as_str((yyvsp[0].dec));
       (yyval.tree_node) -> saved = utstring_body(s);
   }
-#line 3612 "newcParser.tab.c"
+#line 3627 "newcParser.tab.c"
     break;
 
   case 60: /* math_term: PARENL expression PARENR  */
-#line 462 "newcParser.y"
+#line 477 "newcParser.y"
                              {
       (yyval.tree_node) = create_node1("PARENL expression PARENR", (yyvsp[-1].tree_node));
       (yyval.tree_node) -> type = (yyvsp[-1].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[-1].tree_node) -> saved;
     }
-#line 3622 "newcParser.tab.c"
+#line 3637 "newcParser.tab.c"
     break;
 
   case 61: /* str_term: CHAR  */
-#line 470 "newcParser.y"
+#line 485 "newcParser.y"
          {
       (yyval.tree_node) = create_node1("CHAR", create_node0_char((yyvsp[0].str), 'c'));
       (yyval.tree_node) -> type = 'c';
       (yyval.tree_node) -> saved = (yyvsp[0].str);
     }
-#line 3632 "newcParser.tab.c"
+#line 3647 "newcParser.tab.c"
     break;
 
   case 62: /* str_term: STRING  */
-#line 475 "newcParser.y"
+#line 490 "newcParser.y"
            {
       (yyval.tree_node) = create_node1("STRING", create_node0((yyvsp[0].str)));
       (yyval.tree_node) -> type = 't';
       (yyval.tree_node) -> saved = (yyvsp[0].str);
     }
-#line 3642 "newcParser.tab.c"
+#line 3657 "newcParser.tab.c"
     break;
 
   case 63: /* str_term: EMPTY  */
-#line 480 "newcParser.y"
+#line 495 "newcParser.y"
           {
       (yyval.tree_node) = create_node1("EMPTY", create_node0((yyvsp[0].str)));
       (yyval.tree_node) -> type = 's';
       (yyval.tree_node) -> saved = (yyvsp[0].str);
     }
-#line 3652 "newcParser.tab.c"
+#line 3667 "newcParser.tab.c"
     break;
 
   case 64: /* math_op: math_op ADD math_op_muldiv  */
-#line 488 "newcParser.y"
+#line 503 "newcParser.y"
                                {
       (yyval.tree_node) = create_node3("math_op ADD math_op_muldiv", (yyvsp[-2].tree_node), create_node0("+"), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = check_types((yyvsp[-2].tree_node) -> type, (yyvsp[0].tree_node) -> type);
@@ -3660,11 +3675,11 @@ yyreduce:
       math_op_file("add", utstring_body(s), (yyvsp[-2].tree_node) -> saved, (yyvsp[0].tree_node) -> saved);
       (yyval.tree_node) -> saved = utstring_body(s);
     }
-#line 3664 "newcParser.tab.c"
+#line 3679 "newcParser.tab.c"
     break;
 
   case 65: /* math_op: math_op SUB math_op_muldiv  */
-#line 495 "newcParser.y"
+#line 510 "newcParser.y"
                                {
       (yyval.tree_node) = create_node3("math_op SUB math_op_muldiv", (yyvsp[-2].tree_node), create_node0("-"), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = check_types((yyvsp[-2].tree_node) -> type, (yyvsp[0].tree_node) -> type);
@@ -3672,21 +3687,21 @@ yyreduce:
       math_op_file("sub", utstring_body(s), (yyvsp[-2].tree_node) -> saved, (yyvsp[0].tree_node) -> saved);
       (yyval.tree_node) -> saved = utstring_body(s);
     }
-#line 3676 "newcParser.tab.c"
+#line 3691 "newcParser.tab.c"
     break;
 
   case 66: /* math_op: math_op_muldiv  */
-#line 502 "newcParser.y"
+#line 517 "newcParser.y"
                    {
       (yyval.tree_node) = create_node1("math_op_muldiv", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3686 "newcParser.tab.c"
+#line 3701 "newcParser.tab.c"
     break;
 
   case 67: /* math_op_muldiv: math_op_muldiv DIV math_term  */
-#line 510 "newcParser.y"
+#line 525 "newcParser.y"
                                  {
       (yyval.tree_node) = create_node3("math_op_muldiv DIV term", (yyvsp[-2].tree_node), create_node0("/"), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = check_types((yyvsp[-2].tree_node) -> type, (yyvsp[0].tree_node) -> type);
@@ -3694,11 +3709,11 @@ yyreduce:
       math_op_file("div", utstring_body(s), (yyvsp[-2].tree_node) -> saved, (yyvsp[0].tree_node) -> saved);
       (yyval.tree_node) -> saved = utstring_body(s);
     }
-#line 3698 "newcParser.tab.c"
+#line 3713 "newcParser.tab.c"
     break;
 
   case 68: /* math_op_muldiv: math_op_muldiv MULT math_term  */
-#line 517 "newcParser.y"
+#line 532 "newcParser.y"
                                   {
       (yyval.tree_node) = create_node3("math_op_muldiv MULT term", (yyvsp[-2].tree_node), create_node0("*"), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = check_types((yyvsp[-2].tree_node) -> type, (yyvsp[0].tree_node) -> type);
@@ -3706,84 +3721,84 @@ yyreduce:
       math_op_file("mul", utstring_body(s), (yyvsp[-2].tree_node) -> saved, (yyvsp[0].tree_node) -> saved);
       (yyval.tree_node) -> saved = utstring_body(s);
     }
-#line 3710 "newcParser.tab.c"
+#line 3725 "newcParser.tab.c"
     break;
 
   case 69: /* math_op_muldiv: math_term  */
-#line 524 "newcParser.y"
+#line 539 "newcParser.y"
               {
       (yyval.tree_node) = create_node1("math_term", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3720 "newcParser.tab.c"
+#line 3735 "newcParser.tab.c"
     break;
 
   case 70: /* many_operations: ADDSET PARENL many_operations PARENR  */
-#line 532 "newcParser.y"
+#line 547 "newcParser.y"
                                          {
       (yyval.tree_node) = create_node2("ADDSET PARENL many_operations PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
       (yyval.tree_node) -> type = (yyvsp[-1].tree_node) -> type;
     }
-#line 3729 "newcParser.tab.c"
+#line 3744 "newcParser.tab.c"
     break;
 
   case 71: /* many_operations: REMOVE PARENL many_operations PARENR  */
-#line 536 "newcParser.y"
+#line 551 "newcParser.y"
                                          {
       (yyval.tree_node) = create_node2("REMOVE PARENL many_operations PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
       (yyval.tree_node) -> type = (yyvsp[-1].tree_node) -> type;
     }
-#line 3738 "newcParser.tab.c"
+#line 3753 "newcParser.tab.c"
     break;
 
   case 72: /* many_operations: EXISTS PARENL many_operations PARENR  */
-#line 540 "newcParser.y"
+#line 555 "newcParser.y"
                                          {
       (yyval.tree_node) = create_node2("EXISTS PARENL many_operations PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
       (yyval.tree_node) -> type = (yyvsp[-1].tree_node) -> type;
     }
-#line 3747 "newcParser.tab.c"
+#line 3762 "newcParser.tab.c"
     break;
 
   case 73: /* many_operations: operation  */
-#line 544 "newcParser.y"
+#line 559 "newcParser.y"
               {
       (yyval.tree_node) = create_node1("operation", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3757 "newcParser.tab.c"
+#line 3772 "newcParser.tab.c"
     break;
 
   case 74: /* operation: in_set  */
-#line 552 "newcParser.y"
+#line 567 "newcParser.y"
            {
       (yyval.tree_node) = create_node1("in_set", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
     }
-#line 3766 "newcParser.tab.c"
+#line 3781 "newcParser.tab.c"
     break;
 
   case 75: /* operation: ISTYPE PARENL expression PARENR  */
-#line 556 "newcParser.y"
+#line 571 "newcParser.y"
                                     {
       (yyval.tree_node) = create_node2("ISTYPE PARENL expression PARENR", create_node0((yyvsp[-3].str)), (yyvsp[-1].tree_node));
     }
-#line 3774 "newcParser.tab.c"
+#line 3789 "newcParser.tab.c"
     break;
 
   case 76: /* operation: or_operation  */
-#line 559 "newcParser.y"
+#line 574 "newcParser.y"
                  {
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3783 "newcParser.tab.c"
+#line 3798 "newcParser.tab.c"
     break;
 
   case 77: /* or_operation: or_operation OR and_operation  */
-#line 566 "newcParser.y"
+#line 581 "newcParser.y"
                                   {
       (yyval.tree_node) = create_node3("term OR expression", (yyvsp[-2].tree_node), create_node0("||"), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[-2].tree_node) -> type;
@@ -3792,21 +3807,21 @@ yyreduce:
       (yyval.tree_node) -> saved = s;
       var_reg++;
     }
-#line 3796 "newcParser.tab.c"
+#line 3811 "newcParser.tab.c"
     break;
 
   case 78: /* or_operation: and_operation  */
-#line 574 "newcParser.y"
+#line 589 "newcParser.y"
                   {
       (yyval.tree_node) = create_node1("and_operation", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3806 "newcParser.tab.c"
+#line 3821 "newcParser.tab.c"
     break;
 
   case 79: /* and_operation: and_operation AND equality_operation  */
-#line 582 "newcParser.y"
+#line 597 "newcParser.y"
                                          {
       (yyval.tree_node) = create_node3("term AND expression", (yyvsp[-2].tree_node), create_node0("&&"), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[-2].tree_node) -> type;
@@ -3815,21 +3830,21 @@ yyreduce:
       (yyval.tree_node) -> saved = s;
       var_reg++;
     }
-#line 3819 "newcParser.tab.c"
+#line 3834 "newcParser.tab.c"
     break;
 
   case 80: /* and_operation: equality_operation  */
-#line 590 "newcParser.y"
+#line 605 "newcParser.y"
                        {
       (yyval.tree_node) = create_node1("equality_operation", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3829 "newcParser.tab.c"
+#line 3844 "newcParser.tab.c"
     break;
 
   case 81: /* equality_operation: equality_operation EQUALS relational_operation  */
-#line 598 "newcParser.y"
+#line 613 "newcParser.y"
                                                    {
       (yyval.tree_node) = create_node3("term EQUALS expression", (yyvsp[-2].tree_node), create_node0("=="), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[-2].tree_node) -> type;
@@ -3838,11 +3853,11 @@ yyreduce:
       (yyval.tree_node) -> saved = s;
       var_reg++;
     }
-#line 3842 "newcParser.tab.c"
+#line 3857 "newcParser.tab.c"
     break;
 
   case 82: /* equality_operation: equality_operation DIFFERENT relational_operation  */
-#line 606 "newcParser.y"
+#line 621 "newcParser.y"
                                                       {
       (yyval.tree_node) = create_node3("term DIFFERENT expression", (yyvsp[-2].tree_node), create_node0("!="), (yyvsp[0].tree_node));
       char *s = utstring_body(create_new_reg(var_reg));
@@ -3851,21 +3866,21 @@ yyreduce:
       (yyval.tree_node) -> saved = s;
       (yyval.tree_node) -> type = (yyvsp[-2].tree_node) -> type;
     }
-#line 3855 "newcParser.tab.c"
+#line 3870 "newcParser.tab.c"
     break;
 
   case 83: /* equality_operation: relational_operation  */
-#line 614 "newcParser.y"
+#line 629 "newcParser.y"
                          {
       (yyval.tree_node) = create_node1("relational_operation", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3865 "newcParser.tab.c"
+#line 3880 "newcParser.tab.c"
     break;
 
   case 84: /* relational_operation: relational_operation SMALLER negation_operation  */
-#line 622 "newcParser.y"
+#line 637 "newcParser.y"
                                                     {
       (yyval.tree_node) = create_node3("term SMALLER expression", (yyvsp[-2].tree_node), create_node0("<"), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[-2].tree_node) -> type;
@@ -3874,11 +3889,11 @@ yyreduce:
       (yyval.tree_node) -> saved = s;
       var_reg++;
     }
-#line 3878 "newcParser.tab.c"
+#line 3893 "newcParser.tab.c"
     break;
 
   case 85: /* relational_operation: relational_operation GREATER negation_operation  */
-#line 630 "newcParser.y"
+#line 645 "newcParser.y"
                                                     {
       (yyval.tree_node) = create_node3("term GREATER expression", (yyvsp[-2].tree_node), create_node0(">"), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[-2].tree_node) -> type;
@@ -3887,11 +3902,11 @@ yyreduce:
       (yyval.tree_node) -> saved = s;
       var_reg++;
     }
-#line 3891 "newcParser.tab.c"
+#line 3906 "newcParser.tab.c"
     break;
 
   case 86: /* relational_operation: relational_operation SMALLEQ negation_operation  */
-#line 638 "newcParser.y"
+#line 653 "newcParser.y"
                                                     {
       (yyval.tree_node) = create_node3("term SMALLEQ expression", (yyvsp[-2].tree_node), create_node0("<="), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[-2].tree_node) -> type;
@@ -3900,11 +3915,11 @@ yyreduce:
       (yyval.tree_node) -> saved = s;
       var_reg++;
     }
-#line 3904 "newcParser.tab.c"
+#line 3919 "newcParser.tab.c"
     break;
 
   case 87: /* relational_operation: relational_operation GREATEQ negation_operation  */
-#line 646 "newcParser.y"
+#line 661 "newcParser.y"
                                                     {
       (yyval.tree_node) = create_node3("term GREATEQ expression", (yyvsp[-2].tree_node), create_node0(">="), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[-2].tree_node) -> type;
@@ -3913,42 +3928,42 @@ yyreduce:
       (yyval.tree_node) -> saved = s;
       var_reg++;
     }
-#line 3917 "newcParser.tab.c"
+#line 3932 "newcParser.tab.c"
     break;
 
   case 88: /* relational_operation: negation_operation  */
-#line 654 "newcParser.y"
+#line 669 "newcParser.y"
                        {
       (yyval.tree_node) = create_node1("negation_operation", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3927 "newcParser.tab.c"
+#line 3942 "newcParser.tab.c"
     break;
 
   case 89: /* negation_operation: NEG math_op  */
-#line 662 "newcParser.y"
+#line 677 "newcParser.y"
                 {
       (yyval.tree_node) = create_node2("NEG math_op", create_node0("!"), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       not_func((yyvsp[0].tree_node) -> saved, (yyvsp[0].tree_node) -> saved);
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3938 "newcParser.tab.c"
+#line 3953 "newcParser.tab.c"
     break;
 
   case 90: /* negation_operation: math_op  */
-#line 668 "newcParser.y"
+#line 683 "newcParser.y"
             {
       (yyval.tree_node) = create_node1("math_op", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
       (yyval.tree_node) -> saved = (yyvsp[0].tree_node) -> saved;
     }
-#line 3948 "newcParser.tab.c"
+#line 3963 "newcParser.tab.c"
     break;
 
   case 91: /* func_call: ID PARENL args_list PARENR  */
-#line 676 "newcParser.y"
+#line 691 "newcParser.y"
                                {
       if (find_symbol_func((yyvsp[-3].str)) != NULL){
         if (check_number_of_params(args_params, (yyvsp[-3].str))){
@@ -3970,55 +3985,55 @@ yyreduce:
         (yyval.tree_node) = create_node_empty();
       }
     }
-#line 3974 "newcParser.tab.c"
+#line 3989 "newcParser.tab.c"
     break;
 
   case 92: /* func_call: str_term  */
-#line 697 "newcParser.y"
+#line 712 "newcParser.y"
              {
       (yyval.tree_node) = create_node1("str_term", (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = (yyvsp[0].tree_node) -> type;
     }
-#line 3983 "newcParser.tab.c"
+#line 3998 "newcParser.tab.c"
     break;
 
   case 93: /* in_set: term IN expression  */
-#line 704 "newcParser.y"
+#line 719 "newcParser.y"
                        {
       (yyval.tree_node) = create_node3("term IN expression", (yyvsp[-2].tree_node), create_node0((yyvsp[-1].str)), (yyvsp[0].tree_node));
       (yyval.tree_node) -> type = check_types_set((yyvsp[0].tree_node) -> type);
     }
-#line 3992 "newcParser.tab.c"
+#line 4007 "newcParser.tab.c"
     break;
 
   case 94: /* args_list: args_list COMMA expression  */
-#line 711 "newcParser.y"
+#line 726 "newcParser.y"
                                {
       args_params++;
       (yyval.tree_node) = create_node2("args_list COMMA term", (yyvsp[-2].tree_node), (yyvsp[0].tree_node));
     }
-#line 4001 "newcParser.tab.c"
+#line 4016 "newcParser.tab.c"
     break;
 
   case 95: /* args_list: expression  */
-#line 715 "newcParser.y"
+#line 730 "newcParser.y"
                {
       args_params++;
       (yyval.tree_node) = create_node1("term", (yyvsp[0].tree_node));
     }
-#line 4010 "newcParser.tab.c"
+#line 4025 "newcParser.tab.c"
     break;
 
   case 96: /* args_list: %empty  */
-#line 719 "newcParser.y"
+#line 734 "newcParser.y"
     {
       (yyval.tree_node) = create_node0("vazio");
     }
-#line 4018 "newcParser.tab.c"
+#line 4033 "newcParser.tab.c"
     break;
 
   case 97: /* assign_value: ID ASSIGN expression  */
-#line 726 "newcParser.y"
+#line 741 "newcParser.y"
                          {
       struct symbol *s = check_is_in_scope((yyvsp[-2].str), STACK_TOP(stack_scope) -> value);
       if (s != NULL){
@@ -4041,11 +4056,11 @@ yyreduce:
         (yyval.tree_node) = create_node_empty();
       }
     }
-#line 4045 "newcParser.tab.c"
+#line 4060 "newcParser.tab.c"
     break;
 
 
-#line 4049 "newcParser.tab.c"
+#line 4064 "newcParser.tab.c"
 
       default: break;
     }
@@ -4275,7 +4290,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 752 "newcParser.y"
+#line 767 "newcParser.y"
 
 
 int main(int argc, char *argv[]) {
